@@ -3,7 +3,7 @@
 # Edit at https://www.gitignore.io/?templates=code,venv,django,python,pycharm
 
 ### Code ###
-.vscode/*
+.vscode/
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
