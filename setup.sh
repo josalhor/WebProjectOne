@@ -1,5 +1,7 @@
 #/bin/bash
 
+cd "$(dirname "$0")"
+
 echo $(python3 -V)
 rm -rf venv
 mkdir -p venv
