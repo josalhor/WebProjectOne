@@ -8,6 +8,7 @@ install:
 script:
 - cd ./src/
 - python3 manage.py test
+- cd ..
 deploy:
   provider: heroku
   api_key:
