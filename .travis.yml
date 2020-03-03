@@ -10,6 +10,6 @@ script:
 - python manage.py test
 deploy:
   provider: heroku
-  app: web-project-one # Heroku app’s name
+  app: web-project-one-prod # Heroku app’s name
   api_key:
     secure: mLRfxFTOonoPQmKDMvhn/msoJhA0maM5tOJx4Zo1yLyOm8/2ppMWdeMaGXrBzcmy+UzmYW8IY3cd3Cjrqx9hKUSL2+jEP8b6QzDRbFmqspIKS1dh7FcAjSOYj5hi7kWhU9Z8x+ojlXND6Iy+Mz8wcX1EDxGef7p4KG1ReFsB1HRo1P1bDlALjpoJJi63CXqSDpDWlEaR6r7pPm38cdUihqbhehg7jD/Q7F5VTU9rvfso0krd8WbuqjjwjS/P2V1CWkjGR+g9woeEFhbv47FN/omHyIY3C3dwPkFLalm/+nuricAhyd0HZ284Csl3xKzQL39wspeVk387j9J1JXMXNbbWFddswzwMVuuL6v1rJQPYplvMtAGtXymRjLTiSx6ghNp5pvyc54yQCarww1ndSf1jKhIelNTXnoeSmGMmVW8MOUxlj7FmZWLIy2Mv5wjKXj11f/QdaUPZogSj+CXJWvABnExkKNXlzW2S3cga+09cEeBAPNxSuHNOcHp7h1jCeYBkVCTtZsXp3Kk5AzcXl+Ni5o3yZHL/dd+yKNEn0/yhB/ERbF1ZKhTf8tj6dsdLtJfR9md4Jrm9kLMVw8aDesHUkfDsLmOhVUGIVGvp1nfht91HFZdy5th2ihXGTwQXzwfGzJDNELbJMp3TxZ+6dfwU/K/ceUmIP71LW1rCGpg=
