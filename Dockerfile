@@ -8,7 +8,7 @@ COPY requirements.txt /app/requirements.txt
 # TODO do we need trusted sources here?
 RUN pip install -r /app/requirements.txt
 
-#COPY . /app
+COPY . /app
 
 #EXPOSE 8000
 

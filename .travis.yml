@@ -5,11 +5,10 @@ python:
 - '3.6'
 before_install:
 - echo "$DOCKER_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin
-- docker-compose up
+install:
+- docker build -t app_django -f Dockerfile .
 script:
-- cd ./src/
-- python3 manage.py test
-- cd ..
+- echo "python /app/src/manage.py test" | docker run -it app_django /bin/sh
 deploy:
   provider: heroku
   api_key:
