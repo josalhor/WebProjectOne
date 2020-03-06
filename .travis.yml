@@ -1,8 +1,11 @@
+services:
+- docker
 language: python
 python:
 - '3.6'
-install:
-- pip install -r requirements.txt
+before_install:
+- echo "$DOCKER_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin
+- docker-compose up
 script:
 - cd ./src/
 - python3 manage.py test
