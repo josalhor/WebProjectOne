@@ -1,8 +1,10 @@
 services:
 - docker
-language: python
-python:
-- '3.6'
+# because we're running in a docker
+# this is no longer necessary:
+# language: python
+# python:
+# - '3.6'
 before_install:
 - echo "$DOCKER_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin
 install:
