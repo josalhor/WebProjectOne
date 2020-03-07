@@ -14,4 +14,6 @@ COPY . /app
 # this variable so that it can router our requests
 EXPOSE $PORT
 
+RUN chmod +x /app/start_server.sh
+
 CMD /app/start_server.sh
