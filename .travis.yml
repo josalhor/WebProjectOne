@@ -14,7 +14,7 @@ install:
 script:
 - docker run -it joshsalvia/webprojectone python /app/src/manage.py test
 deploy:
-  provider: heroku
+  provider: script
   script:
     - docker tag joshsalvia/webprojectone registry.heroku.com/$HEROKU_APP_NAME/web;
     - docker push joshsalvia/webprojectone;
