@@ -13,7 +13,7 @@ install:
 - docker build -t joshsalvia/webprojectone -f Dockerfile .
 script:
 - docker run -it joshsalvia/webprojectone python /app/src/manage.py test
-- /bin/sh ./deploy.sh
+- bash ./deploy.sh
 # deploy:
 #     provider: script
 #     script:
