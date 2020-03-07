@@ -2,10 +2,15 @@ version: '3.6'
 
 services:
   web:
+    # this is technically not necessary
+    # because the Dockerfile already does
+    # this if not env is set
     environment: 
         - PORT=80
     build: ./
-    command: gunicorn -b 0.0.0.0:80 --chdir /app/src/ webproject.wsgi --log-file -
+    # This is also not necessary because the
+    # Dockerfile file itself already copies
+    # the content
     # volumes:
     #   - ./:/app/
     ports:

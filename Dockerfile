@@ -10,6 +10,8 @@ RUN pip install -r /app/requirements.txt
 
 COPY . /app
 
+# this will only take effect on Heroku that exposes
+# this variable so that it can router our requests
 EXPOSE $PORT
 
-CMD gunicorn -b 0.0.0.0:$PORT --chdir /app/src/ webproject.wsgi --log-file -
+CMD /app/start_server.sh
