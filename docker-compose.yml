@@ -2,12 +2,12 @@ version: '3.6'
 
 services:
   web:
+    environment: 
+        - PORT=80
     build: ./
-    command: gunicorn -b 0.0.0.0:8000 --chdir /app/src/ webproject.wsgi --log-file -
+    command: gunicorn -b 0.0.0.0:80 --chdir /app/src/ webproject.wsgi --log-file -
     # volumes:
     #   - ./:/app/
     ports:
-      - 8000:8000
-    # TODO:
-    # env_file:
-    #   - ./.env.dev
+      - 80:80
+    
