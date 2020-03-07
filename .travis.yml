@@ -13,13 +13,10 @@ install:
 - docker build -t joshsalvia/webprojectone -f Dockerfile .
 script:
 - docker run -it joshsalvia/webprojectone python /app/src/manage.py test
-- docker tag joshsalvia/webprojectone registry.heroku.com/$HEROKU_APP_NAME/web;
-- docker push joshsalvia/webprojectone;
-- docker push registry.heroku.com/$HEROKU_APP_NAME/web;
-- heroku container:release web --app $HEROKU_APP_NAME
-# deploy:
-#   provider: script
-#   script:
+deploy:
+    provider: script
+    script:
+      deploy.sh
   # api_key:
   #  secure: JBSE/U7bfIup2DWG5vOmeJc4fhiCxU/OUpp05Srfe0r4/st5cpe29oDVMJmc8gvcIRMi+P1qFx1BBNN5YFcW/eG/eOIFlRKfjWKH9kLuMKi0BYt2cCaF0bR9zWkz9cHt6BA2+3bO02OWouUj3qeoGjffkHX0o/IZ2ZvkvTItihqpMAbrPOjWwoXj/Ye0QUcu1LU+q3NdeD8h/ZnY3NuhJuzePgt5U5EVZ9hhe2ILI7P97exBmMaravTm/qvNZAPkNLt7SHCzWsEHzmDSJWfgybzQUdxTac8HimqftlqQF+NQDUlJU1KQEPCBtAFZbcHuLwQsbIXq++lHl/Ven1FVDh0abrBb33kUTlYRyUUsznb5+bFRbnaN86FotDh9o/kNbxyA7lHKSJUZ2O8I1W4UC2ylIrLzDx5bqot42uI+TiCcpuI0YDWK2st9br02pcbEjTbu6Mom50n1UP9a9dFrjNqiuwp5mUAKJxuVLXdm7LKBvJ7UFYVJ8APJuNqm8GTItgGCpkpLHtEAbYE43UcflcP/MhExmjrxUWRmy1M7CmJvwJK7aNWINcBwdS4GBiSI8+85fwlVMKAIlekxRClDL61wBYfMLXw3X+gQF7bgQHN7NhoYpmtsg2JtES3uAHktPB7t9FfD8iRGQD4YMp2bAApsLp5pOiiGRyM77RjRpRA=
   # TODO: Is this necessary? app: web-project-one-prod
