@@ -25,7 +25,7 @@ SECRET_KEY = 'w9g%#e(kjx^aje5-(1--6^*@*k@*leob%=p4)jgx=#=x6x%^z&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ['.herokuapp.com', '*']
 
 
 # Application definition
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'book_visualizer',
 ]
 
 MIDDLEWARE = [
@@ -54,7 +55,7 @@ ROOT_URLCONF = 'webproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -66,6 +67,13 @@ TEMPLATES = [
         },
     },
 ]
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.9/howto/static-files/
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
 
 WSGI_APPLICATION = 'webproject.wsgi.application'
 
@@ -120,3 +128,17 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# Built-in User Authentication System
+LOGIN_REDIRECT_URL = 'account'
+LOGOUT_REDIRECT_URL = '/'
+
+# Adding AUTH_USER_MODEL tells Django that we are going to use a custom user model
+AUTH_USER_MODEL = 'book_visualizer.User' # Indicates the model to use in order to represent a User
+
+# By default, inactive users cannot attempt to log in. They will receive an error
+# message stating that the username and password are invalid. To avoid rejecting
+# inactive users to log in, we need to add AllowAllUsersModelBackend.
+AUTHENTICATION_BACKENDS = (
+	'django.contrib.auth.backends.AllowAllUsersModelBackend',
+)
