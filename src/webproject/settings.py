@@ -54,7 +54,7 @@ ROOT_URLCONF = 'webproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -120,3 +120,17 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# Built-in User Authentication System
+LOGIN_REDIRECT_URL = 'account'
+LOGOUT_REDIRECT_URL = '/'
+
+# Adding AUTH_USER_MODEL tells Django that we are going to use a custom user model
+AUTH_USER_MODEL = 'book_visualizer.User' # Indicates the model to use in order to represent a User
+
+# By default, inactive users cannot attempt to log in. They will receive an error
+# message stating that the username and password are invalid. To avoid rejecting
+# inactive users to log in, we need to add AllowAllUsersModelBackend.
+AUTHENTICATION_BACKENDS = (
+	'django.contrib.auth.backends.AllowAllUsersModelBackend',
+)
