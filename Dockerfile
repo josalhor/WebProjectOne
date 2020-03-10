@@ -16,7 +16,6 @@ EXPOSE $PORT
 
 RUN chmod +x /app/start_server.sh
 RUN chmod +x /app/start_server_dev.sh
-RUN chmod +x /app/entrypoint.sh
 
 ENTRYPOINT /app/entrypoint.sh
 CMD /app/start_server.sh
