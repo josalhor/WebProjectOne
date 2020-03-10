@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from apps.account import models, forms
+from . import models, forms
 
 class UserAdmin(BaseUserAdmin):
 	# The forms to add and change user instances

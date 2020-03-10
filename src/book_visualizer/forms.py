@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import forms as auth_forms
-from apps.account import models
+from . import models
 
 class AuthenticationForm(auth_forms.AuthenticationForm):
 	username = forms.CharField(

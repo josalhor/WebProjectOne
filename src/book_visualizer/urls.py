@@ -1,7 +1,7 @@
 from django.urls import path, include
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic.base import TemplateView
-from apps.account import forms, views
+from . import forms, views
 
 urlpatterns = [
 	path('login/', LoginView.as_view(authentication_form=forms.AuthenticationForm), name='login'),

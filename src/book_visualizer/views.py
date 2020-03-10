@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
-from apps.account.forms import UserCreationForm
+from .forms import UserCreationForm
 
 class SignUp(generic.CreateView):
 	form_class = UserCreationForm
