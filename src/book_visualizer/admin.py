@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from . import models, forms
+from .models import Book, Comment
 
 class UserAdmin(BaseUserAdmin):
 	# The forms to add and change user instances
@@ -11,3 +12,5 @@ class UserAdmin(BaseUserAdmin):
 	model = models.User
 
 admin.site.register(models.User, UserAdmin)
+admin.site.register(Book)
+admin.site.register(Comment)
