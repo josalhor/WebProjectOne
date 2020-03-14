@@ -2,7 +2,14 @@ FROM python:3.6.10-alpine3.11
 
 RUN mkdir /app
 
-# TODO: why was it a good idea to copy first the requirements?
+RUN apk update \
+    && apk add postgresql-dev gcc python3-dev musl-dev
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+RUN pip install --upgrade pip
+
 COPY requirements.txt /app/requirements.txt
 
 # TODO do we need trusted sources here?
