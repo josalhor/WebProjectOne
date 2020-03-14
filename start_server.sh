@@ -5,8 +5,10 @@ if [[ -z "${PORT}" ]]; then
   PORT=80
 fi
 
-python /app/src/manage.py makemigrations
-python /app/src/manage.py migrate
-python /app/src/manage.py collectstatic --no-input
+cd /app/src/
 
-gunicorn -b 0.0.0.0:$PORT --chdir /app/src/ webproject.wsgi --log-file -
+python manage.py makemigrations
+python manage.py migrate
+python manage.py collectstatic --no-input
+
+gunicorn -b 0.0.0.0:$PORT webproject.wsgi --log-file -
