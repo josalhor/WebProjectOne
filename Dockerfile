@@ -5,6 +5,10 @@ RUN mkdir /app
 RUN apk update \
     && apk add postgresql-dev gcc python3-dev musl-dev
 
+# Pillow dependencies
+RUN apk add build-base python-dev py-pip jpeg-dev zlib-dev
+ENV LIBRARY_PATH=/lib:/usr/lib
+
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
