@@ -3,11 +3,11 @@
 {% block home %}
 <section class="jumbotron">
 	<div class="container">
-		<h1 style='font-family: "Old English Text MT";font-weight: bold;'>NYT BESTSELLERS</h1>
+		<h1 style='font-weight: bold;'>NYT BESTSELLERS</h1>
 		<hr class="my-4">
-		<h2 class="text-justify" style='font-family: "Old English Text MT"'>Losing yourself in a great novel is one of life’s joys. So where do you start? According to NYT critics, here are the books you need to read.</h1>
+		<h2 class="text-justify">Losing yourself in a great novel is one of life’s joys. So where do you start? According to NYT critics, here are the books you need to read.</h1>
 		<hr class="my-4">
-		<h3 class="text-justify" style='font-family: "Old English Text MT"'>Discover the selection – or at least enjoy arguing about who should or should not have been included. You'll be also able to create your own lists or find any book which was in the list at some point.</h2>
+		<h3 class="text-justify">Discover the selection – or at least enjoy arguing about who should or should not have been included. You'll be also able to create your own lists or find any book which was in the list at some point.</h2>
 	</div>
 </section>
 <div class="container">
@@ -15,7 +15,7 @@
 		<div class="col">
 			<nav aria-label="breadcrumb">
 				<ol class="breadcrumb">
-					<li class="breadcrumb-item"><a href="home.html">Home</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
 					<li class="breadcrumb-item active" aria-current="page">Category</li>
 					<li class="breadcrumb-item active" aria-current="page">Sub-category</li>
 				</ol>
