@@ -1,9 +1,163 @@
-{% extends 'base.html' %}
-
-{% block title %}Home{% endblock %}
-
-{% block content %}
-<div class="jumbotron">
-	Home page
+{% extends "base.html" %}
+{% load static %}
+{% block home %}
+<section class="jumbotron">
+	<div class="container">
+		<h1 style='font-family: "Old English Text MT";font-weight: bold;'>NYT BESTSELLERS</h1>
+		<hr class="my-4">
+		<h2 class="text-justify" style='font-family: "Old English Text MT"'>Losing yourself in a great novel is one of life’s joys. So where do you start? According to NYT critics, here are the books you need to read.</h1>
+		<hr class="my-4">
+		<h3 class="text-justify" style='font-family: "Old English Text MT"'>Discover the selection – or at least enjoy arguing about who should or should not have been included. You'll be also able to create your own lists or find any book which was in the list at some point.</h2>
+	</div>
+</section>
+<div class="container">
+	<div class="row">
+		<div class="col">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="home.html">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Category</li>
+					<li class="breadcrumb-item active" aria-current="page">Sub-category</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
 </div>
-{% endblock %}
+<div class="container">
+	<div class="row">
+		<div class="col-12 col-sm-3">
+			<div class="card bg-light mb-3">
+				<div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-list"></i> Categories</div>
+				<ul class="list-group category_block">
+					<li class="list-group-item"><a href="category.html">Action and Adventure</a></li>
+					<li class="list-group-item"><a href="category.html">Crime</a></li>
+					<li class="list-group-item"><a href="category.html">Drama</a></li>
+					<li class="list-group-item"><a href="category.html">Fantasy</a></li>
+					<li class="list-group-item"><a href="category.html">Mystery</a></li>
+					<li class="list-group-item"><a href="category.html">Romance</a></li>
+					<li class="list-group-item"><a href="category.html">Others</a></li>
+				</ul>
+			</div>
+			<div class="card bg-light mb-3">
+				<div class="card-header bg-success text-white text-uppercase"><i class="fa fa-trophy"></i> MORE DAYS ON THE LIST </div>
+				<div class="card-body">
+					<img class="img-fluid" src="https://dummyimage.com/600x400/55595c/fff" />
+					<h5 class="card-title"><a href="book.html" title="View Book">Book title</a></h5>
+					<p class="card-text">Something related to the book that's been in the list longer from the ones making up the list, for example.</p>
+					<div class="row">
+						<div class="col">
+							<p class="btn btn-danger btn-block">Learn more</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col">
+			<div class="row">
+				<div class="col-12 col-md-6 col-lg-4">
+					<div class="card">
+						<img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
+						<div class="card-body">
+							<h4 class="card-title"><a href="book.html" title="View Book">1. Book title</a></h4>
+							<p class="card-text">Something related to the book.</p>
+							<div class="row">
+								<div class="col">
+									<p class="btn btn-danger btn-block">Learn more</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-md-6 col-lg-4">
+					<div class="card">
+						<img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
+						<div class="card-body">
+							<h4 class="card-title"><a href="Book.html" title="View Book">2. Book title</a></h4>
+							<p class="card-text">Something related to the book.</p>
+							<div class="row">
+								<div class="col">
+									<p class="btn btn-danger btn-block">Learn more</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-md-6 col-lg-4">
+					<div class="card">
+						<img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
+						<div class="card-body">
+							<h4 class="card-title"><a href="Book.html" title="View Book">3. Book title</a></h4>
+							<p class="card-text">Something related to the book.</p>
+							<div class="row">
+								<div class="col">
+									<p class="btn btn-danger btn-block">Learn more</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-md-6 col-lg-4">
+					<div class="card">
+						<img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
+						<div class="card-body">
+							<h4 class="card-title"><a href="Book.html" title="View Book">4. Book title</a></h4>
+							<p class="card-text">Something related to the book.</p>
+							<div class="row">
+								<div class="col">
+									<p class="btn btn-danger btn-block">Learn more</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-md-6 col-lg-4">
+					<div class="card">
+						<img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
+						<div class="card-body">
+							<h4 class="card-title"><a href="Book.html" title="View Book">5. Book title</a></h4>
+							<p class="card-text">Something related to the book.</p>
+							<div class="row">
+								<div class="col">
+									<p class="btn btn-danger btn-block">Learn more</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-md-6 col-lg-4">
+					<div class="card">
+						<img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
+						<div class="card-body">
+							<h4 class="card-title"><a href="Book.html" title="View Book">6. Book title</a></h4>
+							<p class="card-text">Something related to the book.</p>
+							<div class="row">
+								<div class="col">
+									<p class="btn btn-danger btn-block">Learn more</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12">
+					<nav aria-label="...">
+                        <ul class="pagination justify-content-end">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Previous</a>
+                            </li>
+							<li class="page-item active"><a class="page-link" href="#">1</a>
+								<span class="sr-only">(current)</span>
+							</li>
+                            <li class="page-item"><a class="page-link" href="#">2 </a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+{% endblock home %}
