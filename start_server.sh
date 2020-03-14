@@ -5,8 +5,6 @@ if [[ -z "${PORT}" ]]; then
   PORT=80
 fi
 
-echo "$DJANGO_ALLOWED_HOSTS"
-
 cd /app/src/
 
 python manage.py makemigrations
