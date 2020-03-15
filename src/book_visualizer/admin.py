@@ -11,3 +11,5 @@ class UserAdmin(BaseUserAdmin):
 	model = models.User
 
 admin.site.register(models.User, UserAdmin)
+admin.site.register(models.Book)
+admin.site.register(models.Comment)
