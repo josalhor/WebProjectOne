@@ -18,12 +18,12 @@ class Book(models.Model):
 	publication_date = models.DateField() 
 	publisher = models.CharField(max_length = 150) 
 	summary = models.TextField(max_length = 500, help_text = "A brief summary of the book")
-	whished_by = models.ManyToManyField(User)
+	whished_by = models.ManyToManyField('User', related_name='whishes')
 
 
 class Comment(models.Model):
 	title = models.CharField(max_length = 150, help_text = "A useful title for the comment") 
 	body = models.TextField(max_length = 500, help_text = "A comment of the book")
 	stars = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
-	made_by = models.ForeignKey(User, on_delete = models.CASCADE)
-	based_on = models.ForeignKey(Book, on_delete = models.CASCADE)
+	made_by = models.ForeignKey('User', on_delete = models.CASCADE)
+	based_on = models.ForeignKey('Book', on_delete = models.CASCADE)
