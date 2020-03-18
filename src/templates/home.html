@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
-{% block home %}
+
+{% block content %}
 <section class="jumbotron">
 	<div class="container">
 		<h1 style='font-weight: bold;'>NYT BESTSELLERS</h1>
@@ -54,12 +55,13 @@
 		</div>
 		<div class="col">
 			<div class="row">
-				<div class="col-12 col-md-6 col-lg-4">
+                {% for book in bestsellers %}
+                <div class="col-12 col-md-6 col-lg-4">
 					<div class="card">
 						<img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
 						<div class="card-body">
-							<h4 class="card-title"><a href="book.html" title="View Book">1. Book title</a></h4>
-							<p class="card-text">Something related to the book.</p>
+							<h4 class="card-title"><a href="book.html" title="View Book">{{ forloop.counter }}. {{ book.title }}</a></h4>
+							<p class="card-text">{{ book.summary|truncatechars:30 }}</p>
 							<div class="row">
 								<div class="col">
 									<p class="btn btn-danger btn-block">Learn more</p>
@@ -67,77 +69,8 @@
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-12 col-md-6 col-lg-4">
-					<div class="card">
-						<img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
-						<div class="card-body">
-							<h4 class="card-title"><a href="Book.html" title="View Book">2. Book title</a></h4>
-							<p class="card-text">Something related to the book.</p>
-							<div class="row">
-								<div class="col">
-									<p class="btn btn-danger btn-block">Learn more</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-12 col-md-6 col-lg-4">
-					<div class="card">
-						<img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
-						<div class="card-body">
-							<h4 class="card-title"><a href="Book.html" title="View Book">3. Book title</a></h4>
-							<p class="card-text">Something related to the book.</p>
-							<div class="row">
-								<div class="col">
-									<p class="btn btn-danger btn-block">Learn more</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-12 col-md-6 col-lg-4">
-					<div class="card">
-						<img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
-						<div class="card-body">
-							<h4 class="card-title"><a href="Book.html" title="View Book">4. Book title</a></h4>
-							<p class="card-text">Something related to the book.</p>
-							<div class="row">
-								<div class="col">
-									<p class="btn btn-danger btn-block">Learn more</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-12 col-md-6 col-lg-4">
-					<div class="card">
-						<img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
-						<div class="card-body">
-							<h4 class="card-title"><a href="Book.html" title="View Book">5. Book title</a></h4>
-							<p class="card-text">Something related to the book.</p>
-							<div class="row">
-								<div class="col">
-									<p class="btn btn-danger btn-block">Learn more</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-12 col-md-6 col-lg-4">
-					<div class="card">
-						<img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
-						<div class="card-body">
-							<h4 class="card-title"><a href="Book.html" title="View Book">6. Book title</a></h4>
-							<p class="card-text">Something related to the book.</p>
-							<div class="row">
-								<div class="col">
-									<p class="btn btn-danger btn-block">Learn more</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+                </div>
+                {% endfor %}
 				<div class="col-12">
 					<nav aria-label="...">
                         <ul class="pagination justify-content-end">
@@ -157,7 +90,6 @@
 				</div>
 			</div>
 		</div>
-
 	</div>
 </div>
-{% endblock home %}
+{% endblock content %}
