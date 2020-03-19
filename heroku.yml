@@ -1,3 +1,9 @@
+setup:
+  addons:
+  - plan: heroku-postgresql
+    as: db
+  config:
+    ALLOWED_HOSTS: ".herokuapp.com"
 build:
   docker:
     web: Dockerfile
