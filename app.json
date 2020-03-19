@@ -2,7 +2,10 @@
     "stack": "container",
     "addons": [
         {
-            "plan": "heroku-postgresql"
+            "plan": "heroku-postgresql",
+            "options": {
+                "version": "9.5"
+            }
         }
     ]
 }
