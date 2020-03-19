@@ -80,6 +80,10 @@ WSGI_APPLICATION = 'webproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+
+# SQLITE is currently used on travis
+# these enviroment variables are used on docker-compose on local
+# the DATABASE_URL is used on Heroku
 DATABASES = {
     "default": {
         "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.sqlite3"),
