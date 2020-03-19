@@ -8,11 +8,10 @@ class User(auth_models.AbstractUser):
 	# in the admin interface to 'User activated'.
 	is_active = models.BooleanField(default=False, verbose_name='User activated')
 
-
 class Book(models.Model):
 	isbn = models.CharField(primary_key = True, max_length = 13, help_text = "13 characters")
 	price = models.DecimalField(max_digits = 5, decimal_places = 2, validators=[MinValueValidator(0)])
-	image = models.ImageField(default="default.png", null = True)
+	image = models.ImageField(upload_to="books", blank=True, null=True)
 	title = models.CharField(max_length = 150) 
 	author = models.CharField(max_length = 150) 
 	publication_date = models.DateField() 
@@ -27,6 +26,7 @@ STARS = [
 	("4", "4"),
 	("5", "5")
 ]
+
 class Comment(models.Model):
 	title = models.CharField(max_length = 150, help_text = "Write a useful title for your comment") 
 	body = models.TextField(max_length = 500, help_text = "Write a comment to a book")

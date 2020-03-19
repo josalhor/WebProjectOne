@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="jumbotron">
+	<div class="container">
+		<h1 style='font-weight: bold;'>NYT BESTSELLERS</h1>
+	</div>
+</section>
+<div class="container">
+	<div class="row">
+		<div class="col">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Category</li>
+					<li class="breadcrumb-item active" aria-current="page">Sub-category</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+</div>
+<div class="container">
+    <div class="row">
+        <!-- Image -->
+        <div class="col-12 col-lg-6">
+            <div class="card bg-light mb-3">
+                <div class="card-body">
+                    {% if book.image %}
+                        <img class="card-img-top" src="{{ book.image.url }}"/>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Add to cart -->
+        <div class="col-12 col-lg-6 add_to_cart_block">
+            <div class="card bg-light mb-3">
+                <div class="card-body">
+                    <h2 class="card-text">{{ book.title }}</h2>
+                    <h4 class="card-text">Written by: <span style="color: grey;">{{ book.author }}</span></h4>
+                    <br></br>
+                    <h5 class="card-text">ISBN: <span style="color: grey;">{{ book.isbn }}</span> </h5>
+                    <h5 class="card-text">Price: <span style="color: grey;">{{ book.price }}</span></h5>
+                    <h5 class="card-text">Publication_date: <span style="color: grey;">{{ book.publication_date }}</span></h5>
+                    <h5 class="card-text">Publisher: <span style="color: grey;">{{ book.publisher }}</span></h5>
+                    <br></br>
+                    <form method="get" action="wish_list.html">
+                        <a href="added.html" class="btn btn-success btn-lg btn-block text-uppercase">
+                            <i class="fa fa-gift"></i> Add to a wish list
+                        </a>
+                    </form>
+                    <div class="reviews_product p-3 mb-2 ">
+                        3 reviews
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        (4/5)
+                        <a class="pull-right" href="#reviews">View all reviews</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Description -->
+        <div class="col-12">
+            <div class="card border-light mb-3">
+                <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-align-justify"></i> SUMMARY</div>
+                <div class="card-body">
+                    <p class="card-text">{{ book.summary }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviews -->
+        <div class="col-12" id="reviews">
+            <div class="card border-light mb-3">
+                <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-comment"></i> Reviews</div>
+                <div class="card-body">
+                    <div class="review">
+                        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                        <meta itemprop="datePublished" content="01-01-2016">March 17, 2020
+
+                        <span class="fa fa-star" aria-hidden="true"></span>
+                        <span class="fa fa-star" aria-hidden="true"></span>
+                        <span class="fa fa-star" aria-hidden="true"></span>
+                        <span class="fa fa-star" aria-hidden="true"></span>
+                        <span class="fa fa-star" aria-hidden="true"></span>
+                        by Anna Torres
+                        <p class="blockquote">
+                            <p class="mb-0">Coment</p>
+                        </p>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

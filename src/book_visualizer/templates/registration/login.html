@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block title %}Login{% endblock %}
 
@@ -7,7 +7,7 @@
   <div class="container">
     <div class="row d-flex justify-content-center">
       <div class="col-4">
-        <form method="post" action="{% url 'login' %}"></form>>
+        <form method="post" action="{% url 'login' %}">
           {% csrf_token %}
           <!--
 					csrf_token is a tag for security concerns, namely to prevent CSRF Attack.
