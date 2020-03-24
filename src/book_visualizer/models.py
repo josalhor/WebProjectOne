@@ -42,3 +42,10 @@ class Comment(models.Model):
 	def __str__(self):
 		return '%s - %s: %s' % (self.made_by, self.based_on , self.title)
 
+
+class Best_sellers(models.Model):
+	day = models.DateField(primary_key = True, help_text = "Enter a day to find out which the best seller books were") 
+	books = models.ManyToManyField('Book', related_name='book')
+
+	def __str__(self):
+		return '%s' % (self.day)
