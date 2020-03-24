@@ -1,9 +1,8 @@
 #!/bin/sh
 
-echo "Creating Default Admin"
+export DEF_ADMIN=DEV_ADMIN
+export DEF_PASS=DEV_PASS
 
-python /app/src/manage.py ensure_adminuser --username=DEV_ADMIN \
-    --email=admin@example.com \
-    --password=DEV_PASS
+sleep 5
 
 /app/start_server.sh
