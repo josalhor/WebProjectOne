@@ -50,6 +50,7 @@ docker run joshsalvia/webprojectone python /app/src/manage.py test
 * [PostgreSQL](https://www.postgresql.org/) - Open Source Database
 * [Travis](https://travis-ci.org/) - Test CI
 * [Git](https://git-scm.com/) - Version control system
+* [GitHub](https://github.com/) - Software development platform
 
 Authors:
 - Josep Maria Salvia Hornos
