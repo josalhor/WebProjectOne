@@ -13,4 +13,4 @@ class UserAdmin(BaseUserAdmin):
 admin.site.register(models.User, UserAdmin)
 admin.site.register(models.Book)
 admin.site.register(models.Comment)
-admin.site.register(models.Best_sellers)
+admin.site.register(models.BestSellers)
