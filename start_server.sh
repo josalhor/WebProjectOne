@@ -9,6 +9,8 @@ pip freeze > /app/frozen_requirements.txt
 
 cd /app/src/
 
+# Note, when the app is finished this will be considered
+# Admin actions that will be need to be taken a side
 python manage.py makemigrations
 python manage.py migrate
 python manage.py collectstatic --no-input --clear
