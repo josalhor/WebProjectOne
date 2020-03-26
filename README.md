@@ -29,6 +29,15 @@ $ docker-compose up --build
 > docker-compose up --build &:: Start Docker/Django
 ```
 
+### Clean up database
+
+Be very careful with the second command: https://docs.docker.com/engine/reference/commandline/image_prune/
+
+```
+docker rm -vf webprojectone_db_1
+docker image prune -af
+```
+
 ### Configuration
 
 The server will be deployed on port 80 by default

@@ -42,9 +42,17 @@ class Comment(models.Model):
 	def __str__(self):
 		return '%s - %s: %s' % (self.made_by, self.based_on , self.title)
 
+class BestSellersListName(models.Model):
+	name = models.CharField(max_length = 150, help_text = "Name of the list")
+	display_name = models.CharField(max_length = 150, help_text = "Display name of the list")
+	list_name_encoded = models.CharField(primary_key=True, max_length = 150, help_text = "Encoded name of the list")
 
 class BestSellers(models.Model):
-	day = models.DateField(primary_key = True, help_text = "Enter a day to find out which the best seller books were") 
+	class Meta:
+		unique_together = (('day', 'list_name'),)
+	best_sellers_id = models.AutoField(primary_key=True)
+	day = models.DateField(help_text = "Enter a day to find out which the best seller books were") 
+	list_name = models.ForeignKey('BestSellersListName', on_delete = models.PROTECT)
 	books = models.ManyToManyField('Book', related_name='best_seller_on')
 
 	def __str__(self):
