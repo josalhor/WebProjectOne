@@ -4,7 +4,7 @@ This is the project for an assignment for the subject *Web Project*.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system. Keep in mind during early stages of development we're wiping the database on each run.
 
 ### Prerequisites
 
@@ -50,6 +50,10 @@ By default, the local execution runs the file start_server_dev.sh, which configu
 docker build -t joshsalvia/webprojectone -f Dockerfile .
 docker run joshsalvia/webprojectone python /app/src/manage.py test
 ```
+
+## Problem domain details
+
+In the file DOMAIN.md you can find implementation details of our code and domain problem.
 
 ## Built and deployed with
 
