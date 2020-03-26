@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 from .forms import UserCreationForm, ContactForm
-from .models import Book
+from .models import Book, BestSellersListName
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from django.http import HttpResponse, HttpResponseRedirect
@@ -21,6 +21,7 @@ class SignUp(generic.CreateView):
 
 def bestsellers_list(request):
 	books = Book.objects.all()
+	categories = BestSellersListName.objects.all()
 	page = request.GET.get('page', 1)
 
 	paginator = Paginator(books, 6) # Show 6 books per page
@@ -32,7 +33,8 @@ def bestsellers_list(request):
 		bestsellers = paginator.page(paginator.num_pages)
 	
 	context = {
-		'bestsellers': bestsellers
+		'bestsellers': bestsellers,
+		'categories': categories
 	}
 
 	return render(request, 'home.html', context)
@@ -47,6 +49,16 @@ def book_details(request, pk):
 
 	return render(request, 'book_details.html', context)
 	# return render(request, 'home.html', context) ?
+
+def category(request, pk):
+	category = BestSellersListName.objects.get(pk=pk)
+	categories = BestSellersListName.objects.all()
+
+	context = {
+		'category': category,
+		'categories': categories
+	}
+	return render(request, 'category.html', context)
 
 def emailView(request):
 	submitted = False

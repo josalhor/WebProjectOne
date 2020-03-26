@@ -5,7 +5,7 @@
 <section class="jumbotron">
 	<div class="container">
 		<h1 style='font-weight: bold;'>NYT BESTSELLERS</h1>
-		<p class="lead text-muted mb-0">Category x</p>
+		<p class="lead text-muted mb-0">{{ category.display_name }}</p>
 	</div>
 </section>
 <div class="container">
@@ -27,13 +27,9 @@
 			<div class="card bg-light mb-3">
 				<div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-list"></i> Categories</div>
 				<ul class="list-group category_block">
-					<li class="list-group-item"><a href="{% url 'category' %}">Action and Adventure</a></li>
-					<li class="list-group-item"><a href="{% url 'category' %}">Crime</a></li>
-					<li class="list-group-item"><a href="{% url 'category' %}">Drama</a></li>
-					<li class="list-group-item"><a href="{% url 'category' %}">Fantasy</a></li>
-					<li class="list-group-item"><a href="{% url 'category' %}">Mystery</a></li>
-					<li class="list-group-item"><a href="{% url 'category' %}">Romance</a></li>
-					<li class="list-group-item"><a href="{% url 'category' %}">Others</a></li>
+				{% for category in categories %}
+                	<li class="list-group-item"><a href="{% url 'category' category.pk %}">{{ category.display_name }}</a></li>
+				{% endfor %}
 				</ul>
 			</div>
 			<div class="card bg-light mb-3">

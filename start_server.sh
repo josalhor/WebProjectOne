@@ -5,11 +5,18 @@ if [[ -z "${PORT}" ]]; then
   PORT=80
 fi
 
+pip freeze > /app/frozen_requirements.txt
+
 cd /app/src/
 
+# Note, when the app is finished this will be considered
+# Admin actions that will be need to be taken a side
+python manage.py reset_db --noinput
 python manage.py makemigrations
+python manage.py makemigrations book_visualizer
 python manage.py migrate
 python manage.py collectstatic --no-input --clear
+
 
 if [ -n "$DEF_ADMIN" -a -n "$DEF_PASS" ]; then
   echo "Creating Default Admin"
