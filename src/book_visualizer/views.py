@@ -1,9 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
-from .forms import UserCreationForm
+from .forms import UserCreationForm, ContactForm
 from .models import Book
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+from django.http import HttpResponse, HttpResponseRedirect
+from django.core.mail import send_mail, BadHeaderError
+
+
 
 class SignUp(generic.CreateView):
 	form_class = UserCreationForm
@@ -42,3 +47,24 @@ def book_details(request, pk):
 
 	return render(request, 'book_details.html', context)
 	# return render(request, 'home.html', context) ?
+
+def emailView(request):
+	submitted = False
+	if request.method == 'GET':
+		form = ContactForm()
+	else:
+		form = ContactForm(request.POST)
+		if form.is_valid():
+			subject = form.cleaned_data['subject']
+			email_adress = form.cleaned_data['email_adress']
+			message = form.cleaned_data['message']
+			try:
+				send_mail(subject, message, email_adress, ['admin@example.com'])
+			except BadHeaderError:
+				return HttpResponse('Invalid header found.')
+			submitted = True
+			form = ContactForm()
+	return render(request, "contact.html", {'form': form, 'submitted': submitted})
+
+def successView(request):
+    return HttpResponse('Success! Thank you for your message.')

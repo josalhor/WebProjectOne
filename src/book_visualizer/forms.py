@@ -42,3 +42,9 @@ class UserChangeForm(auth_forms.UserChangeForm):
 	class Meta:
 		fields = ('username',  )
 		model = models.User
+
+class ContactForm(forms.Form):
+	# A form in order to contact us.
+    email_adress = forms.EmailField(required=True, widget=forms.TextInput(attrs={'class':'form-group form-control'}))
+    subject = forms.CharField(required=True, widget=forms.TextInput(attrs={'class':'form-group form-control'}))
+    message = forms.CharField(required=True, widget=forms.Textarea(attrs={'class':'form-group form-control', 'rows':"6"}))

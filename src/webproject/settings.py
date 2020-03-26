@@ -72,6 +72,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'webproject.wsgi.application'
 
 
+
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
@@ -149,3 +150,7 @@ AUTH_USER_MODEL = 'book_visualizer.User' # Indicates the model to use in order t
 AUTHENTICATION_BACKENDS = (
 	'django.contrib.auth.backends.AllowAllUsersModelBackend',
 )
+
+# For now we're outputting our email to the console, but we could add a few 
+# lines to this settings.py file to specify whatever backend mail server we’d like.
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' 
