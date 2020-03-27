@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 from .forms import UserCreationForm, ContactForm
-from .models import Book, BestSellersListName
+from .models import Book, BestSellersListName, BestSellers
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.utils import timezone
 
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.mail import send_mail, BadHeaderError
@@ -54,9 +55,23 @@ def category(request, pk):
 	category = BestSellersListName.objects.get(pk=pk)
 	categories = BestSellersListName.objects.all()
 
+	bestsellers = BestSellers.objects.filter(day=timezone.now(), list_name=pk).values_list('books')
+	books = Book.objects.filter(pk__in=bestsellers)
+
+	page = request.GET.get('page', 1)
+	paginator = Paginator(books, 6) # Show 6 books per page
+	
+	try:
+		bestsellers_list = paginator.page(page)
+	except PageNotAnInteger:
+		bestsellers_list = paginator.page(1)
+	except EmptyPage:
+		bestsellers_list = paginator.page(paginator.num_pages)
+	
 	context = {
 		'category': category,
-		'categories': categories
+		'categories': categories,
+		'bestsellers_list': bestsellers_list
 	}
 	return render(request, 'category.html', context)
 
