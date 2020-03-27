@@ -52,7 +52,7 @@ def search(request):
 	categories = BestSellersListName.objects.all()
 	success = True
 	books = []
-	
+
 	category = request.GET.get('c')
 	date = request.GET.get('t')
 	name = request.GET.get('n')
@@ -76,22 +76,20 @@ def search(request):
 	else:
 		return redirect('/')
 	
-	if(books == []):
+	if not books:
 		success = False
+		books = Book.objects.all()
 
-	if(success):
-		page = request.GET.get('page', 1)
+	page = request.GET.get('page', 1)
 
-		paginator = Paginator(books, 6) # Show 6 books per page
-		try:
-			bestsellers = paginator.page(page)
-		except PageNotAnInteger:
-			bestsellers = paginator.page(1)
-		except EmptyPage:
-			bestsellers = paginator.page(paginator.num_pages)
-	else:
-		bestsellers = []
-		
+	paginator = Paginator(books, 6) # Show 6 books per page
+	try:
+		bestsellers = paginator.page(page)
+	except PageNotAnInteger:
+		bestsellers = paginator.page(1)
+	except EmptyPage:
+		bestsellers = paginator.page(paginator.num_pages)
+
 	context = {
 		'categories': categories,
 		'success': success,
@@ -99,7 +97,6 @@ def search(request):
 	}
 
 	return render(request, 'home.html', context)
-
 
 def category(request, pk):
 	category = BestSellersListName.objects.get(pk=pk)
