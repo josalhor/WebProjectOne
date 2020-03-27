@@ -10,7 +10,6 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.mail import send_mail, BadHeaderError
 
 
-
 class SignUp(generic.CreateView):
 	form_class = UserCreationForm
 	success_url = reverse_lazy('login')
@@ -40,7 +39,6 @@ def bestsellers_list(request):
 
 	return render(request, 'home.html', context)
 
-
 def book_details(request, pk):
 	book = Book.objects.get(pk=pk)
 
@@ -49,7 +47,59 @@ def book_details(request, pk):
 	}
 
 	return render(request, 'book_details.html', context)
-	# return render(request, 'home.html', context) ?
+
+def search(request):
+	categories = BestSellersListName.objects.all()
+	success = True
+	books = []
+	
+	category = request.GET.get('c')
+	date = request.GET.get('t')
+	name = request.GET.get('n')
+
+	if(category != None):
+		books = BestSellers.objects.filter(list_name=category)
+		if(date != None):
+			books = books.filter(day=date)
+		books = books.values_list('books')
+		books = Book.objects.filter(pk__in=books)
+		if(name != None):
+			books = books.filter(title=name)
+
+	elif(date!= None):
+		books = BestSellers.objects.filter(day=date).values_list('books')
+		books = Book.objects.filter(pk__in=books)
+		if(name != None):
+			books = books.filter(title=name)
+	elif(name != None):
+		books = Book.objects.filter(title=name)
+	else:
+		return redirect('/')
+	
+	if(books == []):
+		success = False
+
+	if(success):
+		page = request.GET.get('page', 1)
+
+		paginator = Paginator(books, 6) # Show 6 books per page
+		try:
+			bestsellers = paginator.page(page)
+		except PageNotAnInteger:
+			bestsellers = paginator.page(1)
+		except EmptyPage:
+			bestsellers = paginator.page(paginator.num_pages)
+	else:
+		bestsellers = []
+		
+	context = {
+		'categories': categories,
+		'success': success,
+		'bestsellers': bestsellers
+	}
+
+	return render(request, 'home.html', context)
+
 
 def category(request, pk):
 	category = BestSellersListName.objects.get(pk=pk)
