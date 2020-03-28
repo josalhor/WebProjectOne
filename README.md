@@ -1,6 +1,6 @@
 # WebProjectOne
 
-This is the project for an assignment for the subject *Web Project*.
+This is the project for an assignment for the subject *Web Project*. You can find the main deployment in: https://web-project-one-prod.herokuapp.com
 
 ## Getting Started
 
