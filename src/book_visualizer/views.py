@@ -57,25 +57,20 @@ def search(request):
 	date = request.GET.get('t')
 	name = request.GET.get('n')
 
-	if(category != None):
-		books = BestSellers.objects.filter(list_name=category)
-		if(date != None):
-			books = books.filter(day=date)
-		books = books.values_list('books')
-		books = Book.objects.filter(pk__in=books)
-		if(name != None):
-			books = books.filter(title=name)
-
-	elif(date!= None):
-		books = BestSellers.objects.filter(day=date).values_list('books')
-		books = Book.objects.filter(pk__in=books)
-		if(name != None):
-			books = books.filter(title=name)
-	elif(name != None):
-		books = Book.objects.filter(title=name)
-	else:
+	if (category is None and date is None and name is None):
 		return redirect('/')
 	
+	if(category is not None):
+		books = BestSellers.objects.filter(list_name=category).values_list('books')
+
+	if(date is not None):
+		books = BestSellers.objects.filter(day=date).values_list('books')
+
+	if(name != None):
+		books = Book.objects.filter(title__icontains=name)
+
+	books = Book.objects.filter(pk__in=books)
+
 	if not books:
 		success = False
 		books = Book.objects.all()
@@ -102,7 +97,7 @@ def category(request, pk):
 	category = BestSellersListName.objects.get(pk=pk)
 	categories = BestSellersListName.objects.all()
 
-	bestsellers = BestSellers.objects.filter(day=timezone.now(), list_name=pk).values_list('books')
+	bestsellers = BestSellers.objects.filter(list_name=pk).order_by('-day').values_list('books')
 	books = Book.objects.filter(pk__in=bestsellers)
 
 	page = request.GET.get('page', 1)
