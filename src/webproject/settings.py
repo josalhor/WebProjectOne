@@ -70,12 +70,8 @@ TEMPLATES = [
     },
 ]
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.9/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = '/static/'
-
 WSGI_APPLICATION = 'webproject.wsgi.application'
+
 
 
 # Database
@@ -137,8 +133,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Built-in User Authentication System
 LOGIN_REDIRECT_URL = 'account'
@@ -153,3 +151,7 @@ AUTH_USER_MODEL = 'book_visualizer.User' # Indicates the model to use in order t
 AUTHENTICATION_BACKENDS = (
 	'django.contrib.auth.backends.AllowAllUsersModelBackend',
 )
+
+# For now we're outputting our email to the console, but we could add a few 
+# lines to this settings.py file to specify whatever backend mail server we’d like.
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' 

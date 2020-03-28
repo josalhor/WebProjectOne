@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">NYT BESTSELLERS CONTACT</h1>
+        <p class="lead text-muted mb-0">Contact Page</p>
+    </div>
+</section>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Contact</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header bg-primary text-white"><i class="fa fa-envelope"></i> CONTACT US</div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {% if submitted %}
+                            <p style="color:green;">Your message has been successfully submitted. Thank you!</p>
+                        {% endif %}
+                        {{ form.as_p }}
+                        <div class="mx-auto">
+                        <button type="submit" class="btn btn-primary text-right">Send</button>
+                        </div>
+                        <br>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-4">
+            <div class="card bg-light mb-3">
+                <div class="card-header bg-success text-white text-uppercase"><i class="fa fa-home"></i> Address</div>
+                <div class="card-body">
+                    <p>C. de Jaume II, 67 bis</p>
+                    <p>25001 Lleida</p>
+                    <p>Spain</p>
+                    <p>Email: grup_ade@example.com</p>
+                    <p>Tel. +34 973 003 588</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
