@@ -97,7 +97,8 @@ def category(request, pk):
 	category = BestSellersListName.objects.get(pk=pk)
 	categories = BestSellersListName.objects.all()
 
-	bestsellers = BestSellers.objects.filter(list_name=pk).order_by('-day').values_list('books')
+	day = BestSellers.order_by('-day').first()
+	bestsellers = BestSellers.objects.filter(list_name=pk, day=day).values_list('books')
 	books = Book.objects.filter(pk__in=bestsellers)
 
 	page = request.GET.get('page', 1)
