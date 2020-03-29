@@ -53,16 +53,21 @@
                     </form>
                     <div class="reviews_product p-3 mb-2 ">
                         {% if num_comments == 1 %}
-                            {{ num_comments  }} review
+                            {{ num_comments }} review
                         {% endif %}
                         {% if num_comments == 0 or num_comments > 1 %}
-                            {{ num_comments  }} reviews
+                            {{ num_comments }} reviews
                         {% endif %}
                         {% for item in num_stars|add:"0"|times %}
                             <i class="fa fa-star"></i>
                         {% endfor %}
-                        ({{ average }}/5.0)
-                        <a class="pull-right" href="#reviews">View all reviews</a>
+                        {% if num_comments > 0 %}
+                            ({{ average }}/5.0)
+                            <a class="pull-right" href="#reviews">View all reviews</a>
+                        {% endif %}
+                        {% if num_comments == 0 %}
+                            <a class="pull-right" href="#reviews">Write the first review</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
