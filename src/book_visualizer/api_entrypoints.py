@@ -17,7 +17,7 @@ def best_sellers_lists(list, bestsellers_date=None, published_date=None, offset=
     offset (int): Sets the starting point of the result set. Must be a multiple of 20.
 
     """
-    key = os.environ.get('NYT_API_KEY')
+    key = os.environ['NYT_API_KEY']
     url = "https://api.nytimes.com/svc/books/v3/lists/"+list+".json?api-key="+key
     if bestsellers_date is not None:
         url += "&bestsellers-date="+date_to_str(bestsellers_date)
@@ -44,7 +44,7 @@ def best_sellers_lists_by_date(list, date=None, offset=None):
     offset (int): Sets the starting point of the result set. Must be a multiple of 20.
 
     """
-    key = os.environ.get('NYT_API_KEY')
+    key = os.environ['NYT_API_KEY']
     date = date_to_str(date)
     url = "https://api.nytimes.com/svc/books/v3/lists/"+date+"/"+list+".json?api-key="+key
     if offset is not None:
@@ -78,7 +78,7 @@ def best_sellers_history(age_group=None, author=None, contributor=None, isbn=Non
     title (string): The title of the best seller.
 
     """
-    key = os.environ.get('NYT_API_KEY')
+    key = os.environ['NYT_API_KEY']
     url = "https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json?api-key="+key
     if age_group is not None:
         url += "&age-group="+str(age_group)
@@ -107,7 +107,7 @@ def best_sellers_names():
     """Gets the Best Sellers list names
 
     """
-    key = os.environ.get('NYT_API_KEY')
+    key = os.environ['NYT_API_KEY']
     url = "https://api.nytimes.com/svc/books/v3/lists/names.json?api-key="+key
     response = requests.get(url)
     if response.status_code == 200:
@@ -125,7 +125,7 @@ def top_five_best_sellers_with_date(published_date=None):
     published_date (date): The best-seller list publication date.
 
     """
-    key = os.environ.get('NYT_API_KEY')
+    key = os.environ['NYT_API_KEY']
     url = "https://api.nytimes.com/svc/books/v3/lists/overview/.json?api-key="+key
     if published_date is not None:
         url += "&published-date="+date_to_str(published_date)
@@ -148,7 +148,7 @@ def reviews(isbn=None, title=None, author=None):
     author (string): The author of the best seller.
 
     """
-    key = os.environ.get('NYT_API_KEY')
+    key = os.environ['NYT_API_KEY']
     url = "https://api.nytimes.com/svc/books/v3/reviews/9781524763138.json?api-key="+key
     if isbn is not None:
         url += "&isbn="+str(isbn)
@@ -171,7 +171,7 @@ def date_to_str(date):
     date (date): The date to convert.
 
     """
-    key = os.environ.get('NYT_API_KEY')
+    key = os.environ['NYT_API_KEY']
     if date is None:
         return "current"
     date_str=date.strftime("%Y-%m-%d")
