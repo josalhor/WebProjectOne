@@ -40,6 +40,14 @@ def bestsellers_list(request):
 	return render(request, 'home.html', context)
 
 def book_details(request, pk):
+	"""Filters books by ISBN.
+
+    Parameters:
+    request (request): Browser request for the view.
+
+	pk (isbn): International Standard Book Number, 10 or 13 digits.
+
+    """
 	book = Book.objects.get(pk=pk)
 
 	context = {
@@ -49,6 +57,12 @@ def book_details(request, pk):
 	return render(request, 'book_details.html', context)
 
 def search(request):
+	"""Filters books by category and/or date and/or name.
+
+    Parameters:
+    request (request): Browser request for the view.
+
+    """
 	categories = BestSellersListName.objects.all()
 	success = True
 	books = []
@@ -94,6 +108,14 @@ def search(request):
 	return render(request, 'home.html', context)
 
 def category(request, pk):
+	"""Filters books by category.
+
+    Parameters:
+    request (request): Browser request for the view.
+
+	pk (isbn): International Standard Book Number, 10 or 13 digits.
+
+    """
 	category = BestSellersListName.objects.get(pk=pk)
 	categories = BestSellersListName.objects.all()
 

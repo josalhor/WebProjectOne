@@ -25,4 +25,6 @@ if [ -n "$DEF_ADMIN" -a -n "$DEF_PASS" ]; then
     --password=$DEF_PASS
 fi
 
+python manage.py request_categories
+
 gunicorn -b 0.0.0.0:$PORT webproject.wsgi --log-file -

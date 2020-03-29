@@ -11,6 +11,7 @@ These instructions will get you a copy of the project up and running on your loc
 ```
 Docker or Docker Toolbox
 ```
+Although it is not a requirement right now, if you have an environment variable named NYT_API_KEY it will be used to retrieve the categories when the server starts
 
 ### Run locally on Linux and Mac and Windows with Docker
 
