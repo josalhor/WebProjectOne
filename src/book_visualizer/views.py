@@ -42,10 +42,25 @@ def bestsellers_list(request):
 def book_details(request, pk):
 	book = Book.objects.get(pk=pk)
 	comments = Comment.objects.all().filter(based_on = book)
+	num_comments = 0
+	average  = 0
+	num_stars = 0
+	for comment in comments:
+		average = average + int(comment.stars)
+		num_comments = num_comments + 1
+	if num_comments == 0:
+		average = 0
+	else:
+		average = average / (num_comments)
+		average = round(average, 2)
+	num_stars = round(average)
 
 	context = {
 		'book': book,
 		'comments': comments,
+		'num_comments': num_comments,
+		'average': average,
+		'num_stars': num_stars
 	}
 
 	return render(request, 'book_details.html', context)
