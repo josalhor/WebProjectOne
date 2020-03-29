@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load times_tag %}
 
 {% block content %}
 <section class="jumbotron">
@@ -85,31 +86,9 @@
                     <div class="review">
                         <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
                         <meta itemprop="datePublished" content="01-01-2016">March 17, 2020
-                        {% if comment.stars == "1" %}
+                        {% for item in comment.stars|add:"0"|times %}
                         <span class="fa fa-star" aria-hidden="true"></span>
-                        {% endif %}
-                        {% if comment.stars == "2" %}
-                        <span class="fa fa-star" aria-hidden="true"></span>
-                        <span class="fa fa-star" aria-hidden="true"></span>
-                        {% endif %}
-                        {% if comment.stars == "3" %}
-                        <span class="fa fa-star" aria-hidden="true"></span>
-                        <span class="fa fa-star" aria-hidden="true"></span>
-                        <span class="fa fa-star" aria-hidden="true"></span>
-                        {% endif %}
-                        {% if comment.stars == "4" %}
-                        <span class="fa fa-star" aria-hidden="true"></span>
-                        <span class="fa fa-star" aria-hidden="true"></span>
-                        <span class="fa fa-star" aria-hidden="true"></span>
-                        <span class="fa fa-star" aria-hidden="true"></span>
-                        {% endif %}
-                        {% if comment.stars == "5" %}
-                        <span class="fa fa-star" aria-hidden="true"></span>
-                        <span class="fa fa-star" aria-hidden="true"></span>
-                        <span class="fa fa-star" aria-hidden="true"></span>
-                        <span class="fa fa-star" aria-hidden="true"></span>
-                        <span class="fa fa-star" aria-hidden="true"></span>
-                        {% endif %}
+                        {% endfor %}
                         by {{ comment.made_by }}
                         <p class="blockquote">
                             <p class="mb-0">Coment</p>
