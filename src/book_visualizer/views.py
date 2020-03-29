@@ -42,10 +42,10 @@ def bestsellers_list(request):
 def book_details(request, pk):
 	book = Book.objects.get(pk=pk)
 	comments = Comment.objects.all().filter(based_on = book)
-	
+
 	context = {
 		'book': book,
-		'comments': comments
+		'comments': comments,
 	}
 
 	return render(request, 'book_details.html', context)

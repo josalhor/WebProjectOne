@@ -85,13 +85,14 @@
                     {% for comment in comments %}
                     <div class="review">
                         <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                        <meta itemprop="datePublished" content="01-01-2016">March 17, 2020
+                        <meta itemprop="datePublished" content="01-01-2016">{{ comment.date }}
                         {% for item in comment.stars|add:"0"|times %}
                         <span class="fa fa-star" aria-hidden="true"></span>
                         {% endfor %}
                         by {{ comment.made_by }}
                         <p class="blockquote">
-                            <p class="mb-0">Coment</p>
+                            <p class="mb-0"><b>{{ comment.title }}</b></p>
+                            <p class="mb-0">{{ comment.body }}</p>
                         </p>
                         <hr>
                     </div>
