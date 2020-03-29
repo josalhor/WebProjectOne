@@ -81,21 +81,42 @@
             <div class="card border-light mb-3">
                 <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-comment"></i> Reviews</div>
                 <div class="card-body">
+                    {% for comment in comments %}
                     <div class="review">
                         <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
                         <meta itemprop="datePublished" content="01-01-2016">March 17, 2020
-
+                        {% if comment.stars == "1" %}
+                        <span class="fa fa-star" aria-hidden="true"></span>
+                        {% endif %}
+                        {% if comment.stars == "2" %}
+                        <span class="fa fa-star" aria-hidden="true"></span>
+                        <span class="fa fa-star" aria-hidden="true"></span>
+                        {% endif %}
+                        {% if comment.stars == "3" %}
+                        <span class="fa fa-star" aria-hidden="true"></span>
+                        <span class="fa fa-star" aria-hidden="true"></span>
+                        <span class="fa fa-star" aria-hidden="true"></span>
+                        {% endif %}
+                        {% if comment.stars == "4" %}
+                        <span class="fa fa-star" aria-hidden="true"></span>
+                        <span class="fa fa-star" aria-hidden="true"></span>
+                        <span class="fa fa-star" aria-hidden="true"></span>
+                        <span class="fa fa-star" aria-hidden="true"></span>
+                        {% endif %}
+                        {% if comment.stars == "5" %}
                         <span class="fa fa-star" aria-hidden="true"></span>
                         <span class="fa fa-star" aria-hidden="true"></span>
                         <span class="fa fa-star" aria-hidden="true"></span>
                         <span class="fa fa-star" aria-hidden="true"></span>
                         <span class="fa fa-star" aria-hidden="true"></span>
-                        by Anna Torres
+                        {% endif %}
+                        by {{ comment.made_by }}
                         <p class="blockquote">
                             <p class="mb-0">Coment</p>
                         </p>
                         <hr>
                     </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>

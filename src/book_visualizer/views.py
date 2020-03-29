@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 from .forms import UserCreationForm, ContactForm
-from .models import Book, BestSellersListName, BestSellers
+from .models import Book, BestSellersListName, BestSellers, Comment
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
 
@@ -41,9 +41,11 @@ def bestsellers_list(request):
 
 def book_details(request, pk):
 	book = Book.objects.get(pk=pk)
-
+	comments = Comment.objects.all().filter(based_on = book)
+	
 	context = {
-		'book': book
+		'book': book,
+		'comments': comments
 	}
 
 	return render(request, 'book_details.html', context)
