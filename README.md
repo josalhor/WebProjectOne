@@ -62,7 +62,7 @@ In the file DOMAIN.md you can find implementation details of our code and domain
 * [Docker](https://www.docker.com/) - Container management
 * [Heroku](https://www.heroku.com/) - Cloud Application Platform
 * [PostgreSQL](https://www.postgresql.org/) - Open Source Database
-* [Travis](https://travis-ci.org/) - Test CI
+* [Travis](https://travis-ci.org/) - Test CI - [Also deploys to Heroku with docker](https://travis-ci.org/github/josalhor/WebProjectOne/builds/668481240#L398)
 * [Git](https://git-scm.com/) - Version control system
 * [GitHub](https://github.com/) - Software development platform
 
