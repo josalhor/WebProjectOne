@@ -1,5 +1,6 @@
 FROM python:3.6.10-alpine3.11
 
+RUN adduser -D runner
 RUN mkdir /app
 
 RUN apk update \
@@ -24,6 +25,11 @@ COPY . /app
 # this will only take effect on Heroku that exposes
 # this variable so that it can router our requests
 EXPOSE $PORT
+
+# Note that for this to work we assume that heroku
+# may never give us a port below 1024
+RUN chown -R runner /app/
+USER runner
 
 RUN chmod +x /app/start_server.sh
 RUN chmod +x /app/start_server_dev.sh

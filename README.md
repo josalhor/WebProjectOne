@@ -35,7 +35,7 @@ $ docker-compose up --build
 Be very careful with the second command: https://docs.docker.com/engine/reference/commandline/image_prune/
 
 ```
-docker rm -vf webprojectone_db_1
+docker rm -vf web_project_db
 docker image prune -af
 ```
 
@@ -49,7 +49,7 @@ By default, the local execution runs the file start_server_dev.sh, which configu
 
 ```
 docker build -t joshsalvia/webprojectone -f Dockerfile .
-docker run joshsalvia/webprojectone python /app/src/manage.py test
+docker run joshsalvia/webprojectone python /app/manage.py test
 ```
 
 ## Problem domain details
@@ -62,7 +62,7 @@ In the file DOMAIN.md you can find implementation details of our code and domain
 * [Docker](https://www.docker.com/) - Container management
 * [Heroku](https://www.heroku.com/) - Cloud Application Platform
 * [PostgreSQL](https://www.postgresql.org/) - Open Source Database
-* [Travis](https://travis-ci.org/) - Test CI
+* [Travis](https://travis-ci.org/) - Test CI - [Also deploys to Heroku with docker](https://travis-ci.org/github/josalhor/WebProjectOne/builds/668481240#L398)
 * [Git](https://git-scm.com/) - Version control system
 * [GitHub](https://github.com/) - Software development platform
 
