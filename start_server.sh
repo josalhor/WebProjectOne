@@ -2,7 +2,7 @@
 
 if [[ -z "${PORT}" ]]; then
   # some sensible default value
-  PORT=80
+  PORT=8080
 fi
 
 pip freeze > /app/frozen_requirements.txt

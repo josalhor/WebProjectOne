@@ -8,8 +8,6 @@ services:
     # because the Dockerfile already does
     # this if not env is set
     command: /app/start_server_dev.sh
-    environment: 
-        - PORT=${PORT-80}
     build: ./
     # This is also not necessary because the
     # Dockerfile file itself already copies
@@ -17,7 +15,7 @@ services:
     # volumes:
     #   - ./:/app/
     ports:
-      - ${PORT-80}:80
+      - ${WEB_PORT-80}:8080
     env_file:
       - web.env.dev
     depends_on:
