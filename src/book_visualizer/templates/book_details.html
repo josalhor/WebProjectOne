@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load times_tag %}
 
 {% block content %}
 <section class="jumbotron">
@@ -51,14 +52,22 @@
                         </a>
                     </form>
                     <div class="reviews_product p-3 mb-2 ">
-                        3 reviews
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        (4/5)
-                        <a class="pull-right" href="#reviews">View all reviews</a>
+                        {% if num_comments == 1 %}
+                            {{ num_comments }} review
+                        {% endif %}
+                        {% if num_comments == 0 or num_comments > 1 %}
+                            {{ num_comments }} reviews
+                        {% endif %}
+                        {% for item in num_stars|add:"0"|times %}
+                            <i class="fa fa-star"></i>
+                        {% endfor %}
+                        {% if num_comments > 0 %}
+                            ({{ average }}/5.0)
+                            <a class="pull-right" href="#reviews">View all reviews</a>
+                        {% endif %}
+                        {% if num_comments == 0 %}
+                            <a class="pull-right" href="#reviews">Write the first review</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -81,21 +90,21 @@
             <div class="card border-light mb-3">
                 <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-comment"></i> Reviews</div>
                 <div class="card-body">
+                    {% for comment in comments %}
                     <div class="review">
                         <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                        <meta itemprop="datePublished" content="01-01-2016">March 17, 2020
-
+                        <meta itemprop="datePublished" content="01-01-2016">{{ comment.date }}
+                        {% for item in comment.stars|add:"0"|times %}
                         <span class="fa fa-star" aria-hidden="true"></span>
-                        <span class="fa fa-star" aria-hidden="true"></span>
-                        <span class="fa fa-star" aria-hidden="true"></span>
-                        <span class="fa fa-star" aria-hidden="true"></span>
-                        <span class="fa fa-star" aria-hidden="true"></span>
-                        by Anna Torres
+                        {% endfor %}
+                        by {{ comment.made_by }}
                         <p class="blockquote">
-                            <p class="mb-0">Coment</p>
+                            <p class="mb-0"><b>{{ comment.title }}</b></p>
+                            <p class="mb-0">{{ comment.body }}</p>
                         </p>
                         <hr>
                     </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>

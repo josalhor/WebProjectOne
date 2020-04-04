@@ -33,6 +33,7 @@ class Comment(models.Model):
 	title = models.CharField(max_length = 150, help_text = "Write a useful title for your comment") 
 	body = models.TextField(max_length = 500, help_text = "Write a comment to a book")
 	stars = models.CharField(max_length=1, choices=STARS)
+	date = models.DateTimeField(auto_now_add=True)
 	made_by = models.ForeignKey('User', on_delete = models.CASCADE)
 	based_on = models.ForeignKey('Book', on_delete = models.CASCADE)
 
