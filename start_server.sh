@@ -11,7 +11,9 @@ cd /app/
 
 # Note, when the app is finished this will be considered
 # Admin actions that will be need to be taken a side
-python manage.py reset_db --noinput
+
+# Useful when the models are changing but not useful anymore:
+# python manage.py reset_db --noinput
 python manage.py makemigrations
 python manage.py makemigrations book_visualizer
 python manage.py migrate

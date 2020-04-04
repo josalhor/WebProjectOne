@@ -35,7 +35,7 @@ $ docker-compose up --build
 Be very careful with the second command: https://docs.docker.com/engine/reference/commandline/image_prune/
 
 ```
-docker rm -vf webprojectone_db_1
+docker rm -vf web_project_db
 docker image prune -af
 ```
 

@@ -5,6 +5,7 @@ from django.core.validators import MaxValueValidator
 
 class User(auth_models.AbstractUser):
 	is_active = models.BooleanField(default=True, verbose_name='User activated')
+	# this class doesn't need __str__ because it is inherited
 
 class Book(models.Model):
 	isbn = models.CharField(primary_key = True, max_length = 13, help_text = "13 characters")
@@ -43,6 +44,9 @@ class BestSellersListName(models.Model):
 	name = models.CharField(max_length = 150, help_text = "Name of the list")
 	display_name = models.CharField(max_length = 150, help_text = "Display name of the list")
 	list_name_encoded = models.CharField(primary_key=True, max_length = 150, help_text = "Encoded name of the list")
+	
+	def __str__(self):
+		return f'{self.display_name}'
 
 class BestSellers(models.Model):
 	class Meta:

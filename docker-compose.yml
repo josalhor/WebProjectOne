@@ -9,11 +9,9 @@ services:
     # this if not env is set
     command: /app/start_server_dev.sh
     build: ./
-    # This is also not necessary because the
-    # Dockerfile file itself already copies
-    # the content
-    # volumes:
-    #   - ./:/app/
+    # This is used to keep the migrations
+    volumes:
+      - ./:/app/
     ports:
       - ${WEB_PORT-80}:8080
     env_file:
