@@ -49,7 +49,7 @@ By default, the local execution runs the file start_server_dev.sh, which configu
 
 ```
 docker build -t joshsalvia/webprojectone -f Dockerfile .
-docker run joshsalvia/webprojectone python /app/src/manage.py test
+docker run joshsalvia/webprojectone python /app/manage.py test
 ```
 
 ## Problem domain details

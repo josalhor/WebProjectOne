@@ -10,7 +10,7 @@ before_install:
 install:
 - docker build -t joshsalvia/webprojectone -f Dockerfile .
 script:
-- docker run -e DJANGO_ALLOWED_HOSTS -e DEBUG -e SECRET_KEY -it joshsalvia/webprojectone python /app/src/manage.py test
+- docker run -e DJANGO_ALLOWED_HOSTS -e DEBUG -e SECRET_KEY -it joshsalvia/webprojectone python /app/manage.py test
 deploy:
   provider: heroku
   api_key:
