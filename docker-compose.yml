@@ -2,12 +2,14 @@ version: '3.6'
 
 services:
   web:
+    container_name: web_project_server
+    restart: on-failure
     # this is technically not necessary
     # because the Dockerfile already does
     # this if not env is set
     command: /app/start_server_dev.sh
     environment: 
-        - PORT=80
+        - PORT=${PORT-80}
     build: ./
     # This is also not necessary because the
     # Dockerfile file itself already copies
@@ -15,21 +17,23 @@ services:
     # volumes:
     #   - ./:/app/
     ports:
-      - 80:80
+      - ${PORT-80}:80
     env_file:
-      - .env.dev
+      - web.env.dev
     depends_on:
       - db
     stdin_open: true
     tty: true
   db:
+    container_name: web_project_db
+    restart: on-failure
     image: postgres:12-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_USER=hello_django
-      - POSTGRES_PASSWORD=hello_django
-      - POSTGRES_DB=hello_django_dev
+      - POSTGRES_USER=${POSTGRES_USER-hello_django}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD-hello_django}
+      - POSTGRES_DB=${POSTGRES_DB-hello_django_dev}
 
 volumes:
   postgres_data: 
