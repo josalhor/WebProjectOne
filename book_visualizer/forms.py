@@ -40,7 +40,7 @@ class UserCreationForm(auth_forms.UserCreationForm):
 class UserChangeForm(auth_forms.UserChangeForm):
 	# A form for updating new users.
 	class Meta:
-		fields = ('username',  )
+		fields = ('username', 'email' )
 		model = models.User
 
 class ContactForm(forms.Form):

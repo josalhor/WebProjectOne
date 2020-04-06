@@ -12,6 +12,7 @@ urlpatterns = [
 	path('contact/', emailView, name='contact'),
 	path('search', views.search, name='search'),
 	path('account/edit/', views.edit_account, name='edit_account'),
+	path('change-password/', views.change_password, name='change_password'),
 	path('', include('django.contrib.auth.urls')),
 	path('', views.bestsellers_list, name='home'),
 		path('book/<str:pk>', views.book_details, name='book_details'), 
