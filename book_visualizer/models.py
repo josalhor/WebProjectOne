@@ -9,7 +9,6 @@ class User(auth_models.AbstractUser):
 
 class Book(models.Model):
 	isbn = models.CharField(primary_key = True, max_length = 13, help_text = "13 characters")
-	price = models.DecimalField(max_digits = 5, decimal_places = 2, validators=[MinValueValidator(0)])
 	title = models.CharField(max_length = 150) 
 	author = models.CharField(max_length = 150) 
 	bestsellers_date = models.DateField()
