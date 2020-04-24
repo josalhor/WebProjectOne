@@ -1,5 +1,7 @@
 #!/bin/sh
 
+echo "Trying to start web server..."
+
 if [[ -z "${NYT_API_KEY}" ]]; then
   echo "NYT_API_KEY env variable not set"
   exit -1

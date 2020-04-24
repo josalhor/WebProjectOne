@@ -25,6 +25,7 @@
 	</div>
 </div>
 <div class="container">
+	<script src="{% static 'book_img.js' %}"></script>
 	<div class="row">
 		<div class="col-12 col-sm-3">
 			<div class="card bg-light mb-3">
@@ -58,8 +59,9 @@
                 <div class="col-12 col-md-6 col-lg-4">
 					<div class="card" style="width: 18rem;">
 						<div class="card-body">
-							<img id="book-thumb-{{book.isbn}}" class="card-img-top mx-auto d-block" style="border-radius:0;width:140px;height:200px;object-fit: contain" src="{% static 'stock_temp.jpg' %}"/>
-							<script src="{% static 'book_img.js' %}"></script>
+							<a href="{% url 'book_details' book.pk %}">
+								<img id="book-thumb-{{book.isbn}}" class="card-img-top mx-auto d-block" style="border-radius:0;width:140px;height:200px;object-fit: contain" src="{% static 'stock_temp.jpg' %}"/>
+							</a>
 							<script>
 								setBookImg($('#book-thumb-{{book.isbn}}'), "{{book.isbn}}");
 							</script>
