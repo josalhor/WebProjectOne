@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [[ -z "${NYT_API_KEY}" ]]; then
+  echo "NYT_API_KEY env variable not set"
+  exit -1
+fi
+
 if [[ -z "${PORT}" ]]; then
   # some sensible default value
   PORT=8080
