@@ -27,27 +27,10 @@
         <div class="col-12 col-lg-6">
             <div class="card bg-light mb-3">
                 <div class="card-body">
-                    <img class="card-img-top" id="book-thumb" src="{% static 'stock_temp.jpg' %}"/>
+                    <img class="card-img-top" style="height:420px;object-fit: contain" id="book-thumb" src="{% static 'stock_temp.jpg' %}"/>
+                    <script src="{% static 'book_img.js' %}"></script>
                     <script>
-                        var isbn = "{{book.isbn}}";
-                        var url='https://www.googleapis.com/books/v1/volumes?q=isbn:'+isbn;
-                        $.ajax({
-                        dataType: "json",
-                        url: url,
-                        success: (data) => {
-                            data.items.forEach(item => {
-                                item.volumeInfo.industryIdentifiers.forEach(id => {
-                                   if (id['type'] == 'ISBN_10' && id['identifier'] == isbn){
-                                    console.log(id);
-                                    $('#book-thumb').fadeOut(400, function() {
-                                        $("#book-thumb").attr('src',item.volumeInfo.imageLinks.thumbnail);
-                                    })
-                                    .fadeIn(400);
-                                    console.log($('#book-thumb'));
-                                   } 
-                                });
-                            });
-                        }});
+                        setBookImg($('#book-thumb'), "{{book.isbn}}");
                     </script>
                 </div>
             </div>

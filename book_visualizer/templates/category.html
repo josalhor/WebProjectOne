@@ -52,9 +52,11 @@
                 <div class="col-12 col-md-6 col-lg-4">
 					<div class="card" style="width: 18rem;">
 						<div class="card-body">
-							{% if book.image %}
-								<img class="card-img-top mx-auto d-block" style="border-radius:0;width:140px;height:200px;" src="{{ book.image.url }}"/>
-							{% endif %}
+							<img id="book-thumb-{{book.isbn}}" class="card-img-top mx-auto d-block" style="border-radius:0;width:140px;height:200px;object-fit: contain" src="{% static 'stock_temp.jpg' %}"/>
+							<script src="{% static 'book_img.js' %}"></script>
+							<script>
+								setBookImg($('#book-thumb-{{book.isbn}}'), "{{book.isbn}}");
+							</script>
 							<h4 class="card-title text-truncate"><a href="{% url 'book_details' book.pk %}" title="View Book">{{ book.title }}</a></h4>
 							<h6 class="card-subtitle mb-2 text-muted text-truncate">{{ book.author }}</h6>
 							<div class="card-text" style="line-height: 1.5em;height: 6em;overflow: hidden;">{{ book.summary }}</div>
