@@ -15,7 +15,6 @@ from datetime import date
 #             if isbn == isbns['isbn13']:
 #                 models.Book.objects.update_or_create(
 #                     isbn = isbn,
-#                     price = result['price'],
 #                     author = result['author'],
 #                     published_date = result['published_date'],
 #                     publisher = result['publisher'],
@@ -31,7 +30,6 @@ from datetime import date
 #         for result in json['results']:
 #             models.Book.objects.update_or_create(
 #                 isbn = result['primary_isbn10'],
-#                 price = result['price'],
 #                 author = result['author'],
 #                 published_date = result['published_date'],
 #                 publisher = result['publisher'],
@@ -41,7 +39,6 @@ from datetime import date
 #         result = json['results']
 #         models.Book.objects.update_or_create(
 #             isbn = result['primary_isbn10'],
-#             price = result['price'],
 #             author = result['author'],
 #             published_date = result['published_date'],
 #             publisher = result['publisher'],
@@ -76,7 +73,6 @@ def update_best_sellers_list(l):
         defaults = {
             'isbn': isbn,
             'title': result['title'],
-            'price': result['price'],
             'author': result['author'],
             'bestsellers_date': json['results']['bestsellers_date'],
             'publisher': result['publisher'],
