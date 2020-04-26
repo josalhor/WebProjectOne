@@ -93,15 +93,16 @@
                     <div class="card border-0">
                         {% if user.is_authenticated %}
                         <h4>Leave a comment</h4>
-                                <div class="form-group stars">
-                                    <span class="rate required">
-                                        <a class="star-1" value="1" href="#">1</a>
-                                        <a class="star-2" value="2" href="#">2</a>
-                                        <a class="star-3" value="3" href="#">3</a>
-                                        <a class="star-4" value="4" href="#">4</a>
-                                        <a class="star-5" value="5" href="#">5</a>
-                                    </span>
-                                </div> 
+                        <div class="form-group stars">
+                            <span class="rate required">
+                                <a class="star-1" value="1">1</a>
+                                <a class="star-2" value="2">2</a>
+                                <a class="star-3" value="3">3</a>
+                                <a class="star-4" value="4">4</a>
+                                <a class="star-5" value="5">5</a>
+                            </span>
+                        </div>
+                        <script src="{% static 'stars.js' %}"></script>
                         <form action="" method="post">
                                 {% csrf_token %}
                                 {{ form }}
