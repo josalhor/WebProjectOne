@@ -10,19 +10,6 @@
 	</div>
 </section>
 <div class="container">
-	<div class="row">
-		<div class="col">
-			<nav aria-label="breadcrumb">
-				<ol class="breadcrumb">
-					<li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-					<li class="breadcrumb-item active" aria-current="page">Category</li>
-					<li class="breadcrumb-item active" aria-current="page">Sub-category</li>
-				</ol>
-			</nav>
-		</div>
-	</div>
-</div>
-<div class="container">
     <div class="row">
         <!-- Image -->
         <div class="col-12 col-lg-6">
@@ -107,40 +94,35 @@
                         <div id="divComment" style="display:none;">
                             <hr class="my-2">
                             <div class="card card-body border-0">
-                                {% if user.is_authenticated %}
-                                    <h4>Leave a comment</h4>
-                                    <div class="form-group stars">
-                                        <span class="rate required">
-                                            <a class="star-1" onClick="starsRate(1)">1</a>
-                                            <a class="star-2" onClick="starsRate(2)">2</a>
-                                            <a class="star-3" onClick="starsRate(3)">3</a>
-                                            <a class="star-4" onClick="starsRate(4)">4</a>
-                                            <a class="star-5" onClick="starsRate(5)">5</a>
-                                        </span>
-                                    </div>
-                                    <script src="{% static 'stars.js' %}"></script>
-                                    <form id="comment_form" action="" class="was-validated" method="post">
-                                        <div class="col-md-12 mb-3">
-                                            <label for="title">Title:</label>
-                                            <input type="text" minlength="5" maxlength="150" class="form-control" id="title" placeholder="Write a useful title for your comment" required>
-                                            <div class="invalid-feedback">
-                                                Length must be between 5 and 150 characters
-                                            </div>
-                                          </div>
-                                          <div class="col-md-12 mb-3">
-                                            <label for="body">Comment:</label>
-                                            <textarea type="text" minlength="10" maxlength="500" class="form-control" id="body" placeholder="Write a comment to the book" required></textarea>
-                                            <div class="invalid-feedback">
-                                                Length must be between 10 and 500 characters
-                                            </div>
+                                <h4>Leave a comment</h4>
+                                <div class="form-group stars">
+                                    <span class="rate required">
+                                        <a class="star-1" onClick="starsRate(1)">1</a>
+                                        <a class="star-2" onClick="starsRate(2)">2</a>
+                                        <a class="star-3" onClick="starsRate(3)">3</a>
+                                        <a class="star-4" onClick="starsRate(4)">4</a>
+                                        <a class="star-5" onClick="starsRate(5)">5</a>
+                                    </span>
+                                </div>
+                                <script src="{% static 'stars.js' %}"></script>
+                                <form id="comment_form" action="" class="was-validated" method="post">
+                                    <div class="col-md-12 mb-3">
+                                        <label for="title">Title:</label>
+                                        <input type="text" minlength="5" maxlength="150" class="form-control" id="title" placeholder="Write a useful title for your comment" required>
+                                        <div class="invalid-feedback">
+                                            Length must be between 5 and 150 characters
                                         </div>
-                                        <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
-                                    </form>
-                                    <hr class="my-2">
-                                {% else %}
-                                    <!--If the user is not logged in, direct him to the login page-->
-                                    <h6>You need to login before you can comment. <a href="/login">Click here</a> to go to the login page.</h6>
-                                {% endif %} 
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                        <label for="body">Comment:</label>
+                                        <textarea type="text" minlength="10" maxlength="500" class="form-control" id="body" placeholder="Write a comment to the book" required></textarea>
+                                        <div class="invalid-feedback">
+                                            Length must be between 10 and 500 characters
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
+                                </form>
+                                <hr class="my-2">
                             </div>
                         </div>
                     </div>
@@ -197,7 +179,13 @@
         }
     }
     function addComment() {
-        document.getElementById('divComment').style.display = "block";
+        if("{{ request.user.is_authenticated }}" == "True" && "{{ user_comment }}" == 0){
+            document.getElementById('divComment').style.display = "block";
+        }else if ("{{ user_comment }}" != 0){
+            alert("Sorry, you already have a comment on this book");
+        }else{
+            window.location.href = '/login';
+        }
     }
     function editComment(comment) {
         var old_content = document.getElementById('comment_body').innerHTML;

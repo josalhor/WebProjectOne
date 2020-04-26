@@ -59,8 +59,11 @@ def book_details(request, pk):
 
 	num_stars = round(average)
 
+	user_comment = Comment.objects.filter(made_by=request.user, based_on=book).count()
+
 	context = {
 		'book': book,
+		'user_comment': user_comment,
 		'comments': comments,
 		'num_comments': num_comments,
 		'average': average,
@@ -74,7 +77,6 @@ def search(request):
 	categories = BestSellersListName.objects.all()
 	success = True
 	books = []
-
 	category = request.GET.get('c')
 	date = request.GET.get('t')
 	name = request.GET.get('n')
