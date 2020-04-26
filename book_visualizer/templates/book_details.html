@@ -97,11 +97,11 @@
                                 <h4>Leave a comment</h4>
                                 <div class="form-group stars">
                                     <span class="rate required">
-                                        <a class="star-1" onClick="starsRate(1)">1</a>
-                                        <a class="star-2" onClick="starsRate(2)">2</a>
-                                        <a class="star-3" onClick="starsRate(3)">3</a>
-                                        <a class="star-4" onClick="starsRate(4)">4</a>
-                                        <a class="star-5" onClick="starsRate(5)">5</a>
+                                        <a class="star-1" id="star-1" onClick="starsRate(1)">1</a>
+                                        <a class="star-2" id="star-2" onClick="starsRate(2)">2</a>
+                                        <a class="star-3" id="star-3" onClick="starsRate(3)">3</a>
+                                        <a class="star-4" id="star-4" onClick="starsRate(4)">4</a>
+                                        <a class="star-5" id="star-5" onClick="starsRate(5)">5</a>
                                     </span>
                                 </div>
                                 <script src="{% static 'stars.js' %}"></script>
@@ -121,6 +121,7 @@
                                         </div>
                                     </div>
                                     <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
+                                    <button id="cancel" class="btn btn-secondary" style="display:none;">Cancel</button>
                                 </form>
                                 <hr class="my-2">
                             </div>
@@ -169,7 +170,6 @@
             alert("Please, give a rate before submiting");
             return false;
         }else{
-            //Ajax validation?
             alert("Thank you! Your comment has been correctly added");
         }
     });
@@ -179,24 +179,26 @@
         }
     }
     function addComment() {
-        if("{{ request.user.is_authenticated }}" == "True" && "{{ user_comment }}" == 0){
+        if("{{ request.user.is_authenticated }}" == "True" && "{{ num_comments }}" == 0){
             document.getElementById('divComment').style.display = "block";
-        }else if ("{{ user_comment }}" != 0){
+        }else if ("{{ num_comments }}" != 0){
             alert("Sorry, you already have a comment on this book");
         }else{
             window.location.href = '/login';
         }
     }
     function editComment(comment) {
-        var old_content = document.getElementById('comment_body').innerHTML;
-        var new_content = prompt("Edit comment", old_content);
-        if (new_content != null) {
-            document.getElementById('comment_body').innerHTML = new_content;
-            //Change attribute value
-        }   
+        var star_rate = "star-".concat("{{ user_comment.stars }}");
+        document.getElementById('divComment').style.display = "block";
+        document.getElementById('cancel').style.display = "inline-block";
+        document.getElementById('divComment').focus();
+        document.getElementById('title').value = "{{ user_comment.title }}";
+        document.getElementById('body').value = "{{ user_comment.body }}";
+        document.getElementById(star_rate).click();
     }
     function deleteComment() {
         //Delete element
     }
+
 </script>
 {% endblock content %}
