@@ -12,6 +12,7 @@
   <p> - Username: {{ user.username }} <br/> - E-mail: {{ user.email }} </p>
   <br>
   <a class="btn btn-secondary" href="{% url 'edit_account' %}">Edit my profile</a>
+  <a class="btn btn-secondary" href="{% url 'change_password' %}">Change my password</a>
   {% else %}
   <p>You are not logged in. Log in to see your profile</p>
   {% endif %}

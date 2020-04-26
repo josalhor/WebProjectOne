@@ -12,7 +12,6 @@
 					<form method="post">
 						{% csrf_token %}
             {{ form.as_p }}
-            <a class="btn btn-secondary" href="{% url 'change_password' %}">Change my password</a>
             <button class="btn btn-warning" type="submit">Save all changes</button>
 					</form>
 				</form>

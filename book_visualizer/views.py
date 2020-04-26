@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
-from .forms import UserCreationForm, ContactForm, UserChangeForm
+from .forms import UserCreationForm, ContactForm, UserChangeForm, UserForm
 from .models import Book, BestSellersListName, BestSellers, Comment
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
@@ -184,12 +184,14 @@ def successView(request):
 
 def edit_account(request):
 	if request.method == 'POST':
-		form = UserChangeForm(request.POST, instance=request.user)
+		form = UserForm(request.POST, instance=request.user)
 		if form.is_valid():
 			form.save()
 			return redirect('/account/')
+		else:
+			return redirect('/account/edit')
 	else:
-		form = UserChangeForm(instance=request.user)
+		form = UserForm(instance=request.user)
 		args = {'form': form}
 		return render(request, 'edit_account.html', args)
 
