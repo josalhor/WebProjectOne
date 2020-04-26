@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
-from .forms import UserCreationForm, ContactForm
+from .forms import UserCreationForm, ContactForm, UserChangeForm, UserForm
 from .models import Book, BestSellersListName, BestSellers, Comment
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.mail import send_mail, BadHeaderError
@@ -179,3 +181,30 @@ def emailView(request):
 
 def successView(request):
     return HttpResponse('Success! Thank you for your message.')
+
+def edit_account(request):
+	if request.method == 'POST':
+		form = UserForm(request.POST, instance=request.user)
+		if form.is_valid():
+			form.save()
+			return redirect('/account/')
+		else:
+			return redirect('/account/edit')
+	else:
+		form = UserForm(instance=request.user)
+		args = {'form': form}
+		return render(request, 'edit_account.html', args)
+
+def change_password(request):
+	if request.method == 'POST':
+		form = PasswordChangeForm(data=request.POST, user=request.user)
+		if form.is_valid():
+			form.save()
+			update_session_auth_hash(request, form.user)
+			return redirect('/account/edit/')
+		else:
+			return redirect('/change-password/')
+	else:
+		form = PasswordChangeForm(user=request.user)
+		args = {'form': form}
+		return render(request, 'change_password.html', args)
