@@ -136,8 +136,8 @@
                                         <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
                                         <p class="text-secondary text-center" style="font-size: 10px;">{{ comment.date }}</p>
                                     </div>
-                                    <div class="col-md-11">
-                                        <p style="display: inline-block;"><strong>{{ comment.title }} </strong> by {{ comment.made_by }} &nbsp</p>
+                                    <div class="col-md-11" id="comment-{{ comment.made_by }}">
+                                        <p style="display: inline-block;"><strong>{{ comment.title }}</strong> by {{ comment.made_by }} &nbsp</p>
                                         {% for item in comment.stars|add:"0"|times %}
                                         <span><i class="text-warning fa fa-star"></i></span>
                                         {% endfor %} 
@@ -145,7 +145,7 @@
                                             <button class="float-right btn btn-success btn-sm rounded-5" type="button" title="Edit" onclick="editComment()"><i class="fa fa-edit"></i></button>
                                             <button class="float-right btn btn-danger btn-sm rounded-5" type="button"title="Delete" onclick="deleteComment()"><i class="fa fa-trash"></i></button>
                                         {% endif %}
-                                        <p id="comment_body">{{ comment.body }}</p>
+                                        <p id="comment-body-{{ comment.made_by }}">{{ comment.body }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -159,7 +159,7 @@
 <script>
     document.getElementById("comment_form").addEventListener("submit", submitForm);
     var stars = 0;
-    if ("{{ user_comment }}" != 0){
+    if ("{{ num_comments }}" != 0){
         $("#addCommentButton").hide();
     }
 
@@ -181,6 +181,10 @@
             alert("The form was submitted");
         }
     }
+    function findComment() {
+        
+    }
+
     function addComment() {
         if("{{ request.user.is_authenticated }}" == "True" && "{{ num_comments }}" == 0){
             document.getElementById('divComment').style.display = "block";
@@ -191,12 +195,15 @@
         }
     }
     function editComment(comment) {
+        var comment = $("#comment-{{ user }}");
+        var title = comment.find("strong")[0].innerText;
+        var body = $("#comment-body-{{ user }}")[0].innerText;
         var star_rate = "star-".concat("{{ user_comment.stars }}");
         document.getElementById('divComment').style.display = "block";
         document.getElementById('cancel').style.display = "inline-block";
         document.getElementById('divComment').focus();
-        document.getElementById('title').value = "{{ user_comment.title }}";
-        document.getElementById('body').value = "{{ user_comment.body }}";
+        document.getElementById('title').value = title;
+        document.getElementById('body').value = body;
         document.getElementById(star_rate).click();
     }
     function deleteComment() {
