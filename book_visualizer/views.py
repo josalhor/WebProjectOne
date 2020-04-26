@@ -56,26 +56,11 @@ def book_details(request, pk):
 	else:
 		average = average / (num_comments)
 		average = round(average, 2)
+
 	num_stars = round(average)
-
-	if request.method == 'GET':
-		form = CommentForm()
-	else:
-		form = CommentForm(request.POST)
-		if form.is_valid():
-			title = form.cleaned_data['title']
-			body = form.cleaned_data['body']
-			stars_rate = int(form.cleaned_data['stars_rate'])
-
-			comment = Comment(title = title, body = body, stars = stars_rate, made_by = request.user, based_on = book)
-			comment.save()
-			form = CommentForm()
-		else:
-			print('Ivalid form!!')
 
 	context = {
 		'book': book,
-		'form': form,
 		'comments': comments,
 		'num_comments': num_comments,
 		'average': average,
