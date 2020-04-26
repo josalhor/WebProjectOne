@@ -65,10 +65,11 @@ def book_details(request, pk):
 	if request.user.is_authenticated:
 		user_comment = Comment.objects.filter(made_by=request.user, based_on=book)
 		num_comments = user_comment.count()
+		user_comment = user_comment[0]
 
 	context = {
 		'book': book,
-		'user_comment': user_comment[0],
+		'user_comment': user_comment,
 		'num_comments': num_comments,
 		'comments': comments,
 		'average': average,
