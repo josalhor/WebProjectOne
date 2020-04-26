@@ -33,7 +33,7 @@
             </div>
         </div>
 
-        <!-- Add to cart -->
+        <!-- Details -->
         <div class="col-12 col-lg-6 add_to_cart_block">
             <div class="card bg-light mb-3">
                 <div class="card-body">
@@ -45,8 +45,8 @@
                     <h5 class="card-text">Publisher: <span style="color: grey;">{{ book.publisher }}</span></h5>
                     <h5 id="price" class="card-text">Price: <span style="color: grey;">Price no available</span></h5>
                     <br></br>
-                    <form method="get" action="wish_list.html">
-                        <a href="added.html" class="btn btn-success btn-lg btn-block text-uppercase">
+                    <form method="get">
+                        <a href="wishlist.html" class="btn btn-success btn-lg btn-block text-uppercase">
                             <i class="fa fa-gift"></i> Add to a wish list
                         </a>
                     </form>
@@ -87,26 +87,56 @@
             </div>
         </div>
 
-        <!-- Reviews -->
+        <!-- Reviews display -->
         <div class="col-12" id="reviews">
             <div class="card border-light mb-3">
                 <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-comment"></i> Reviews</div>
                 <div class="card-body">
-                    {% for comment in comments %}
-                    <div class="review">
-                        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                        <meta itemprop="datePublished" content="01-01-2016">{{ comment.date }}
-                        {% for item in comment.stars|add:"0"|times %}
-                        <span class="fa fa-star" aria-hidden="true"></span>
-                        {% endfor %}
-                        by {{ comment.made_by }}
-                        <p class="blockquote">
-                            <p class="mb-0"><b>{{ comment.title }}</b></p>
-                            <p class="mb-0">{{ comment.body }}</p>
-                        </p>
-                        <hr>
+                    <div class="card border-0">
+                        {% if user.is_authenticated %}
+                        <h4>Leave a comment</h4>
+                        <div class="form-group stars">
+                            <span class="rate required">
+                                <a class="star-1" value="1">1</a>
+                                <a class="star-2" value="2">2</a>
+                                <a class="star-3" value="3">3</a>
+                                <a class="star-4" value="4">4</a>
+                                <a class="star-5" value="5">5</a>
+                            </span>
+                        </div>
+                        <script src="{% static 'stars.js' %}"></script>
+                        <form action="" method="post">
+                                {% csrf_token %}
+                                {{ form }}
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                        {% endif %} 
                     </div>
-                    {% endfor %}
+                </div>
+                <div class="card-body">
+                    <div class="card border-0">
+                        <h6>{{ num_comments }} reviews</h6>
+                        {% for comment in comments %}
+                        <div class="card-body border-top">
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
+                                    <p class="text-secondary text-center" style="font-size: 10px;">{{ comment.date }}</p>
+                                </div>
+                                <div class="col-md-10">
+                                    <p>
+                                        <p class="float-left"><strong>{{ comment.title }}</strong>  by {{ comment.made_by }}</p>
+                                        {% for item in comment.stars|add:"0"|times %}
+                                        <span class="float-right"><i class="text-warning fa fa-star"></i></span>
+                                        {% endfor %}
+                                    </p>
+                                    <div class="clearfix"></div>
+                                    <p>{{ comment.body }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>

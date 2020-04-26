@@ -1,7 +1,11 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
+<<<<<<< HEAD
 from .forms import UserCreationForm, ContactForm, UserChangeForm
+=======
+from .forms import UserCreationForm, ContactForm, CommentForm
+>>>>>>> comments
 from .models import Book, BestSellersListName, BestSellers, Comment
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
@@ -11,7 +15,13 @@ from django.contrib.auth import update_session_auth_hash
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.mail import send_mail, BadHeaderError
 
+<<<<<<< HEAD
 from . import api_to_db
+=======
+from django.forms.models import model_to_dict
+from django.http import JsonResponse
+
+>>>>>>> comments
 
 class SignUp(generic.CreateView):
 	form_class = UserCreationForm
@@ -44,14 +54,6 @@ def bestsellers_list(request):
 	return render(request, 'home.html', context)
 
 def book_details(request, pk):
-	"""Filters books by ISBN.
-
-    Parameters:
-    request (request): Browser request for the view.
-
-	pk (isbn): International Standard Book Number, 10 or 13 digits.
-
-    """
 	book = Book.objects.get(pk=pk)
 	comments = Comment.objects.all().filter(based_on = book)
 	num_comments = 0
@@ -67,8 +69,24 @@ def book_details(request, pk):
 		average = round(average, 2)
 	num_stars = round(average)
 
+	if request.method == 'GET':
+		form = CommentForm()
+	else:
+		form = CommentForm(request.POST)
+		if form.is_valid():
+			title = form.cleaned_data['title']
+			body = form.cleaned_data['body']
+			stars_rate = int(form.cleaned_data['stars_rate'])
+
+			comment = Comment(title = title, body = body, stars = stars_rate, made_by = request.user, based_on = book)
+			comment.save()
+			form = CommentForm()
+		else:
+			print('Ivalid form!!')
+
 	context = {
 		'book': book,
+		'form': form,
 		'comments': comments,
 		'num_comments': num_comments,
 		'average': average,
@@ -77,13 +95,8 @@ def book_details(request, pk):
 
 	return render(request, 'book_details.html', context)
 
+
 def search(request):
-	"""Filters books by category and/or date and/or name.
-
-    Parameters:
-    request (request): Browser request for the view.
-
-    """
 	categories = BestSellersListName.objects.all()
 	success = True
 	books = []
@@ -129,14 +142,6 @@ def search(request):
 	return render(request, 'home.html', context)
 
 def category(request, pk):
-	"""Filters books by category.
-
-    Parameters:
-    request (request): Browser request for the view.
-
-	pk (isbn): International Standard Book Number, 10 or 13 digits.
-
-    """
 	category = BestSellersListName.objects.get(pk=pk)
 	api_to_db.update_best_sellers_list(category)
 	categories = BestSellersListName.objects.all()

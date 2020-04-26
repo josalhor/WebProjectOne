@@ -43,6 +43,11 @@ class UserChangeForm(auth_forms.UserChangeForm):
 		fields = ('username', 'email' )
 		model = models.User
 
+class CommentForm(forms.Form):
+	stars_rate = forms.IntegerField(required=True, widget=forms.Textarea(attrs={'id':'stars_rate', 'style':'display:none'}))
+	title = forms.CharField(required=True, widget=forms.TextInput(attrs={'class':'form-group form-control'}))
+	body = forms.CharField(required=True, widget=forms.Textarea(attrs={'class':'form-group form-control', 'rows':"6"}))
+		
 class ContactForm(forms.Form):
 	# A form in order to contact us.
     email_adress = forms.EmailField(required=True, widget=forms.TextInput(attrs={'class':'form-group form-control'}))
