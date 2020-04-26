@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Edit your profile{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+	<div class="container">
+		<div class="row d-flex justify-content-center">
+			<div class="col-10">
+				<form method="post">
+          <h2>Edit your profile</h2>
+          <br>
+					<form method="post">
+						{% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-warning" type="submit">Save all changes</button>
+					</form>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

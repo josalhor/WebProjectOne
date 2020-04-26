@@ -82,7 +82,7 @@
                     <div class="card border-0">
                         <!--Setting up the add new comment button that will be used for collapsing-->
                         <div class="card border-0" style="display:inline-block;">
-                            <button class="btn btn-success pull-right" type="button" onclick="addComment()">
+                            <button id="addCommentButton" class="btn btn-success pull-right" type="button" onclick="addComment()">
                                 Add new comment
                             </button>
                             {% if num_comments != 1 %}
@@ -158,6 +158,9 @@
 <script>
     document.getElementById("comment_form").addEventListener("submit", submitForm);
     var stars = 0;
+    if ("{{ user_comment }}" != 0){
+        $("#addCommentButton").hide();
+    }
 
     function starsRate(clicked_id)
     {
@@ -168,7 +171,7 @@
             event.preventDefault();
             alert("Please, give a rate before submiting");
             return false;
-        }else{
+        } else {
             //Ajax validation?
             alert("Thank you! Your comment has been correctly added");
         }
@@ -181,9 +184,7 @@
     function addComment() {
         if("{{ request.user.is_authenticated }}" == "True" && "{{ user_comment }}" == 0){
             document.getElementById('divComment').style.display = "block";
-        }else if ("{{ user_comment }}" != 0){
-            alert("Sorry, you already have a comment on this book");
-        }else{
+        } else if ("{{ request.user.is_authenticated }}" != "True") {
             window.location.href = '/login';
         }
     }
@@ -197,6 +198,7 @@
     }
     function deleteComment() {
         //Delete element
+        $("#addCommentButton").show();
     }
 </script>
 {% endblock content %}
