@@ -11,14 +11,13 @@ These instructions will get you a copy of the project up and running on your loc
 ```
 Docker or Docker Toolbox
 ```
-Although it is not a requirement right now, if you have an environment variable named NYT_API_KEY it will be used to retrieve the categories when the server starts
 
 ### Run locally on Linux and Mac and Windows with Docker
 
 First of all be logged on docker, otherwise you won't be able to build
 
 ```
-$ docker-compose up --build
+$ docker-compose up --build --remove-orphans
 ```
 
 ### Run locally on Windows with Docker Toolbox
@@ -27,7 +26,7 @@ $ docker-compose up --build
 > docker-machine start default &:: Start Virtual Machine
 > docker-machine env &:: Configure Terminal
 > docker-machine ip default &:: Get IP of machine
-> docker-compose up --build &:: Start Docker/Django
+> docker-compose up --build --remove-orphans &:: Start Docker/Django
 ```
 
 ### Clean up database
@@ -48,8 +47,7 @@ By default, the local execution runs the file start_server_dev.sh, which configu
 ## Running the tests locally (without Travis)
 
 ```
-docker build -t joshsalvia/webprojectone -f Dockerfile .
-docker run joshsalvia/webprojectone python /app/manage.py test
+docker-compose -f docker-compose-test.yml up --build --remove-orphans
 ```
 
 ## Problem domain details

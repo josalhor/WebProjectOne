@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     'django_extensions',
 ]
 
+if (os.environ.get("TESTING", default="0") == "1"):
+    INSTALLED_APPS.append('behave_django')
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

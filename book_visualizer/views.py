@@ -11,6 +11,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.mail import send_mail, BadHeaderError
 
+from . import api_to_db
 
 class SignUp(generic.CreateView):
 	form_class = UserCreationForm
@@ -22,6 +23,7 @@ class SignUp(generic.CreateView):
 # reverse to load them later when they are available.
 
 def bestsellers_list(request):
+	api_to_db.update_best_sellers()
 	books = Book.objects.all()
 	categories = BestSellersListName.objects.all()
 	page = request.GET.get('page', 1)
@@ -136,6 +138,7 @@ def category(request, pk):
 
     """
 	category = BestSellersListName.objects.get(pk=pk)
+	api_to_db.update_best_sellers_list(category)
 	categories = BestSellersListName.objects.all()
 
 	latest = BestSellers.objects.order_by('-day').first()
