@@ -4,6 +4,9 @@ echo "Trying to start web server..."
 
 rm -f /app/db.sqlite3
 
+chmod +x /app/start_server.sh
+chmod +x /app/start_server_dev.sh
+
 secrets_web_file="/app/web.env.secrets.sh"
 
 if [[ -z "${NYT_API_KEY}" ]]; then
@@ -20,8 +23,6 @@ if [[ -z "${PORT}" ]]; then
   # some sensible default value
   PORT=8080
 fi
-
-pip freeze > /app/frozen_requirements.txt
 
 cd /app/
 
