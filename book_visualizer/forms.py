@@ -48,3 +48,14 @@ class ContactForm(forms.Form):
     email_adress = forms.EmailField(required=True, widget=forms.TextInput(attrs={'class':'form-group form-control'}))
     subject = forms.CharField(required=True, widget=forms.TextInput(attrs={'class':'form-group form-control'}))
     message = forms.CharField(required=True, widget=forms.Textarea(attrs={'class':'form-group form-control', 'rows':"6"}))
+
+
+class UserForm(UserChangeForm):
+    password = None
+
+    class Meta:
+        model = models.User
+        fields = (
+            'username',
+            'email',
+            )
