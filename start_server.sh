@@ -2,9 +2,18 @@
 
 echo "Trying to start web server..."
 
+rm -f /app/db.sqlite3
+
+secrets_web_file="/app/web.env.secrets.sh"
+
 if [[ -z "${NYT_API_KEY}" ]]; then
-  echo "NYT_API_KEY env variable not set"
-  exit -1
+  if [ -f "${secrets_web_file}" ]; then
+    . ${secrets_web_file}
+  fi
+  if [[ -z "${NYT_API_KEY}" ]]; then
+    echo "NYT_API_KEY env variable not set"
+    exit -1
+  fi
 fi
 
 if [[ -z "${PORT}" ]]; then
@@ -36,4 +45,11 @@ fi
 
 python manage.py request_categories
 
-gunicorn -b 0.0.0.0:$PORT webproject.wsgi --log-file -
+if [[ -z "${TESTING}" ]];
+then
+  gunicorn -b 0.0.0.0:$PORT webproject.wsgi --log-file -
+else
+  echo "Starting Behave testing"
+  python manage.py behave
+fi
+

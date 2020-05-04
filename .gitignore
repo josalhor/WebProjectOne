@@ -1,6 +1,6 @@
 
 # CUSTOM
-web.env.secrets
+web.env.secrets.sh
 # END CUSTOM
 
 # Created by https://www.gitignore.io/api/code,venv,django,python,pycharm
