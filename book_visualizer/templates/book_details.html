@@ -10,19 +10,22 @@
 	</div>
 </section>
 <div class="container">
+	<div class="row">
+	</div>
+</div>
+<div class="container">
+    <script src="{% static 'book_img.js' %}"></script>
     <div class="row">
         <!-- Image -->
         <div class="col-12 col-lg-6">
             <div class="card bg-light mb-3">
                 <div class="card-body">
-                    {% if book.image %}
-                        <img class="card-img-top" src="{{ book.image.url }}"/>
-                    {% endif %}
+                    <img class="card-img-top" style="height:420px;object-fit: contain" id="book-thumb" src="{% static 'stock_temp.jpg' %}"/>
                 </div>
             </div>
         </div>
 
-        <!-- Details -->
+        <!-- Add to cart -->
         <div class="col-12 col-lg-6 add_to_cart_block">
             <div class="card bg-light mb-3">
                 <div class="card-body">
@@ -30,12 +33,12 @@
                     <h4 class="card-text">Written by: <span style="color: grey;">{{ book.author }}</span></h4>
                     <br></br>
                     <h5 class="card-text">ISBN: <span style="color: grey;">{{ book.isbn }}</span> </h5>
-                    <h5 class="card-text">Price: <span style="color: grey;">{{ book.price }}</span></h5>
-                    <h5 class="card-text">Publication_date: <span style="color: grey;">{{ book.publication_date }}</span></h5>
+                    <h5 class="card-text">Last time best seller: <span style="color: grey;">{{ book.bestsellers_date }}</span></h5>
                     <h5 class="card-text">Publisher: <span style="color: grey;">{{ book.publisher }}</span></h5>
+                    <h5 id="price" class="card-text">Price: <span style="color: grey;">Price no available</span></h5>
                     <br></br>
-                    <form method="get">
-                        <a href="wishlist.html" class="btn btn-success btn-lg btn-block text-uppercase">
+                    <form method="get" action="wish_list.html">
+                        <a href="added.html" class="btn btn-success btn-lg btn-block text-uppercase">
                             <i class="fa fa-gift"></i> Add to a wish list
                         </a>
                     </form>
@@ -56,6 +59,9 @@
                         {% if num_comments == 0 %}
                             <a class="pull-right" href="#reviews">Write the first review</a>
                         {% endif %}
+                        <script>
+                            setBookDetails($('#book-thumb'), $('#price'), "{{book.isbn}}");
+                        </script>
                     </div>
                 </div>
             </div>
@@ -73,7 +79,7 @@
             </div>
         </div>
 
-        <!-- Reviews display -->
+        <!-- Reviews -->
         <div class="col-12" id="reviews">
             <div class="card border-light mb-3">
                 <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-comment"></i> Reviews</div>

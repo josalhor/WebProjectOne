@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
-from .forms import UserCreationForm, ContactForm, UserChangeForm, UserForm, CommentForm
+from .forms import UserCreationForm, ContactForm, UserChangeForm, UserForm
 from .models import Book, BestSellersListName, BestSellers, Comment
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
@@ -11,9 +11,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.mail import send_mail, BadHeaderError
 
-from django.forms.models import model_to_dict
-from django.http import JsonResponse
-
+from . import api_to_db
 
 class SignUp(generic.CreateView):
 	form_class = UserCreationForm
@@ -25,6 +23,7 @@ class SignUp(generic.CreateView):
 # reverse to load them later when they are available.
 
 def bestsellers_list(request):
+	api_to_db.update_best_sellers()
 	books = Book.objects.all()
 	categories = BestSellersListName.objects.all()
 	page = request.GET.get('page', 1)
@@ -45,6 +44,14 @@ def bestsellers_list(request):
 	return render(request, 'home.html', context)
 
 def book_details(request, pk):
+	"""Filters books by ISBN.
+
+    Parameters:
+    request (request): Browser request for the view.
+
+	pk (isbn): International Standard Book Number, 10 or 13 digits.
+
+    """
 	book = Book.objects.get(pk=pk)
 	comments = Comment.objects.all().filter(based_on = book)
 	num_comments = 0
@@ -74,8 +81,13 @@ def book_details(request, pk):
 
 	return render(request, 'book_details.html', context)
 
-
 def search(request):
+	"""Filters books by category and/or date and/or name.
+
+    Parameters:
+    request (request): Browser request for the view.
+
+    """
 	categories = BestSellersListName.objects.all()
 	success = True
 	books = []
@@ -120,7 +132,16 @@ def search(request):
 	return render(request, 'home.html', context)
 
 def category(request, pk):
+	"""Filters books by category.
+
+    Parameters:
+    request (request): Browser request for the view.
+
+	pk (isbn): International Standard Book Number, 10 or 13 digits.
+
+    """
 	category = BestSellersListName.objects.get(pk=pk)
+	api_to_db.update_best_sellers_list(category)
 	categories = BestSellersListName.objects.all()
 
 	latest = BestSellers.objects.order_by('-day').first()
