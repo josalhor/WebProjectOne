@@ -11,12 +11,23 @@ from django.contrib.auth import update_session_auth_hash
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.mail import send_mail, BadHeaderError
 
-from . import api_to_db
+from rest_framework import viewsets
+
+from rest_framework.permissions import IsAdminUser
+from . import api_to_db, serializers, permissions
+
+from random import shuffle
 
 class SignUp(generic.CreateView):
 	form_class = UserCreationForm
 	success_url = reverse_lazy('login')
 	template_name = 'sign_up.html'
+
+
+def get_random_categories():
+	categories = list(BestSellersListName.objects.all())
+	shuffle(categories)
+	return categories[:10]
 
 # We are using reverse_lazy because for all generic class-based views the urls
 # are not loaded when the file is imported, so we have to use the lazy form of
@@ -25,7 +36,7 @@ class SignUp(generic.CreateView):
 def bestsellers_list(request):
 	api_to_db.update_best_sellers()
 	books = Book.objects.all()
-	categories = BestSellersListName.objects.all()
+	categories = get_random_categories()
 	page = request.GET.get('page', 1)
 
 	paginator = Paginator(books, 6) # Show 6 books per page
@@ -46,12 +57,12 @@ def bestsellers_list(request):
 def book_details(request, pk):
 	"""Filters books by ISBN.
 
-    Parameters:
-    request (request): Browser request for the view.
+	Parameters:
+	request (request): Browser request for the view.
 
 	pk (isbn): International Standard Book Number, 10 or 13 digits.
 
-    """
+	"""
 	book = Book.objects.get(pk=pk)
 	comments = Comment.objects.all().filter(based_on = book)
 	num_comments = 0
@@ -84,11 +95,11 @@ def book_details(request, pk):
 def search(request):
 	"""Filters books by category and/or date and/or name.
 
-    Parameters:
-    request (request): Browser request for the view.
+	Parameters:
+	request (request): Browser request for the view.
 
-    """
-	categories = BestSellersListName.objects.all()
+	"""
+	categories = get_random_categories()
 	success = True
 	books = []
 	category = request.GET.get('c')
@@ -134,15 +145,15 @@ def search(request):
 def category(request, pk):
 	"""Filters books by category.
 
-    Parameters:
-    request (request): Browser request for the view.
+	Parameters:
+	request (request): Browser request for the view.
 
 	pk (isbn): International Standard Book Number, 10 or 13 digits.
 
-    """
+	"""
 	category = BestSellersListName.objects.get(pk=pk)
 	api_to_db.update_best_sellers_list(category)
-	categories = BestSellersListName.objects.all()
+	categories = get_random_categories()
 
 	latest = BestSellers.objects.order_by('-day').first()
 	if latest is None:
@@ -186,7 +197,7 @@ def emailView(request):
 	return render(request, "contact.html", {'form': form, 'submitted': submitted})
 
 def successView(request):
-    return HttpResponse('Success! Thank you for your message.')
+	return HttpResponse('Success! Thank you for your message.')
 
 def edit_account(request):
 	if request.method == 'POST':
@@ -214,3 +225,17 @@ def change_password(request):
 		form = PasswordChangeForm(user=request.user)
 		args = {'form': form}
 		return render(request, 'change_password.html', args)
+
+class CommentViewSet(viewsets.ModelViewSet):
+	serializer_class = serializers.CommentSerializer
+	permission_classes = [permissions.IsOwnerOrReadOnly|IsAdminUser]
+
+	def get_queryset(self):
+		queryset = Comment.objects.all()
+		book_pk = self.request.query_params.get('book', None)
+		if book_pk is not None:
+			book_set = Book.objects.all().filter(isbn=book_pk)
+			if not book_set.exists():
+				return Comment.objects.none()
+			queryset = queryset.filter(based_on=book_set.first())
+		return queryset

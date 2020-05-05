@@ -1,8 +1,12 @@
 from django.urls import path, include
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic.base import TemplateView
+from rest_framework import routers
 from . import forms, views
 from .views import emailView, successView
+
+router = routers.DefaultRouter()
+router.register('comments', views.CommentViewSet, 'Comments')
 
 urlpatterns = [
 	path('login/', LoginView.as_view(authentication_form=forms.AuthenticationForm), name='login'),
@@ -16,5 +20,6 @@ urlpatterns = [
 	path('', include('django.contrib.auth.urls')),
 	path('', views.bestsellers_list, name='home'),
 		path('book/<str:pk>', views.book_details, name='book_details'), 
-		path('category/<str:pk>', views.category, name='category')
+		path('category/<str:pk>', views.category, name='category'),
+	path('api/', include(router.urls))
 ]
