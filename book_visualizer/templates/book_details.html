@@ -2,6 +2,7 @@
 {% load static %}
 {% load times_tag %}
 
+
 {% block content %}
 <section class="jumbotron">
 	<div class="container">
@@ -10,19 +11,10 @@
 </section>
 <div class="container">
 	<div class="row">
-		<div class="col">
-			<nav aria-label="breadcrumb">
-				<ol class="breadcrumb">
-					<li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-					<li class="breadcrumb-item active" aria-current="page">Category</li>
-					<li class="breadcrumb-item active" aria-current="page">Sub-category</li>
-				</ol>
-			</nav>
-		</div>
 	</div>
 </div>
 <div class="container">
-    <script src="{% static 'book_img.js' %}"></script>
+    <script src="{% static 'book_ajax.js' %}"></script>
     <div class="row">
         <!-- Image -->
         <div class="col-12 col-lg-6">
@@ -92,24 +84,138 @@
             <div class="card border-light mb-3">
                 <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-comment"></i> Reviews</div>
                 <div class="card-body">
-                    {% for comment in comments %}
-                    <div class="review">
-                        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                        <meta itemprop="datePublished" content="01-01-2016">{{ comment.date }}
-                        {% for item in comment.stars|add:"0"|times %}
-                        <span class="fa fa-star" aria-hidden="true"></span>
-                        {% endfor %}
-                        by {{ comment.made_by }}
-                        <p class="blockquote">
-                            <p class="mb-0"><b>{{ comment.title }}</b></p>
-                            <p class="mb-0">{{ comment.body }}</p>
-                        </p>
-                        <hr>
+                    <!-- Add a comment -->
+                    <div class="card border-0">
+                        <!--Setting up the add new comment button that will be used for collapsing-->
+                        <div class="card border-0" style="display:inline-block;">
+                            <button id="addCommentButton" class="btn btn-success pull-right" type="button" onclick="addComment()">
+                                Add new comment
+                            </button>
+                            {% if num_comments != 1 %}
+                                    <h6>{{ num_comments }} reviews</h6>
+                                {% else %}
+                                    <h6>{{ num_comments }} review</h6>
+                            {% endif %}
+                        </div>
+                        <div id="divComment" style="display:none;">
+                            <hr class="my-2">
+                            <div class="card card-body border-0">
+                                <h4>Leave a comment</h4>
+                                <div class="form-group stars">
+                                    <span class="rate required">
+                                        <a class="star-1" id="star-1" onClick="starsRate(1)">1</a>
+                                        <a class="star-2" id="star-2" onClick="starsRate(2)">2</a>
+                                        <a class="star-3" id="star-3" onClick="starsRate(3)">3</a>
+                                        <a class="star-4" id="star-4" onClick="starsRate(4)">4</a>
+                                        <a class="star-5" id="star-5" onClick="starsRate(5)">5</a>
+                                    </span>
+                                </div>
+                                <script src="{% static 'stars.js' %}"></script>
+                                <form id="comment_form" action="" class="was-validated" method="post">
+                                    <div class="col-md-12 mb-3">
+                                        <label for="title">Title:</label>
+                                        <input type="text" minlength="5" maxlength="150" class="form-control" id="title" placeholder="Write a useful title for your comment" required>
+                                        <div class="invalid-feedback">
+                                            Length must be between 5 and 150 characters
+                                        </div>
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                        <label for="body">Comment:</label>
+                                        <textarea type="text" minlength="10" maxlength="500" class="form-control" id="body" placeholder="Write a comment to the book" required></textarea>
+                                        <div class="invalid-feedback">
+                                            Length must be between 10 and 500 characters
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
+                                    <button id="cancel" class="btn btn-secondary" style="display:none;">Cancel</button>
+                                </form>
+                                <hr class="my-2">
+                            </div>
+                        </div>
                     </div>
-                    {% endfor %}
+                    <!-- Show comments -->
+                    <div class="card border-0">
+                        {% for comment in comments %}
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
+                                        <p class="text-secondary text-center" style="font-size: 10px;">{{ comment.date }}</p>
+                                    </div>
+                                    <div class="col-md-11" id="comment-{{ comment.made_by }}">
+                                        <p style="display: inline-block;"><strong>{{ comment.title }}</strong> by {{ comment.made_by }} &nbsp</p>
+                                        {% for item in comment.stars|add:"0"|times %}
+                                        <span><i class="text-warning fa fa-star"></i></span>
+                                        {% endfor %} 
+                                        {% if user == comment.made_by %}
+                                            <button class="float-right btn btn-success btn-sm rounded-5" type="button" title="Edit" onclick="editComment()"><i class="fa fa-edit"></i></button>
+                                            <button class="float-right btn btn-danger btn-sm rounded-5" type="button"title="Delete" onclick="deleteComment()"><i class="fa fa-trash"></i></button>
+                                        {% endif %}
+                                        <p id="comment-body-{{ comment.made_by }}">{{ comment.body }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
-        </div>
+        </div> 
     </div>
 </div>
+<script>
+    document.getElementById("comment_form").addEventListener("submit", submitForm);
+    var stars = 0;
+    if ("{{ num_comments }}" != 0){
+        $("#addCommentButton").hide();
+    }
+
+    function starsRate(clicked_id)
+    {
+        stars = clicked_id;
+    }
+    document.getElementById('comment_form').addEventListener('submit', function(event){
+        if(stars == 0){
+            event.preventDefault();
+            alert("Please, give a rate before submiting");
+            return false;
+        }else{
+            alert("Thank you! Your comment has been correctly added");
+        }
+    });
+    function submitForm() {
+        if(starts != 0){
+            alert("The form was submitted");
+        }
+    }
+    function findComment() {
+        
+    }
+
+    function addComment() {
+        if("{{ request.user.is_authenticated }}" == "True" && "{{ num_comments }}" == 0){
+            document.getElementById('divComment').style.display = "block";
+        }else if ("{{ num_comments }}" != 0){
+            alert("Sorry, you already have a comment on this book");
+        }else{
+            window.location.href = '/login';
+        }
+    }
+    function editComment(comment) {
+        var comment = $("#comment-{{ user }}");
+        var title = comment.find("strong")[0].innerText;
+        var body = $("#comment-body-{{ user }}")[0].innerText;
+        var star_rate = "star-".concat("{{ user_comment.stars }}");
+        document.getElementById('divComment').style.display = "block";
+        document.getElementById('cancel').style.display = "inline-block";
+        document.getElementById('divComment').focus();
+        document.getElementById('title').value = title;
+        document.getElementById('body').value = body;
+        document.getElementById(star_rate).click();
+    }
+    function deleteComment() {
+        //Delete element
+        $("#addCommentButton").show();
+    }
+
+</script>
 {% endblock content %}

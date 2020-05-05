@@ -64,8 +64,13 @@ In the file DOMAIN.md you can find implementation details of our code and domain
 * [Git](https://git-scm.com/) - Version control system
 * [GitHub](https://github.com/) - Software development platform
 
-Authors:
+## Authors
+
 - Josep Maria Salvia Hornos
 - Balma Cascón Piñol
 - Anna Torres Tuca
 - Sara Quejido Garriga
+
+### Attribution
+
+Icons made by [Freepik](https://www.flaticon.com/authors/freepik "Freepik") from [www.flaticon.com](https://www.flaticon.com/ "Flaticon")
