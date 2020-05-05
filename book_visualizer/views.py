@@ -227,8 +227,12 @@ def change_password(request):
 		return render(request, 'change_password.html', args)
 
 class CommentViewSet(viewsets.ModelViewSet):
-	serializer_class = serializers.CommentSerializer
 	permission_classes = [permissions.IsOwnerOrReadOnly|IsAdminUser]
+
+	def get_serializer_class(self):
+		if self.request.method == 'POST':
+			return serializers.PostCommentSerializer
+		return serializers.GetCommentSerializer
 
 	def get_queryset(self):
 		queryset = Comment.objects.all()
