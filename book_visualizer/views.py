@@ -13,7 +13,7 @@ from django.core.mail import send_mail, BadHeaderError
 
 from rest_framework import viewsets
 
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly
 from . import api_to_db, serializers, permissions
 
 from random import shuffle
@@ -227,7 +227,7 @@ def change_password(request):
 		return render(request, 'change_password.html', args)
 
 class CommentViewSet(viewsets.ModelViewSet):
-	permission_classes = [permissions.IsOwnerOrReadOnly|IsAdminUser]
+	permission_classes = [permissions.IsOwnerOrReadOnlyComment|IsAdminUser]
 
 	def get_serializer_class(self):
 		if self.request.method == 'POST':
@@ -242,4 +242,18 @@ class CommentViewSet(viewsets.ModelViewSet):
 			if not book_set.exists():
 				return Comment.objects.none()
 			queryset = queryset.filter(based_on=book_set.first())
+		return queryset
+
+class WishViewSet(viewsets.ModelViewSet):
+	permission_classes = [IsAuthenticatedOrReadOnly]
+
+	def get_serializer_class(self):
+		if self.request.method == 'POST':
+			return serializers.PostWishSerializer
+		return serializers.GetWishSerializer
+
+	def get_queryset(self):
+		queryset = Book.objects.all()
+		user = self.request.user
+		queryset = queryset.filter(whised_by=user)
 		return queryset

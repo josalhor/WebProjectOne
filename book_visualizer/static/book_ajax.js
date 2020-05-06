@@ -31,12 +31,26 @@ function getCookie(name) {
 
 function postComent(comment, onSuccess, onFail){
     comment['csrfmiddlewaretoken'] = window.CSRF_TOKEN;
-    console.log(restPath());
     $.ajax({
         type: "POST",
         dataType: "json",
         url: restPath(),
         data: comment,
+        headers: {'X-CSRFToken': getCookie('csrftoken')},
+        success: onSuccess,
+        error: onFail
+    });
+}
+
+function wishBook(isbn, onSuccess, onFail){
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: restPath(),
+        data: {
+            "isbn": isbn,
+            "csrfmiddlewaretoken": window.CSRF_TOKEN
+        },
         headers: {'X-CSRFToken': getCookie('csrftoken')},
         success: onSuccess,
         error: onFail
