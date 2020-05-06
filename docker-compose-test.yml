@@ -3,7 +3,6 @@ version: '3.6'
 services:
   test_web:
     container_name: web_project_testing
-    restart: on-failure
     # this is technically not necessary
     # because the Dockerfile already does
     # this if not env is set
@@ -22,5 +21,3 @@ services:
       - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS-*}
       - SECRET_KEY=${SECRET_KEY-qu_0pu7t9+nw9amxw+^i#!k+em+k9kmtc5m+h)loo0!%sjiml1}
       - TESTING=1
-    stdin_open: true
-    tty: true
