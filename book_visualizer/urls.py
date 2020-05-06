@@ -7,6 +7,7 @@ from .views import emailView, successView
 
 router = routers.DefaultRouter()
 router.register('comments', views.CommentViewSet, 'Comments')
+router.register('wishes', views.WishViewSet, 'Wishes')
 
 urlpatterns = [
 	path('login/', LoginView.as_view(authentication_form=forms.AuthenticationForm), name='login'),
