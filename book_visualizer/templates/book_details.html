@@ -111,7 +111,7 @@
                                     </span>
                                 </div>
                                 <script src="{% static 'stars.js' %}"></script>
-                                <form id="comment_form" action="" class="was-validated" method="post">
+                                <form id="comment_form" action="" class="was-validated">
                                     <div class="col-md-12 mb-3">
                                         <label for="title">Title:</label>
                                         <input type="text" minlength="5" maxlength="150" class="form-control" id="title" placeholder="Write a useful title for your comment" required>
@@ -169,10 +169,15 @@
         $("#addCommentButton").hide();
     }
 
-    function starsRate(clicked_id)
-    {
+    function starsRate(clicked_id){
         stars = clicked_id;
     }
+
+    $("#comment_form").submit(function(e) {
+       e.preventDefault();
+       return false;
+    });
+
     document.getElementById('comment_form').addEventListener('submit', function(event){
         if(stars == 0){
             event.preventDefault();
@@ -182,13 +187,15 @@
             alert("Thank you! Your comment has been correctly added");
         }
     });
+
     function submitForm() {
         if(starts != 0){
             alert("The form was submitted");
         }
     }
-    function findComment() {
-        
+
+    var onSuccess = function (data) {
+       alert(data);
     }
 
     function addComment() {
@@ -200,6 +207,7 @@
             window.location.href = '/login';
         }
     }
+
     function editComment(comment) {
         var comment = $("#comment-{{ user }}");
         var title = comment.find("strong")[0].innerText;
