@@ -14,7 +14,7 @@ class Book(models.Model):
 	bestsellers_date = models.DateField()
 	publisher = models.CharField(max_length = 150) 
 	summary = models.TextField(max_length = 500, help_text = "Write a brief summary of this book, without spoiling")
-	whished_by = models.ManyToManyField('User', related_name='whishes')
+	wished_by = models.ManyToManyField('User', related_name='wishes')
 	
 	def __str__(self):
 		return '%s - %s' % (self.isbn, self.title)

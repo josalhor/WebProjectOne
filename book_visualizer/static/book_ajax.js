@@ -9,8 +9,12 @@ function searchIsbn(isbn){
     return 'https://www.googleapis.com/books/v1/volumes?q=isbn:'+isbn;
 }
 
-function restPath(){
+function restPathComments(){
     return window.location.origin + '/api/comments/';
+}
+
+function restPathWishes(){
+    return window.location.origin + '/api/wishes/';
 }
 
 function getCookie(name) {
@@ -34,7 +38,7 @@ function postComment(comment, onSuccess, onFail){
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: restPath(),
+        url: restPathComments(),
         data: comment,
         headers: {'X-CSRFToken': getCookie('csrftoken')},
         success: onSuccess,
@@ -46,9 +50,23 @@ function wishBook(isbn, onSuccess, onFail){
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: restPath(),
+        url: restPathWishes(),
         data: {
             "isbn": isbn,
+            "csrfmiddlewaretoken": window.CSRF_TOKEN
+        },
+        headers: {'X-CSRFToken': getCookie('csrftoken')},
+        success: onSuccess,
+        error: onFail
+    });
+}
+
+function unWishBook(isbn, onSuccess, onFail){
+    $.ajax({
+        type: "DELETE",
+        dataType: "json",
+        url: restPathWishes() + isbn,
+        data: {
             "csrfmiddlewaretoken": window.CSRF_TOKEN
         },
         headers: {'X-CSRFToken': getCookie('csrftoken')},
