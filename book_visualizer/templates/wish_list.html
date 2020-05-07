@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="jumbotron">
+	<div class="container">
+		<h1 style='font-weight: bold;'>{{ user }} WISH BOOKS</h1>
+	</div>
+</section>
+<div class="container">
+	<div class="row">
+	</div>
+</div>
+<div class="container">
+	<script src="{% static 'book_ajax.js' %}"></script>
+	<div class="row">
+		<div class="col">
+			<div class="row">
+				{% for book in books %}
+					<div class="col-12 col-md-6 col-lg-4">
+						<div class="card" style="width: 18rem;">
+							<div class="card-body">
+								<a href="{% url 'book_details' book.pk %}">
+									<img id="book-thumb-{{book.isbn}}" class="card-img-top mx-auto d-block" style="border-radius:0;width:140px;height:200px;object-fit: contain" src="{% static 'stock_temp.jpg' %}"/>
+								</a>
+								<script>
+									setBookImg($('#book-thumb-{{book.isbn}}'), "{{book.isbn}}");
+								</script>
+								<h4 class="card-title text-truncate"><a href="{% url 'book_details' book.pk %}" title="View Book">{{ book.title }}</a></h4>
+								<h6 class="card-subtitle mb-2 text-muted text-truncate">{{ book.author }}</h6>
+								<div class="card-text" style="line-height: 1.5em;height: 6em;overflow: hidden;">{{ book.summary }}</div>
+								<div class="row">
+									<div class="col">
+										<p><a href="{% url 'book_details' book.pk %}" class="btn btn-danger btn-block"> Read More </a></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+                {% endfor %}
+				<div class="col-12">
+					<nav aria-label="...">
+						<ul class="pagination justify-content-end mb-4">
+							{% if books_list.has_previous %}
+								<li class="page-item activate">
+									<a class="page-link" href="?page={{ books.previous_page_number }}">Previous</a>
+								</li>
+							{% else %}
+								<li class="page-item disabled">
+									<a class="page-link" href="#">Previous</a>
+								</li>
+							{% endif %}
+					
+							<li class="page-item active"><a class="page-link" href="#">{{ books_list.number }}</a>
+								<span class="sr-only">(current)</span>
+							</li>
+
+							{% if books_list.has_next %}
+								<li class="page-item activate">
+									<a class="page-link" href="?page={{ books_list.next_page_number }}">Next</a>
+								</li>
+							{% else %}
+								<li class="page-item disabled">
+									<a class="page-link" href="#">Next</a>
+								</li>
+							{% endif %}
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

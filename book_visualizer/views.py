@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 from .forms import UserCreationForm, ContactForm, UserChangeForm, UserForm
-from .models import Book, BestSellersListName, BestSellers, Comment
+from .models import Book, BestSellersListName, BestSellers, Comment, User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
 from django.contrib.auth.forms import PasswordChangeForm
@@ -69,6 +69,8 @@ def book_details(request, pk):
 	num_comments_user = 0
 	average  = 0
 	num_stars = 0
+	wished_books = -1
+	added_book = False
 	for comment in comments:
 		average = average + int(comment.stars)
 		num_comments = num_comments + 1
@@ -82,6 +84,10 @@ def book_details(request, pk):
 	
 	if request.user.is_authenticated:
 		num_comments_user = Comment.objects.filter(made_by=request.user, based_on=book).count()
+		u = User.objects.get(username=request.user)
+		wished_books = u.whishes.all()
+		if(wished_books.filter(pk=pk).count() == 1): added_book = True
+
 
 	context = {
 		'book': book,
@@ -89,10 +95,42 @@ def book_details(request, pk):
 		'num_comments_user': num_comments_user,
 		'comments': comments,
 		'average': average,
-		'num_stars': num_stars
+		'num_stars': num_stars,
+		'wished_books': wished_books,
+		'added_book': added_book
 	}
 
 	return render(request, 'book_details.html', context)
+
+def wish_list(request, user):
+	"""Adds the book to the user's wish list.
+
+	Parameters:
+	request (request): Browser request for the view.
+
+	"""
+
+	u = User.objects.get(username=user)
+	wished_books = u.whishes.all()
+
+	page = request.GET.get('page', 1)
+	paginator = Paginator(wished_books, 6) # Show 6 books per page
+	
+	try:
+		books_list = paginator.page(page)
+	except PageNotAnInteger:
+		books_list = paginator.page(1)
+	except EmptyPage:
+		books_list = paginator.page(paginator.num_pages)
+	
+
+	context = {
+		'books': wished_books,
+		'books_list': books_list
+	}
+
+	return render(request, 'wish_list.html', context)
+
 
 def search(request):
 	"""Filters books by category and/or date and/or name.

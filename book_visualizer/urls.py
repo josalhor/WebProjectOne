@@ -13,6 +13,7 @@ urlpatterns = [
 	path('login/', LoginView.as_view(authentication_form=forms.AuthenticationForm), name='login'),
 	path('logout/', LogoutView.as_view(), name='logout'),
 	path('sign_up/', views.SignUp.as_view(), name='sign-up'),
+	path('account/<str:user>', views.wish_list, name='wish_list'),
 	path('account/', TemplateView.as_view(template_name='account.html'), name='account'),
 	path('contact/', emailView, name='contact'),
 	path('search', views.search, name='search'),

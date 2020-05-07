@@ -38,8 +38,8 @@
                     <h5 id="price" class="card-text">Price: <span style="color: grey;">Price no available</span></h5>
                     <br></br>
                     <form method="get" action="wish_list.html">
-                        <a href="added.html" class="btn btn-success btn-lg btn-block text-uppercase">
-                            <i class="fa fa-gift"></i> Add to a wish list
+                        <a id="list_ref" href="#" class="btn btn-success btn-lg btn-block text-uppercase" onclick="addToWishList()">
+                            <i class="fa fa-gift"></i> Add to my wish list
                         </a>
                     </form>
                     <div class="reviews_product p-3 mb-2 ">
@@ -201,21 +201,38 @@
             }
             var onFail = function () {
                 swal({   
-                    title: "Greeeat",   
-                    text: "Thank you :)",   
-                    icon: "success",
-                    buttons: false,
+                    title: "Oops",   
+                    text: "Something went wrong! Please try it again later.",   
+                    icon: "warning",
                 });
             }
             postComment(comment, onSuccess, onFail);
         }
     }
     function addComment() {
-        if("{{ request.user.is_authenticated }}" == "True" && "{{ num_comments_user }}" == 0){
-            document.getElementById('divComment').style.display = "block";
-        }else if (num_comments_user != 0){
+        if("{{ request.user.is_authenticated }}" == "True"){
+            alert('{{ wished_books }}')
+        }else{
+            window.location.href = '/login';
+        }
+    }
+
+    function addToWishList() {
+        if("{{ request.user.is_authenticated }}" == "True" && '{{ added_book }}' == "False"){
+            var onSuccess = function () {
+                document.getElementById('list_ref').getAttributeNode("href").value = "{% url 'wish_list' user %}";
+            }
+            var onFail = function () {
+                swal({   
+                    title: "Oops",   
+                    text: "Something went wrong! Please try it again later.",   
+                    icon: "warning",
+                });
+            }
+            wishBook('{{ book.isbn }}', onSuccess, onFail);
+        }else if ('{{ added_book }}' == "True"){
             swal({  
-                text: "Sorry, you already have a comment on this book",   
+                text: "This book is already in your wish list!",   
             });
         }else{
             window.location.href = '/login';
