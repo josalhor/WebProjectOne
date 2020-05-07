@@ -246,9 +246,10 @@ class CommentViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(based_on=book_set.first())
         return queryset
 
+
 class WishViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
-
+    
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return serializers.PostWishSerializer
