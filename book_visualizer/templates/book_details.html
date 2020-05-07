@@ -39,7 +39,7 @@
                     <br></br>
                     <form method="get" action="wish_list.html">
                         <a id="list_ref" {% if logged_in %} onclick="addToWishList()" {% else %} href="/login" {% endif %} href="#" class="btn btn-success btn-lg btn-block text-uppercase">
-                            <i class="fa fa-gift"></i> {% if wishes and logged_in %} Add {% else %} Remove {% endif %} to a wish list
+                            <i class="fa fa-gift"></i> {% if (not wishes) or (not logged_in) %} Add {% else %} Remove {% endif %} to a wish list
                         </a>
                     </form>
                     <div class="reviews_product p-3 mb-2 ">

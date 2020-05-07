@@ -58,69 +58,75 @@ def bestsellers_list(request):
     return render(request, 'home.html', context)
 
 def book_details(request, pk):
-	"""Filters books by ISBN.
+    """Filters books by ISBN.
 
-	Parameters:
-	request (request): Browser request for the view.
+    Parameters:
+    request (request): Browser request for the view.
 
-	pk (isbn): International Standard Book Number, 10 or 13 digits.
+    pk (isbn): International Standard Book Number, 10 or 13 digits.
 
-	"""
-	book = Book.objects.get(pk=pk)
-	comments = Comment.objects.all().filter(based_on = book).order_by('-date')
-	num_comments = 0
-	num_comments_user = 0
-	average  = 0
-	num_stars = 0
-	wished_books = -1
-	added_book = False
-	for comment in comments:
-		average = average + int(comment.stars)
-		num_comments = num_comments + 1
-	if num_comments == 0:
-		average = 0
-	else:
-		average = average / (num_comments)
-		average = round(average, 2)
+    """
+    book = Book.objects.get(pk=pk)
+    comments = Comment.objects.all().filter(based_on = book).order_by('-date')
+    num_comments = 0
+    num_comments_user = 0
+    average  = 0
+    num_stars = 0
+    wished_books = -1
+    added_book = False
+    for comment in comments:
+        average = average + int(comment.stars)
+        num_comments = num_comments + 1
+    if num_comments == 0:
+        average = 0
+    else:
+        average = average / (num_comments)
+        average = round(average, 2)
 
-	num_stars = round(average)
-	
-	if request.user.is_authenticated:
-		num_comments_user = Comment.objects.filter(made_by=request.user, based_on=book).count()
-		u = User.objects.get(username=request.user)
-		wished_books = u.wishes.all()
-		if(wished_books.filter(pk=pk).count() == 1): added_book = True
+    num_stars = round(average)
+    wishes = False
+    logged_in = False
+
+    if request.user.is_authenticated:
+        logged_in = True
+        num_comments_user = Comment.objects.filter(made_by=request.user, based_on=book).count()
+        u = User.objects.get(username=request.user)
+        wished_books = u.wishes.all()
+        wishes = request.user in book.wished_by.all()
+        if(wished_books.filter(pk=pk).count() == 1): added_book = True
 
 
-	context = {
-		'book': book,
-		'num_comments': num_comments,
-		'num_comments_user': num_comments_user,
-		'comments': comments,
-		'average': average,
-		'num_stars': num_stars,
-		'wished_books': wished_books,
-		'added_book': added_book
-	}
+    context = {
+        'book': book,
+        'wishes': wishes,
+        'logged_in': logged_in,
+        'num_comments': num_comments,
+        'num_comments_user': num_comments_user,
+        'comments': comments,
+        'average': average,
+        'num_stars': num_stars,
+        'wished_books': wished_books,
+        'added_book': added_book
+    }
 
-	return render(request, 'book_details.html', context)
+    return render(request, 'book_details.html', context)
 
 def wish_list(request, user):
-	"""Adds the book to the user's wish list.
+    """Adds the book to the user's wish list.
 
-	Parameters:
-	request (request): Browser request for the view.
+    Parameters:
+    request (request): Browser request for the view.
 
-	"""
+    """
 
-	u = User.objects.get(username=user)
-	wished_books = u.wishes.all()
+    u = User.objects.get(username=user)
+    wished_books = u.wishes.all()
 
-	context = {
-		'books_list': wished_books
-	}
+    context = {
+        'books_list': wished_books
+    }
 
-	return render(request, 'wish_list.html', context)
+    return render(request, 'wish_list.html', context)
 
 
 def search(request):
