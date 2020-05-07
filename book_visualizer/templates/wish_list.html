@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="jumbotron">
+	<div class="container">
+		<h1>{{ user }}  |  <em>WISH BOOKS</em></h1>
+	</div>
+</section>
+<div class="container">
+	<div class="row">
+	</div>
+</div>
+
+<div class="container">
+	<div class="row">
+		<table class="table table-hover table-striped">
+			<thead>
+			<tr class="thead-dark">
+				<th>#</th>
+				<th></th>
+				<th>Title & Author</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+			<tbody>
+				{% for book in books_list %}
+				<tr>
+					<td>
+						{{ forloop.counter }}
+					</td>
+					<td>
+						<div><a href="{% url 'book_details' book.pk %}">
+							<img id="book-thumb-{{book.isbn}}" class="card-img-top mx-auto d-block" style="border-radius:0;width:100px;height:143px;object-fit: contain" src="{% static 'stock_temp.jpg' %}"/>
+						</a><div>
+						<script>
+							setBookImg($('#book-thumb-{{book.isbn}}'), "{{book.isbn}}");
+						</script>
+					</td>
+					<td>
+						<b>{{ book.title }}</b> - {{ book.author }}
+					</td>
+					<td>
+						<button class="float-right btn btn-success btn-sm rounded-5" type="button" title="Edit"><i class="fa fa-edit"></i></button>
+                        <button class="float-right btn btn-danger btn-sm rounded-5" type="button"title="Delete"><i class="fa fa-trash"></i></button>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+{% endblock content %}
