@@ -29,7 +29,7 @@ function getCookie(name) {
     return cookieValue;
 }
 
-function postComent(comment, onSuccess, onFail){
+function postComment(comment, onSuccess, onFail){
     comment['csrfmiddlewaretoken'] = window.CSRF_TOKEN;
     $.ajax({
         type: "POST",
