@@ -12,6 +12,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.mail import send_mail, BadHeaderError
 
 from rest_framework import viewsets
+from rest_framework.settings import api_settings
+from rest_framework.response import Response
+from rest_framework import status
 
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from . import api_to_db, serializers, permissions
@@ -253,9 +256,6 @@ class CommentViewSet(viewsets.ModelViewSet):
         self.perform_destroy(instance)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-from rest_framework.settings import api_settings
-from rest_framework.response import Response
-from rest_framework import status
 class WishViewSet(viewsets.GenericViewSet):
     permission_classes = [IsAuthenticated]
 
