@@ -38,8 +38,8 @@
                     <h5 id="price" class="card-text">Price: <span style="color: grey;">Price no available</span></h5>
                     <br></br>
                     <form method="get" action="wish_list.html">
-                        <a href="added.html" class="btn btn-success btn-lg btn-block text-uppercase">
-                            <i class="fa fa-gift"></i> Add to a wish list
+                        <a {% if logged_in %} href="added.html" {% else %} href="/login" {% endif %} class="btn btn-success btn-lg btn-block text-uppercase">
+                            <i class="fa fa-gift"></i> {% if wishes and logged_in %} Add {% else %} Remove {% endif %} to a wish list
                         </a>
                     </form>
                     <div class="reviews_product p-3 mb-2 ">

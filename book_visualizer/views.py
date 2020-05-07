@@ -83,11 +83,17 @@ def book_details(request, pk):
 
     num_stars = round(average)
     
+    wishes = False
+    logged_in = False
     if request.user.is_authenticated:
+        logged_in = True
+        wishes = request.user in book.wished_by.all()
         num_comments_user = Comment.objects.filter(made_by=request.user, based_on=book).count()
 
     context = {
         'book': book,
+        'wishes': wishes,
+        'logged_in': logged_in,
         'num_comments': num_comments,
         'num_comments_user': num_comments_user,
         'comments': comments,
