@@ -84,8 +84,6 @@ def book_details(request, pk):
         average = round(average, 2)
 
     num_stars = round(average)
-    wishes = False
-    logged_in = False
 
     if request.user.is_authenticated:
         logged_in = True
@@ -98,8 +96,6 @@ def book_details(request, pk):
 
     context = {
         'book': book,
-        'wishes': wishes,
-        'logged_in': logged_in,
         'num_comments': num_comments,
         'num_comments_user': num_comments_user,
         'comments': comments,
