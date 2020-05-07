@@ -13,7 +13,7 @@ from django.core.mail import send_mail, BadHeaderError
 
 from rest_framework import viewsets
 
-from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from . import api_to_db, serializers, permissions
 
 from random import shuffle
@@ -246,25 +246,39 @@ class CommentViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(based_on=book_set.first())
         return queryset
 
+    def destroy(self, request, pk=None):
+        instance = Comment.objects.all().filter(
+            based_on=Book.objects.all().filter(isbn=pk).first()
+        ).first()
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
-class WishViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    
+from rest_framework.settings import api_settings
+from rest_framework.response import Response
+from rest_framework import status
+class WishViewSet(viewsets.GenericViewSet):
+    permission_classes = [IsAuthenticated]
+
     def get_serializer_class(self):
-        if self.request.method == 'POST':
-            return serializers.PostWishSerializer
-        return serializers.GetWishSerializer
+        return serializers.PostWishSerializer
+    
+    def create(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = request.user
+        book = Book.objects.all().filter(isbn=serializer.data['isbn']).first()
+        book.wished_by.add(user)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
-    def get_queryset(self):
-        queryset = Book.objects.all()
-        user = self.request.user
-        queryset = queryset.filter(wished_by=user)
-        return queryset
+    def get_success_headers(self, data):
+        try:
+            return {'Location': str(data[api_settings.URL_FIELD_NAME])}
+        except (TypeError, KeyError):
+            return {}
 
-    def destroy(self, request, *args, **kwargs):
-        print(args)
-        instance = self.get_object()
-
-    def perform_destroy(self, instance):
-        print(instance)
-        instance.delete()
+    def destroy(self, request, pk=None):
+        user = request.user
+        book = Book.objects.all().filter(isbn=pk).first()
+        book.wished_by.remove(user)
+        return Response(status=status.HTTP_204_NO_CONTENT)

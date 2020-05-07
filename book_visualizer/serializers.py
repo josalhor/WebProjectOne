@@ -22,18 +22,9 @@ class PostCommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ('title', 'body', 'stars', 'based_on')
 
-class GetWishSerializer(serializers.ModelSerializer):
+class PostWishSerializer(serializers.Serializer):
     
-    class Meta:
-        model = Book
-        fields = ('isbn', 'title', 'author', 'bestsellers_date', 'publisher', 'summary')
+    isbn = serializers.CharField(max_length=13)
 
-class PostWishSerializer(serializers.ModelSerializer):
-    
     def create(self, validated_data):
-        book = Book.objects.all().filter(isbn=validated_data['isbn']).first()
-        return book
-
-    class Meta:
-        model = Book
-        fields = ('isbn',)
+        return validated_data
