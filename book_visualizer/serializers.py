@@ -36,5 +36,15 @@ class PostWishSerializer(serializers.ModelSerializer):
         book.wished_by.add(user)
         return book
 
+    def destroy(self, request, *args, **kwargs):
+        from rest_framework.response import Response
+        from rest_framework import status
+        print(request)
+        instance = self.get_object()
+        print(instance)
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
     class Meta:
-        fields = ('isbn')
+        model = Book
+        fields = ('isbn',)
