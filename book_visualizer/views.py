@@ -64,8 +64,9 @@ def book_details(request, pk):
 
     """
     book = Book.objects.get(pk=pk)
-    comments = Comment.objects.all().filter(based_on = book)
+    comments = Comment.objects.all().filter(based_on = book).order_by('-date')
     num_comments = 0
+    num_comments_user = 0
     average  = 0
     num_stars = 0
     for comment in comments:
@@ -80,11 +81,12 @@ def book_details(request, pk):
     num_stars = round(average)
     
     if request.user.is_authenticated:
-        num_comments = Comment.objects.filter(made_by=request.user, based_on=book).count()
+        num_comments_user = Comment.objects.filter(made_by=request.user, based_on=book).count()
 
     context = {
         'book': book,
         'num_comments': num_comments,
+        'num_comments_user': num_comments_user,
         'comments': comments,
         'average': average,
         'num_stars': num_stars

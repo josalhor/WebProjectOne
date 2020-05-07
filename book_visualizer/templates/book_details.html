@@ -91,11 +91,7 @@
                             <button id="addCommentButton" class="btn btn-success pull-right" type="button" onclick="addComment()">
                                 Add new comment
                             </button>
-                            {% if num_comments != 1 %}
-                                    <h6>{{ num_comments }} reviews</h6>
-                                {% else %}
-                                    <h6>{{ num_comments }} review</h6>
-                            {% endif %}
+                            <h6 id="num_comments" ></h6>
                         </div>
                         <div id="divComment" style="display:none;">
                             <hr class="my-2">
@@ -111,17 +107,17 @@
                                     </span>
                                 </div>
                                 <script src="{% static 'stars.js' %}"></script>
-                                <form id="comment_form" action="" class="was-validated">
+                                <form id="comment_form" onsubmit="return sendComment(this)" class="was-validated">
                                     <div class="col-md-12 mb-3">
                                         <label for="title">Title:</label>
-                                        <input type="text" minlength="5" maxlength="150" class="form-control" id="title" placeholder="Write a useful title for your comment" required>
+                                        <input name="title" type="text" minlength="5" maxlength="150" class="form-control" id="title" placeholder="Write a useful title for your comment" required>
                                         <div class="invalid-feedback">
                                             Length must be between 5 and 150 characters
                                         </div>
                                         </div>
                                         <div class="col-md-12 mb-3">
                                         <label for="body">Comment:</label>
-                                        <textarea type="text" minlength="10" maxlength="500" class="form-control" id="body" placeholder="Write a comment to the book" required></textarea>
+                                        <textarea name="body" type="text" minlength="10" maxlength="500" class="form-control" id="body" placeholder="Write a comment to the book" required></textarea>
                                         <div class="invalid-feedback">
                                             Length must be between 10 and 500 characters
                                         </div>
@@ -148,8 +144,8 @@
                                         <span><i class="text-warning fa fa-star"></i></span>
                                         {% endfor %} 
                                         {% if user == comment.made_by %}
-                                            <button class="float-right btn btn-success btn-sm rounded-5" type="button" title="Edit" onclick="editComment()"><i class="fa fa-edit"></i></button>
-                                            <button class="float-right btn btn-danger btn-sm rounded-5" type="button"title="Delete" onclick="deleteComment()"><i class="fa fa-trash"></i></button>
+                                            <button class="float-right btn btn-success btn-sm rounded-5" type="button" title="Edit" onclick="editComment('{{comment.stars}}')"><i class="fa fa-edit"></i></button>
+                                            <!--<button class="float-right btn btn-danger btn-sm rounded-5" type="button"title="Delete" onclick="deleteComment()"><i class="fa fa-trash"></i></button>-->
                                         {% endif %}
                                         <p id="comment-body-{{ comment.made_by }}">{{ comment.body }}</p>
                                     </div>
@@ -163,9 +159,16 @@
     </div>
 </div>
 <script>
-    document.getElementById("comment_form").addEventListener("submit", submitForm);
     var stars = 0;
-    if ("{{ num_comments }}" != 0){
+    var stars_comment = 0;
+    var num_comments = '{{ num_comments }}';
+    var num_comments_user = '{{ num_comments_user }}';
+    if(num_comments == 1){
+        document.getElementById('num_comments').value = num_comments + "review";
+    }else{
+        document.getElementById('num_comments').value = num_comments + "reviews";
+    }
+    if (num_comments_user == 1){
         $("#addCommentButton").hide();
     }
 
@@ -173,51 +176,63 @@
         stars = clicked_id;
     }
 
-    $("#comment_form").submit(function(e) {
-       e.preventDefault();
-       return false;
-    });
-
-    document.getElementById('comment_form').addEventListener('submit', function(event){
-        if(stars == 0){
+    function sendComment(form){
+        var sent;
+        if(!([1,2,3,4,5].includes(stars))){
+            swal({title: "Please, give a rate before submiting"});
             event.preventDefault();
-            alert("Please, give a rate before submiting");
-            return false;
         }else{
-            alert("Thank you! Your comment has been correctly added");
-        }
-    });
+            comment_data = new Object();
+            comment_data.title = form.elements["title"].value;
+            comment_data.body = form.elements["body"].value;
+            comment_data. stars = stars.toString();
+            comment_data.based_on = '{{ book.isbn }}';
 
-    function submitForm() {
-        if(starts != 0){
-            alert("The form was submitted");
+            var comment = JSON.parse(JSON.stringify(comment_data));
+            var onSuccess = function () {
+                swal({   
+                    title: "Greeeat",   
+                    text: "Thank you :)",   
+                    icon: "success",
+                    buttons: false,
+                });
+                $("#addCommentButton").hide();
+                num_comments += 1;
+            }
+            var onFail = function () {
+                swal({   
+                    title: "Greeeat",   
+                    text: "Thank you :)",   
+                    icon: "success",
+                    buttons: false,
+                });
+            }
+            postComment(comment, onSuccess, onFail);
         }
     }
-
-    var onSuccess = function (data) {
-       alert(data);
-    }
-
     function addComment() {
-        if("{{ request.user.is_authenticated }}" == "True" && "{{ num_comments }}" == 0){
+        if("{{ request.user.is_authenticated }}" == "True" && "{{ num_comments_user }}" == 0){
             document.getElementById('divComment').style.display = "block";
-        }else if ("{{ num_comments }}" != 0){
-            alert("Sorry, you already have a comment on this book");
+        }else if (num_comments_user != 0){
+            swal({  
+                text: "Sorry, you already have a comment on this book",   
+            });
         }else{
             window.location.href = '/login';
         }
     }
 
-    function editComment(comment) {
+    function editComment(comment_stars) {
         var comment = $("#comment-{{ user }}");
         var title = comment.find("strong")[0].innerText;
         var body = $("#comment-body-{{ user }}")[0].innerText;
-        var star_rate = "star-".concat("{{ user_comment.stars }}");
+        var star_rate = "star-".concat(comment_stars.toString());
         document.getElementById('divComment').style.display = "block";
         document.getElementById('cancel').style.display = "inline-block";
         document.getElementById('divComment').focus();
         document.getElementById('title').value = title;
         document.getElementById('body').value = body;
+        document.getElementById(star_rate.toString()).click();
         document.getElementById(star_rate).click();
     }
     function deleteComment() {

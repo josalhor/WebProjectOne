@@ -33,6 +33,7 @@ function getCookie(name) {
     return cookieValue;
 }
 
+<<<<<<< HEAD
 function deleteComment(isbn, onSuccess, onFail){
     comment['csrfmiddlewaretoken'] = window.CSRF_TOKEN;
     $.ajax({
@@ -46,6 +47,8 @@ function deleteComment(isbn, onSuccess, onFail){
     });
 }
 
+=======
+>>>>>>> 339704fa28f3ea013246324283da01597e2d75b1
 function postComment(comment, onSuccess, onFail){
     comment['csrfmiddlewaretoken'] = window.CSRF_TOKEN;
     $.ajax({
