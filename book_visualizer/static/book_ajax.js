@@ -34,12 +34,13 @@ function getCookie(name) {
 }
 
 function deleteComment(isbn, onSuccess, onFail){
-    comment['csrfmiddlewaretoken'] = window.CSRF_TOKEN;
     $.ajax({
         type: "DELETE",
         dataType: "json",
         url: restPathComments() + isbn,
-        data: comment,
+        data: {
+            "csrfmiddlewaretoken": window.CSRF_TOKEN
+        },
         headers: {'X-CSRFToken': getCookie('csrftoken')},
         success: onSuccess,
         error: onFail
