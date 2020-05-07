@@ -225,8 +225,7 @@
     function addToWishList() {
         if("{{ request.user.is_authenticated }}" == "True" && '{{ added_book }}' == "False"){
             var onSuccess = function () {
-                document.getElementById('list_ref').getAttributeNode("href").value = "{% url 'wish_list' user %}";
-                document.getElementById('list_ref').click();
+                window.location.href = '/account/' + '{{user}}';
             }
             var onFail = function () {
                 swal({   
@@ -234,8 +233,6 @@
                     text: "Something went wrong! Please try it again later.",   
                     icon: "warning",
                 });
-                document.getElementById('list_ref').getAttributeNode("href").value = "{% url 'wish_list' user %}";
-                document.getElementById('list_ref').click();
             }
             var isbn = '{{ book.isbn }}';
             wishBook(isbn, onSuccess, onFail);
@@ -260,10 +257,6 @@
         document.getElementById('body').value = body;
         document.getElementById(star_rate.toString()).click();
         document.getElementById(star_rate).click();
-    }
-    function deleteComment() {
-        //Delete element
-        $("#addCommentButton").show();
     }
 
 </script>

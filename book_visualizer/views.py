@@ -116,19 +116,8 @@ def wish_list(request, user):
 	u = User.objects.get(username=user)
 	wished_books = u.wishes.all()
 
-	page = request.GET.get('page', 1)
-	paginator = Paginator(wished_books, 9) # Show 6 books per page
-	
-	try:
-		books_list = paginator.page(page)
-	except PageNotAnInteger:
-		books_list = paginator.page(1)
-	except EmptyPage:
-		books_list = paginator.page(paginator.num_pages)
-	
-
 	context = {
-		'books_list': books_list
+		'books_list': wished_books
 	}
 
 	return render(request, 'wish_list.html', context)
