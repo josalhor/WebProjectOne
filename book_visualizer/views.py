@@ -114,7 +114,7 @@ def wish_list(request, user):
 	wished_books = u.wishes.all()
 
 	page = request.GET.get('page', 1)
-	paginator = Paginator(wished_books, 6) # Show 6 books per page
+	paginator = Paginator(wished_books, 9) # Show 6 books per page
 	
 	try:
 		books_list = paginator.page(page)
@@ -125,7 +125,6 @@ def wish_list(request, user):
 	
 
 	context = {
-		'books': wished_books,
 		'books_list': books_list
 	}
 

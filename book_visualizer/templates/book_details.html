@@ -209,9 +209,14 @@
             postComment(comment, onSuccess, onFail);
         }
     }
+
     function addComment() {
-        if("{{ request.user.is_authenticated }}" == "True"){
-            alert('{{ wished_books }}')
+        if("{{ request.user.is_authenticated }}" == "True" && "{{ num_comments_user }}" == 0){
+            document.getElementById('divComment').style.display = "block";
+        }else if ("{{ num_comments_user }}" != 0){
+            swal({  
+                text: "Sorry, you already have a comment on this book",   
+            });
         }else{
             window.location.href = '/login';
         }
@@ -221,6 +226,7 @@
         if("{{ request.user.is_authenticated }}" == "True" && '{{ added_book }}' == "False"){
             var onSuccess = function () {
                 document.getElementById('list_ref').getAttributeNode("href").value = "{% url 'wish_list' user %}";
+                document.getElementById('list_ref').click();
             }
             var onFail = function () {
                 swal({   
@@ -228,8 +234,11 @@
                     text: "Something went wrong! Please try it again later.",   
                     icon: "warning",
                 });
+                document.getElementById('list_ref').getAttributeNode("href").value = "{% url 'wish_list' user %}";
+                document.getElementById('list_ref').click();
             }
-            wishBook('{{ book.isbn }}', onSuccess, onFail);
+            var isbn = '{{ book.isbn }}';
+            wishBook(isbn, onSuccess, onFail);
         }else if ('{{ added_book }}' == "True"){
             swal({  
                 text: "This book is already in your wish list!",   
