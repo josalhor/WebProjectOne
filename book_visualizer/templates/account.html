@@ -11,6 +11,7 @@
   <h5>Profile information:</h5>
   <p> - Username: {{ user.username }} <br/> - E-mail: {{ user.email }} </p>
   <br>
+  <a class="btn btn-primary mr-3" href="{% url 'wish_list' user=user.username %}">See wish List</a>
   <a class="btn btn-secondary" href="{% url 'edit_account' %}">Edit my profile</a>
   <a class="btn btn-secondary" href="{% url 'change_password' %}">Change my password</a>
   {% else %}
