@@ -382,12 +382,18 @@
         document.getElementsByClassName(star_id)[0].click();
     }
 
+    function updateAverage(){
+        {% if num_comments > 0 %}
+
+        {% endif %}
+    }
+
     function deleteReview(){
         swal({
             title: "Are you sure you want to delete this comment?",
             icon: "warning",
             buttons: [
-                'Calcel',
+                'Cancel',
                 'Sure'
             ],
             dangerMode: true,

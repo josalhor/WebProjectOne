@@ -285,7 +285,8 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     def destroy(self, request, pk=None):
         instance = Comment.objects.all().filter(
-            based_on=Book.objects.all().filter(isbn=pk).first()
+            based_on=Book.objects.all().filter(isbn=pk).first(),
+            made_by=request.user
         ).first()
         self.perform_destroy(instance)
         return Response(status=status.HTTP_204_NO_CONTENT)
