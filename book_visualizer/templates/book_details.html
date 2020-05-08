@@ -205,7 +205,6 @@
     }
 
     function starsRate(clicked_id){
-        previous_rate = stars;
         stars = clicked_id;
     }
 
@@ -233,20 +232,14 @@
             });
             var i;
             document.getElementById('divComment').style.display = "none";
+            console.log("new_comment:" + new_comment);
+            console.log("new_comment_edit:" + new_comment_edit);
             if(new_comment){
-                if (!new_comment_edit){
-                    new_comment_data = data;
-                    num_comments += 1;
-                    updateNumComments();
-                }
                 document.getElementById('newest_comment').style.display = "block";
                 document.getElementById('newest_date').innerText = new Date();
                 document.getElementById('newest_made_by').innerText = '{{user}}';
                 document.getElementById('newest_title').innerText = data.title; 
                 document.getElementById('comment-body-{{ user }}').innerText = data.body;
-                console.log(previous_rate);
-                console.log(data.stars);
-                console.log(new_comment_edit);
                 if(new_comment_edit){
                     if(data.stars > previous_rate){
                         for(i=previous_rate+1; i<=data.stars; i++){
@@ -254,7 +247,6 @@
                             document.getElementById(s).style.display = "inline-block";
                         }
                     }else{
-                        console.log('menos');
                         for(i=previous_rate; i<=data.stars; i--){
                             var s = 'star-{{ user }}-' + i.toString();
                             document.getElementById(s).style.display = "none";
@@ -262,12 +254,14 @@
                     }
                 }else{
                     for(i=5; i>data.stars; i--){
-                        var s = 'star-{{ user }}-' + i.toString();
-                        console.log(s);
-                        document.getElementById(s).style.display = "none";
+                    var s = 'star-{{ user }}-' + i.toString();
+                    document.getElementById(s).style.display = "none";
                     }
+                    new_comment = true;
+                    new_comment_data = data;
+                    num_comments += 1;
+                    updateNumComments();
                 }
-                cleanDivComment();
             }else{
                 var comment = $("#{{ user }}");
                 comment.find("strong")[0].innerText = data.title;
@@ -285,15 +279,18 @@
                         
                         existingNode.parentNode.insertBefore(span, existingNode.nextSibling);
                         var spacing = document.createTextNode("\u00A0");
-                        existingNode.parentNode.insertBefore(foo, span);
+                        existingNode.parentNode.insertBefore(spacing, span);
                     }
                 }else{
                     for(i=data.stars; i<old_rate; i++){
                         comment.find("span")[0].remove();
                     }
                 }
-                cleanDivComment();
+                new_comment_data = data;
+                num_comments += 1;
+                updateNumComments();
             }
+            cleanDivComment();
         }
         postComment(comment, onSuccess, onFail);
     }
@@ -368,6 +365,7 @@
             var comment = new_comment_data.body;
             var title = new_comment_data.title;
             var star_rate = new_comment_data.stars;
+            previous_rate = new_comment_data.stars;
         }else{
             var comment = $("#{{ user }}");
             var title = comment.find("strong")[0].innerText;
@@ -425,6 +423,7 @@
         $('.stars span').addClass('active');
         var value = $(this).attr('value');
         $('#stars_rate').val(value); // Expected to assign the value to the form attribute
+        console.log("valueee" + value);
     });
     $(document).ready(function() {
         $( "#star_rate" ).hide();
