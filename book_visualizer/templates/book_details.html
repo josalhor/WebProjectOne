@@ -364,6 +364,7 @@
             new_comment_edit = true;
             var comment = new_comment_data.body;
             var title = new_comment_data.title;
+            var body = new_comment_data.body;
             var star_rate = new_comment_data.stars;
             previous_rate = new_comment_data.stars;
         }else{
@@ -430,6 +431,7 @@
         $('label[for="stars_rate"]').hide();
     });
     updateWishButtonText();
+    cleanDivComment();
 
 </script>
 {% endblock content %}
