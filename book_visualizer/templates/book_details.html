@@ -38,8 +38,8 @@
                     <h5 id="price" class="card-text">Price: <span style="color: grey;">Price no available</span></h5>
                     <br></br>
                     <form method="get" action="wish_list.html">
-                        <a id="list_ref"onclick="addToWishList()" href="#" class="btn btn-success btn-lg btn-block text-uppercase">
-                            <i class="fa fa-gift"></i> Add to a wish list
+                        <a id="list_ref" href="#" class="btn btn-success btn-lg btn-block text-uppercase" onclick="addToWishList()">
+                            <i class="fa fa-gift"></i> Add to my wish list
                         </a>
                     </form>
                     <div class="reviews_product p-3 mb-2 ">
@@ -132,7 +132,7 @@
                     <!-- Show comments -->
                     <div class="card border-0">
                         {% for comment in comments %}
-                            <div class="card-body">
+                            <div class="card-body" id="{{ comment.made_by }}">
                                 <div class="row">
                                     <div class="col-md-1">
                                         <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
@@ -145,7 +145,7 @@
                                         {% endfor %} 
                                         {% if user == comment.made_by %}
                                             <button class="float-right btn btn-success btn-sm rounded-5" type="button" title="Edit" onclick="editComment('{{comment.stars}}')"><i class="fa fa-edit"></i></button>
-                                            <!--<button class="float-right btn btn-danger btn-sm rounded-5" type="button"title="Delete" onclick="deleteComment()"><i class="fa fa-trash"></i></button>-->
+                                            <button class="float-right btn btn-danger btn-sm rounded-5" type="button"title="Delete" onclick="deleteReview()"><i class="fa fa-trash"></i></button>
                                         {% endif %}
                                         <p id="comment-body-{{ comment.made_by }}">{{ comment.body }}</p>
                                     </div>
@@ -163,6 +163,7 @@
     var stars_comment = 0;
     var num_comments = '{{ num_comments }}';
     var num_comments_user = '{{ num_comments_user }}';
+    var isbn = '{{ book.isbn }}';
     if(num_comments == 1){
         document.getElementById('num_comments').value = num_comments + "review";
     }else{
@@ -234,7 +235,6 @@
                     icon: "warning",
                 });
             }
-            var isbn = '{{ book.isbn }}';
             wishBook(isbn, onSuccess, onFail);
         }else if ('{{ added_book }}' == "True"){
             swal({  
@@ -257,6 +257,37 @@
         document.getElementById('body').value = body;
         document.getElementById(star_rate.toString()).click();
         document.getElementById(star_rate).click();
+    }
+
+    function deleteReview(){
+        swal({
+            title: "Are you sure you want to delete this comment?",
+            icon: "warning",
+            buttons: [
+                'Calcel',
+                'Sure'
+            ],
+            dangerMode: true,
+        }).then(function(isConfirm) {
+            if (isConfirm) {
+                var onSuccess = function () {
+                    swal({
+                        title: "Success!", 
+                        text: "Your comment has been deleted successfully", 
+                        icon: "success"
+                    });
+                    document.getElementById('{{ user }}').style.display = "none";
+                }
+                var onFail = function () {
+                    swal({   
+                        title: "Oops",   
+                        text: "Something went wrong! Please try it again later.",   
+                        icon: "warning",
+                    });
+                }
+                deleteComment(isbn, onSuccess, onFail);
+            }
+        });
     }
 
 </script>
