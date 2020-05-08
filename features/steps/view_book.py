@@ -9,7 +9,7 @@ def step_impl(context, title, isbn):
     #assert book existeix
     
 
-@when('I click the book {isbn}')
+@when('Navigate to book {isbn}')
 def step_impl(context, isbn):
     context.browser.visit(context.get_url('/book/{isbn}'))
 

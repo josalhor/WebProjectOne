@@ -17,6 +17,5 @@ Feature: User can login and use authentication
     Scenario: Account creation
        When I signup as user "username" with password "testpass123"
         Then I am redirected to the login form
-        When I login as user "username" with password "testpass123"
-        Then I should be redirected to account url
+        And I can login as user "username" with password "testpass123"
 
