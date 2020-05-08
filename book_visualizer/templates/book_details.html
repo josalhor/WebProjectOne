@@ -43,12 +43,7 @@
                         </a>
                     </form>
                     <div class="reviews_product p-3 mb-2 ">
-                        {% if num_comments == 1 %}
-                            {{ num_comments }} review
-                        {% endif %}
-                        {% if num_comments == 0 or num_comments > 1 %}
-                            {{ num_comments }} reviews
-                        {% endif %}
+                        <span id="num_comments"></span>
                         {% for item in num_stars|add:"0"|times %}
                             <i class="fa fa-star"></i>
                         {% endfor %}
@@ -91,7 +86,6 @@
                             <button id="addCommentButton" class="btn btn-success pull-right" type="button" onclick="addComment()">
                                 Add new comment
                             </button>
-                            <h6 id="num_comments" ></h6>
                         </div>
                         <div id="divComment" style="display:none;">
                             <hr class="my-2">
@@ -201,9 +195,9 @@
 
     function updateNumComments() {
         if(num_comments == 1){
-            document.getElementById('num_comments').value = num_comments + "review";
+            $('#num_comments').text(num_comments + " review");
         }else{
-            document.getElementById('num_comments').value = num_comments + "reviews";
+            $('#num_comments').text(num_comments + " reviews");
         }
         if (num_comments_user == 1){
             $("#addCommentButton").hide();
@@ -220,88 +214,88 @@
         event.preventDefault();
         if(!([1,2,3,4,5].includes(stars))){
             swal({title: "Please, give a rate before submiting"});
-        }else{
-            comment_data = new Object();
-            comment_data.title = form.elements["title"].value;
-            comment_data.body = form.elements["body"].value;
-            comment_data.stars = stars.toString();
-            comment_data.based_on = '{{ book.isbn }}';
+            return;
+        }
+        comment_data = new Object();
+        comment_data.title = form.elements["title"].value;
+        comment_data.body = form.elements["body"].value;
+        comment_data.stars = stars.toString();
+        comment_data.based_on = '{{ book.isbn }}';
 
-            var comment = comment_data;
-            var onSuccess = function (data) {
-                swal({   
-                    title: "Greeeat",   
-                    text: "Thank you :)",   
-                    icon: "success",
-                    timer: 1500,
-                    buttons: false,
-                });
-                var i;
-                document.getElementById('divComment').style.display = "none";
-                if(new_comment){
-                    if (!new_comment_edit){
-                        new_comment_data = data;
-                        num_comments += 1;
-                        updateNumComments();
-                    }
-                    document.getElementById('newest_comment').style.display = "block";
-                    document.getElementById('newest_date').innerText = new Date();
-                    document.getElementById('newest_made_by').innerText = '{{user}}';
-                    document.getElementById('newest_title').innerText = data.title; 
-                    document.getElementById('comment-body-{{ user }}').innerText = data.body;
-                    console.log(previous_rate);
-                    console.log(data.stars);
-                    console.log(new_comment_edit);
-                    if(new_comment_edit){
-                        if(data.stars > previous_rate){
-                            for(i=previous_rate+1; i<=data.stars; i++){
-                                var s = 'star-{{ user }}-' + i.toString();
-                                document.getElementById(s).style.display = "inline-block";
-                            }
-                        }else{
-                            console.log('menos');
-                            for(i=previous_rate; i<=data.stars; i--){
-                                var s = 'star-{{ user }}-' + i.toString();
-                                document.getElementById(s).style.display = "none";
-                            }
+        var comment = comment_data;
+        var onSuccess = function (data) {
+            swal({   
+                title: "Greeeat",   
+                text: "Thank you :)",   
+                icon: "success",
+                timer: 1500,
+                buttons: false,
+            });
+            var i;
+            $('#divComment').style.display = "none";
+            if(new_comment){
+                if (!new_comment_edit){
+                    new_comment_data = data;
+                    num_comments += 1;
+                    updateNumComments();
+                }
+                document.getElementById('newest_comment').style.display = "block";
+                document.getElementById('newest_date').innerText = new Date();
+                document.getElementById('newest_made_by').innerText = '{{user}}';
+                document.getElementById('newest_title').innerText = data.title; 
+                document.getElementById('comment-body-{{ user }}').innerText = data.body;
+                console.log(previous_rate);
+                console.log(data.stars);
+                console.log(new_comment_edit);
+                if(new_comment_edit){
+                    if(data.stars > previous_rate){
+                        for(i=previous_rate+1; i<=data.stars; i++){
+                            var s = 'star-{{ user }}-' + i.toString();
+                            document.getElementById(s).style.display = "inline-block";
                         }
                     }else{
-                        for(i=5; i>data.stars; i--){
+                        console.log('menos');
+                        for(i=previous_rate; i<=data.stars; i--){
                             var s = 'star-{{ user }}-' + i.toString();
-                            console.log(s);
                             document.getElementById(s).style.display = "none";
                         }
                     }
-                    cleanDivComment();
                 }else{
-                    var comment = $("#{{ user }}");
-                    comment.find("strong")[0].innerText = data.title;
-                    comment.find("p")[0].innerText = data.date;
-                    comment.find("p")[2].innerText = data.body;
-                    var old_rate = comment.find("span").length;
-                    var i_class = 'text-warning fa fa-star';
-                    var existingNode = comment.find("span")[0];
-                    if(data.stars > old_rate){
-                        for(i=old_rate; i<data.stars; i++){
-                            var span = document.createElement("span");
-                            var i_elem = document.createElement("i");
-                            i_elem.setAttribute('class', i_class);
-                            span.appendChild(i_elem);
-                            
-                            existingNode.parentNode.insertBefore(span, existingNode.nextSibling);
-                            var spacing = document.createTextNode("\u00A0");
-                            existingNode.parentNode.insertBefore(foo, span);
-                        }
-                    }else{
-                        for(i=data.stars; i<old_rate; i++){
-                            comment.find("span")[0].remove();
-                        }
+                    for(i=5; i>data.stars; i--){
+                        var s = 'star-{{ user }}-' + i.toString();
+                        console.log(s);
+                        document.getElementById(s).style.display = "none";
                     }
-                    cleanDivComment();
                 }
+                cleanDivComment();
+            }else{
+                var comment = $("#{{ user }}");
+                comment.find("strong")[0].innerText = data.title;
+                comment.find("p")[0].innerText = data.date;
+                comment.find("p")[2].innerText = data.body;
+                var old_rate = comment.find("span").length;
+                var i_class = 'text-warning fa fa-star';
+                var existingNode = comment.find("span")[0];
+                if(data.stars > old_rate){
+                    for(i=old_rate; i<data.stars; i++){
+                        var span = document.createElement("span");
+                        var i_elem = document.createElement("i");
+                        i_elem.setAttribute('class', i_class);
+                        span.appendChild(i_elem);
+                        
+                        existingNode.parentNode.insertBefore(span, existingNode.nextSibling);
+                        var spacing = document.createTextNode("\u00A0");
+                        existingNode.parentNode.insertBefore(foo, span);
+                    }
+                }else{
+                    for(i=data.stars; i<old_rate; i++){
+                        comment.find("span")[0].remove();
+                    }
+                }
+                cleanDivComment();
             }
-            postComment(comment, onSuccess, onFail);
         }
+        postComment(comment, onSuccess, onFail);
     }
 
     function addComment() {
