@@ -87,11 +87,8 @@ def book_details(request, pk):
     num_stars = round(average)
 
     if request.user.is_authenticated:
-        logged_in = True
         num_comments_user = Comment.objects.filter(made_by=request.user, based_on=book).count()
-        u = User.objects.get(username=request.user)
-        wished_books = u.wishes.all()
-        wishes = request.user in book.wished_by.all()
+        wished_books = request.user.wishes.all()
         if(wished_books.filter(pk=pk).count() == 1): added_book = True
 
 
