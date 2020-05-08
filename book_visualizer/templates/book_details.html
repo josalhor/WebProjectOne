@@ -98,15 +98,14 @@
                             <div class="card card-body border-0">
                                 <h4>Leave a comment</h4>
                                 <div class="form-group stars">
-                                    <span class="rate required">
-                                        <a class="star-1" id="star-1" onClick="starsRate(1)">1</a>
-                                        <a class="star-2" id="star-2" onClick="starsRate(2)">2</a>
-                                        <a class="star-3" id="star-3" onClick="starsRate(3)">3</a>
-                                        <a class="star-4" id="star-4" onClick="starsRate(4)">4</a>
-                                        <a class="star-5" id="star-5" onClick="starsRate(5)">5</a>
+                                    <span class="rate required" id="rate required">
+                                        <a class="star-1" onclick="starsRate(1)">1</a>
+                                        <a class="star-2" onclick="starsRate(2)">2</a>
+                                        <a class="star-3" onclick="starsRate(3)">3</a>
+                                        <a class="star-4" onclick="starsRate(4)">4</a>
+                                        <a class="star-5" onclick="starsRate(5)">5</a>
                                     </span>
                                 </div>
-                                <script src="{% static 'stars.js' %}"></script>
                                 <form id="comment_form" onsubmit="return sendComment(this)" class="was-validated">
                                     <div class="col-md-12 mb-3">
                                         <label for="title">Title:</label>
@@ -130,9 +129,29 @@
                         </div>
                     </div>
                     <!-- Show comments -->
-                    <div class="card border-0">
+                    <div class="card border-0" style="display: none;" id="newest_comment">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
+                                    <p class="text-secondary text-center" style="font-size: 10px;" id="newest_date"></p>
+                                </div>
+                                <div class="col-md-11" id="comment-{{ user }}">
+                                    <p style="display: inline-block;"><div style="display: inline-block;"><strong id="newest_title"></strong></div></strong> by <div style="display: inline-block;" id="newest_made_by"></div> &nbsp
+                                    {% for item in 5|add:"0"|times %}
+                                    <span id="newest_stars" style="display: inline-block;"><i id="star-{{ user }}-{{ forloop.counter }}" class="text-warning fa fa-star"></i></span>
+                                    {% endfor %} 
+                                        <button class="float-right btn btn-success btn-sm rounded-5" type="button" title="Edit" onclick="editComment(0)"><i class="fa fa-edit"></i></button>
+                                        <button class="float-right btn btn-danger btn-sm rounded-5" type="button"title="Delete" onclick="deleteReview()"><i class="fa fa-trash"></i></button>
+                                    </p>
+                                    <p id="comment-body-{{ user }}"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card border-0" style="display: block;">
                         {% for comment in comments %}
-                            <div class="card-body" id="{{ comment.made_by }}">
+                            <div class="card-body" id='{{ comment.made_by }}'>
                                 <div class="row">
                                     <div class="col-md-1">
                                         <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
@@ -161,44 +180,113 @@
 <script>
     var stars = 0;
     var stars_comment = 0;
+    var new_comment = false;
+    var new_comment_edit = false;
+    var new_comment_data;
+    var previous_rate = 0;
     var num_comments = '{{ num_comments }}';
     var num_comments_user = '{{ num_comments_user }}';
     var isbn = '{{ book.isbn }}';
-    if(num_comments == 1){
-        document.getElementById('num_comments').value = num_comments + "review";
-    }else{
-        document.getElementById('num_comments').value = num_comments + "reviews";
-    }
-    if (num_comments_user == 1){
-        $("#addCommentButton").hide();
+    var newest_comment;
+    updateNumComments();
+
+    function updateNumComments() {
+        if(num_comments == 1){
+            document.getElementById('num_comments').value = num_comments + "review";
+        }else{
+            document.getElementById('num_comments').value = num_comments + "reviews";
+        }
+        if (num_comments_user == 1){
+            $("#addCommentButton").hide();
+        }
     }
 
     function starsRate(clicked_id){
+        previous_rate = stars;
         stars = clicked_id;
     }
 
     function sendComment(form){
         var sent;
+        event.preventDefault();
         if(!([1,2,3,4,5].includes(stars))){
             swal({title: "Please, give a rate before submiting"});
-            event.preventDefault();
         }else{
             comment_data = new Object();
             comment_data.title = form.elements["title"].value;
             comment_data.body = form.elements["body"].value;
-            comment_data. stars = stars.toString();
+            comment_data.stars = stars.toString();
             comment_data.based_on = '{{ book.isbn }}';
 
             var comment = JSON.parse(JSON.stringify(comment_data));
-            var onSuccess = function () {
+            var onSuccess = function (data) {
                 swal({   
                     title: "Greeeat",   
                     text: "Thank you :)",   
                     icon: "success",
+                    timer: 1500,
                     buttons: false,
                 });
-                $("#addCommentButton").hide();
-                num_comments += 1;
+                var i;
+                document.getElementById('divComment').style.display = "none";
+                if(new_comment){
+                    if (!new_comment_edit){
+                        new_comment_data = data;
+                        num_comments += 1;
+                        updateNumComments();
+                    }
+                    document.getElementById('newest_comment').style.display = "block";
+                    document.getElementById('newest_date').innerText = new Date();
+                    document.getElementById('newest_made_by').innerText = '{{user}}';
+                    document.getElementById('newest_title').innerText = data.title; 
+                    document.getElementById('comment-body-{{ user }}').innerText = data.body;
+                    console.log(previous_rate);
+                    console.log(data.stars);
+                    console.log(new_comment_edit);
+                    if(new_comment_edit){
+                        if(data.stars > previous_rate){
+                            for(i=previous_rate+1; i<=data.stars; i++){
+                                var s = 'star-{{ user }}-' + i.toString();
+                                document.getElementById(s).style.display = "inline-block";
+                            }
+                        }else{
+                            console.log('menos');
+                            for(i=previous_rate; i<=data.stars; i--){
+                                var s = 'star-{{ user }}-' + i.toString();
+                                document.getElementById(s).style.display = "none";
+                            }
+                        }
+                    }else{
+                        for(i=5; i>data.stars; i--){
+                            var s = 'star-{{ user }}-' + i.toString();
+                            console.log(s);
+                            document.getElementById(s).style.display = "none";
+                        }
+                    }
+                    cleanDivComment();
+                }else{
+                    var comment = $("#{{ user }}");
+                    comment.find("strong")[0].innerText = data.title;
+                    comment.find("p")[0].innerText = data.date;
+                    comment.find("p")[2].innerText = data.body;
+                    var old_rate = comment.find("span").length;
+                    var i_class = 'text-warning fa fa-star';
+                    var existingNode = comment.find("span")[0];
+                    if(data.stars > old_rate){
+                        for(i=old_rate; i<data.stars; i++){
+                            var span = document.createElement("span");
+                            var i_elem = document.createElement("i");
+                            i_elem.setAttribute('class', i_class);
+                            span.appendChild(i_elem);
+                            existingNode.parentNode.insertBefore(span, existingNode.nextSibling);
+                        }
+                    }else{
+                        for(i=data.stars; i<old_rate; i++){
+                            comment.find("span")[0].remove();
+                        }
+                    }
+                    cleanDivComment();
+                }
             }
             var onFail = function () {
                 swal({   
@@ -212,15 +300,24 @@
     }
 
     function addComment() {
-        if("{{ request.user.is_authenticated }}" == "True" && "{{ num_comments_user }}" == 0){
+        new_comment = true;
+        if("{{ request.user.is_authenticated }}" == "True" && num_comments_user == "0"){
+            $("#addCommentButton").hide();
             document.getElementById('divComment').style.display = "block";
-        }else if ("{{ num_comments_user }}" != 0){
+        }else if (num_comments_user != "0"){
             swal({  
                 text: "Sorry, you already have a comment on this book",   
             });
         }else{
             window.location.href = '/login';
         }
+    }
+
+    function cleanDivComment() {
+        document.getElementById('title').value = '';
+        document.getElementById('body').value = '';
+        $('.stars span').removeClass('active');
+        $('.stars span span.rate, .stars a').removeClass('active');
     }
 
     function addToWishList() {
@@ -246,17 +343,25 @@
     }
 
     function editComment(comment_stars) {
-        var comment = $("#comment-{{ user }}");
-        var title = comment.find("strong")[0].innerText;
-        var body = $("#comment-body-{{ user }}")[0].innerText;
-        var star_rate = "star-".concat(comment_stars.toString());
         document.getElementById('divComment').style.display = "block";
         document.getElementById('cancel').style.display = "inline-block";
         document.getElementById('divComment').focus();
+        if(new_comment){
+            new_comment_edit = true;
+            var comment = new_comment_data.body;
+            var title = new_comment_data.title;
+            var star_rate = new_comment_data.stars;
+        }else{
+            var comment = $("#{{ user }}");
+            var title = comment.find("strong")[0].innerText;
+            var body = comment.find("p")[2].innerText;
+            var star_rate = comment.find("span").length
+            
+        }
         document.getElementById('title').value = title;
+        var star_id = 'star-' + star_rate.toString();
         document.getElementById('body').value = body;
-        document.getElementById(star_rate.toString()).click();
-        document.getElementById(star_rate).click();
+        document.getElementsByClassName(star_id)[0].click();
     }
 
     function deleteReview(){
@@ -276,7 +381,21 @@
                         text: "Your comment has been deleted successfully", 
                         icon: "success"
                     });
-                    document.getElementById('{{ user }}').style.display = "none";
+                    if(new_comment){
+                        document.getElementById('newest_comment').style.display = "none";
+                        var elements = document.querySelectorAll("#newest_stars");
+                        for(i=0; i<elements.length; i++){
+                            var childs = elements[0].childNodes
+                            childs[0].style.display = "inline-block";
+                        }
+                    }else{
+                        document.getElementById('{{ user }}').parentElement.style.display = "none";
+                    }
+                    $("#addCommentButton").show();
+                    new_comment = false;
+                    num_comments_user = 0;
+                    num_comments -= 1;
+                    updateNumComments();
                 }
                 var onFail = function () {
                     swal({   
@@ -289,6 +408,18 @@
             }
         });
     }
+
+    $('.stars a').on('click', function(){
+        $('.stars span span.rate, .stars a').removeClass('active');
+        $(this).addClass('active');
+        $('.stars span').addClass('active');
+        var value = $(this).attr('value');
+        $('#stars_rate').val(value); // Expected to assign the value to the form attribute
+    });
+    $(document).ready(function() {
+        $( "#star_rate" ).hide();
+        $('label[for="stars_rate"]').hide();
+    });
 
 </script>
 {% endblock content %}
