@@ -7,7 +7,6 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash, logout
-from django.contrib.auth.models import User
 
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.mail import send_mail, BadHeaderError
@@ -115,9 +114,11 @@ def wish_list(request, user):
 
     u = User.objects.get(username=user)
     wished_books = u.wishes.all()
+    n_books = wished_books.count()
 
     context = {
-        'books_list': wished_books
+        'books_list': wished_books,
+        'number_books': n_books
     }
 
     return render(request, 'wish_list.html', context)

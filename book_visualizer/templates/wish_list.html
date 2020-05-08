@@ -4,14 +4,18 @@
 {% block content %}
 <section class="jumbotron">
 	<div class="container">
-		<h1> {{ user }} Wishes to have the following books:</em></h1>
+		{% if number_books != 0 %}
+			<h1> {{ user }} Wishes to have the following books:</em></h1>
+		{% else %}
+			<h1> {{ user }} doesn't wish any books yet!</em></h1>
+		{% endif %}
 	</div>
 </section>
 <div class="container">
 	<div class="row">
 	</div>
 </div>
-
+{% if number_books != 0 %}
 <div class="container">
 	<script src="{% static 'book_ajax.js' %}"></script>
 	<div class="row">
@@ -48,4 +52,5 @@
 		</table>
 	</div>
 </div>
+{% endif %}
 {% endblock content %}
