@@ -278,7 +278,10 @@
                             var i_elem = document.createElement("i");
                             i_elem.setAttribute('class', i_class);
                             span.appendChild(i_elem);
+                            
                             existingNode.parentNode.insertBefore(span, existingNode.nextSibling);
+                            var spacing = document.createTextNode("\u00A0");
+                            existingNode.parentNode.insertBefore(foo, span);
                         }
                     }else{
                         for(i=data.stars; i<old_rate; i++){
