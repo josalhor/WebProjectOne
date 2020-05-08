@@ -1,7 +1,7 @@
 Feature: Commenting
 
     Background: I'm logged in
-        Given: I'm logged in with user "USER1" and password "USERPASSWORD1"
+        Given I'm logged in with user "USER1" and password "USERPASSWORD1"
         And Exists a book titled "title" and isbn "1234"
 
     Scenario: Adding Comment

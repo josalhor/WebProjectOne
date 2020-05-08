@@ -7,14 +7,6 @@ def step_impl(context, username, password):
     from book_visualizer.models import User
     User.objects.create_user(username=username, email='user@example.com', password=password)
 
-@given(u'Not registered username {username}')
-def step_impl(context, username):
-    #from django.contrib.auth.models import User
-    #if(username.User.Exists):
-        #eliminar usuari
-        #pass
-    #else:
-        pass
 
 @when(u'I login as user {username} with password {password}')
 def step_impl(context, username, password):
@@ -24,12 +16,9 @@ def step_impl(context, username, password):
     context.browser.fill('password', password)
     form.find_by_tag('button').first.click()
 
-@when(u'I go to signup url')
-def step_impl(context):
-    context.browser.visit(context.get_url('/sign_up/'))
-
 @when(u'I signup as user {username} with password {password}')
 def step_impl(context, username, password):
+    context.browser.visit(context.get_url('/sign_up/'))
     form = context.browser.find_by_tag('form')[1]
     context.browser.fill('username', username)
     context.browser.fill('email', "username@test.com")
@@ -38,7 +27,7 @@ def step_impl(context, username, password):
     form.find_by_tag('button').first.click()
 
 @then(u'I should be redirected to account url')
-def step_impl(context, username):
+def step_impl(context):
     assert context.browser.url.startswith(context.get_url('/account/'))
     assert context.browser.is_text_present("Hi")
 

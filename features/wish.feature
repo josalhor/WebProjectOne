@@ -1,1 +1,3 @@
-Scenario: Wish Management
+Feature: xxx
+
+    Scenario: Wish Management
