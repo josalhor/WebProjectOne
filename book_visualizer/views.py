@@ -6,7 +6,8 @@ from .models import Book, BestSellersListName, BestSellers, Comment, User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
 from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth import update_session_auth_hash, logout
+from django.contrib.auth.models import User
 
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.mail import send_mail, BadHeaderError
@@ -244,6 +245,13 @@ def edit_account(request):
         form = UserForm(instance=request.user)
         args = {'form': form}
         return render(request, 'edit_account.html', args)
+
+def delete_account(request):
+    if request.method == 'POST':
+        user = request.user
+        logout(request)
+        user.delete()
+    return redirect('/')
 
 def change_password(request):
     if request.method == 'POST':

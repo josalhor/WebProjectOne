@@ -13,7 +13,24 @@
   <br>
   <a class="btn btn-primary mr-3" href="{% url 'wish_list' user=user.username %}">See wish List</a>
   <a class="btn btn-secondary" href="{% url 'edit_account' %}">Edit my profile</a>
-  <a class="btn btn-secondary" href="{% url 'change_password' %}">Change my password</a>
+  <a class="btn btn-secondary mr-1" href="{% url 'change_password' %}">Change my password</a>
+  <form id="delete_form" action="{% url 'delete_account' %}" method="post" style="display: inline;"> {% csrf_token %} <button class="btn btn-danger" onclick="confirmDelete()">Delete account</button></form>
+  <script>
+    function confirmDelete(){
+      event.preventDefault();
+      swal({
+        title: 'Are you sure you want to delete your account?',
+        text: "You won't be able to revert this action!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete my account!'
+      }).then((result) => {
+          $('#delete_form').submit();
+      });
+    }
+  </script>
   {% else %}
   <p>You are not logged in. Log in to see your profile</p>
   {% endif %}
