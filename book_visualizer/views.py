@@ -30,7 +30,7 @@ class SignUp(generic.CreateView):
 def get_random_categories():
     categories = list(BestSellersListName.objects.all())
     shuffle(categories)
-    return categories[:10]
+    return categories[:15]
 
 # We are using reverse_lazy because for all generic class-based views the urls
 # are not loaded when the file is imported, so we have to use the lazy form of
