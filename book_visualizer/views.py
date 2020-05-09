@@ -118,7 +118,8 @@ def wish_list(request, user):
 
     context = {
         'books_list': wished_books,
-        'number_books': n_books
+        'number_books': n_books,
+        'user_wishes': u
     }
 
     return render(request, 'wish_list.html', context)
