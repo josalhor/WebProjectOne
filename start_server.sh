@@ -51,6 +51,6 @@ then
   gunicorn -b 0.0.0.0:$PORT webproject.wsgi --log-file -
 else
   echo "Starting Behave testing"
-  python manage.py behave
+  python manage.py behave ${BEHAVE_OPTIONS}
 fi
 
