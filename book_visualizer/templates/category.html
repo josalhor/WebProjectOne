@@ -54,7 +54,7 @@
 						<ul class="pagination justify-content-end mb-4">
 							{% if bestsellers_list.has_previous %}
 								<li class="page-item activate">
-									<a class="page-link" href="?page={{ bestsellers.previous_page_number }}">Previous</a>
+									<a class="page-link" href="?page={{ bestsellers_list.previous_page_number }}">Previous</a>
 								</li>
 							{% else %}
 								<li class="page-item disabled">

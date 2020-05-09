@@ -31,8 +31,5 @@ def step_impl(context, Covid19): # Covid19 needed here?
 @then('I\'m viewing the book whose title contains "{Covid19}"')
 def step_impl(context, Covid19):
     books = context.browser.find_by_text(Covid19) 
+    assert len(books) == 1
     assert Covid19 in books[0]
-
-@step('There are {count:n} books')
-def step_impl(context, count):
-    assert count == len(context.browser.find_by_text(Covid19))
