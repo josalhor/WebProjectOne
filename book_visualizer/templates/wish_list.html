@@ -29,7 +29,7 @@
 		</thead>
 			<tbody>
 				{% for book in books_list %}
-				<tr>
+				<tr id = "{{book.isbn}}" >
 					<td class="text-center">
 						<div><a href="{% url 'book_details' book.pk %}">
 							<img id="book-thumb-{{book.isbn}}" class="card-img-top mx-auto d-block" style="border-radius:0;width:100px;height:143px;object-fit: contain" src="{% static 'stock_temp.jpg' %}"/>
@@ -43,7 +43,7 @@
 						<p class="font-italic">by {{ book.author }}</p>
 					</td>
 					<td class="align-middle">
-                        <button class="float-right btn btn-danger btn-sm rounded-5 mr-2" type="button"title="Delete"><i class="fa fa-trash"></i></button>
+                        <button id="delete-{{book.isbn}}" class="float-right btn btn-danger btn-sm rounded-5 mr-2" type="button" title="Delete"><i class="fa fa-trash"></i></button>
 					</td>
 				</tr>
 				{% endfor %}
@@ -52,4 +52,37 @@
 	</div>
 </div>
 {% endif %}
+
+<script>
+	var onFail = function () {
+        swal({   
+            title: "Oops",   
+            text: "Something went wrong! Please try it again later.",   
+            icon: "warning",
+        });
+	}
+	$("button").click(function() {
+		isbn = this.id.split('-')[1];
+		swal({
+            title: "Are you sure?",
+            icon: "warning",
+            buttons: [
+                'Cancel',
+                'Sure'
+            ],
+            dangerMode: true,
+        }).then(function(isConfirm) {
+            if (isConfirm) {
+				var onSuccess = function () {
+					swal({
+						title: "Success!", 
+						icon: "success"
+					});
+					document.getElementById(isbn).remove(); 
+				}
+                unWishBook(isbn, onSuccess, onFail)
+            }
+		});
+	});
+</script>
 {% endblock content %}

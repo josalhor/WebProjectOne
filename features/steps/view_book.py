@@ -14,15 +14,14 @@ def step_impl(context, isbn):
     context.browser.visit(context.get_url(f'/book/{isbn}'))
 
 @when(u'I introduce "{key_word}" into the search bar and click')
-def step_impl(context, key_word):
-     context.browser.visit(context.get_url(f'/search?n={key_word}'))
+def step_impl(context, key_word): 
+    context.browser.visit(context.get_url(f'/search?n={key_word}'))
 
 @then(u'I\'m viewing the book "{title}" with isbn "{isbn}"')
 def step_impl(context, title, isbn):
     assert context.browser.is_text_present(title)
     assert context.browser.is_text_present(isbn)
 
-@then(u'I can see a book titled "{title}"')
+@then('I can see a book titled "{title}"')
 def step_impl(context, title):
-    assert context.browser.is_text_present(f"{title}")
-
+    assert context.browser.is_text_present(f'{title}')
