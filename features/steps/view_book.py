@@ -13,7 +13,7 @@ def step_impl(context, title, isbn):
 def step_impl(context, isbn):
     context.browser.visit(context.get_url('/book/{isbn}'))
 
-@then('I\'m viewing book details')
+@then('I\'m viewing the book "{title}" with isbn "{isbn}"')
 def step_impl(context, title, isbn):
-    assert context.browser.is_text_present('GOOP CLEAN BEAUTY')
-    assert context.browser.is_text_present('9781455541553')
+    assert context.browser.is_text_present(title)
+    assert context.browser.is_text_present(isbn)

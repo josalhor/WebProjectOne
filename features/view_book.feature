@@ -4,11 +4,9 @@ Feature: view details of a book
     I want to view book details and its reviews
 
     Scenario: view details of a book
-      Given Exists a book titled "title" and isbn "isbn"
-      When  I click the book "title"
-      Then I'm viewing book details
-      | isbn            |  title     |
-      | 9781455541553   |    GOOP CLEAN BEAUTY     |
+      Given Exists a book titled "GOOP CLEAN BEAUTY" and isbn "9781455541553"
+      When Navigate to book "9781455541553"
+      Then I'm viewing the book "GOOP CLEAN BEAUTY" with isbn "9781455541553"
 
     Scenario: view reviews of a book
       
