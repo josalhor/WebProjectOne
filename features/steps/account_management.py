@@ -31,5 +31,4 @@ def step_impl(context, email):
 
 @then(u'I should be able to log out')
 def step_impl(context):
-    #context.browser.click_link_by_href('/logout/') 
-    pass
+    context.browser.visit(context.get_url('/logout/'))
