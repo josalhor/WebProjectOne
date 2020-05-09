@@ -2,11 +2,9 @@
 {% block title %}Your account{% endblock %}
 {% block content %}
 
-<div class="jumbotron">
+<div class="jumbotron" style="padding: 2rem 1rem;">
   {% if user.is_authenticated %}
   <h3>Hi {{ user.username }} 🤪</h3>
-  <br>
-  <h5>You can see your account details and access your personal space <a href="/admin">here</a></h5>
   <br>
   <h5>Profile information:</h5>
   <p> - Username: {{ user.username }} <br/> - E-mail: {{ user.email }} </p>

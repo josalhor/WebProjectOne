@@ -4,12 +4,7 @@
 
 
 {% block content %}
-<section class="jumbotron">
-	<div class="container">
-		<h1 style='font-weight: bold;'>NYT BESTSELLERS</h1>
-	</div>
-</section>
-<div class="container">
+<div class="container pt-3">
 	<div class="row">
 	</div>
 </div>
@@ -44,11 +39,10 @@
                     </form>
                     <div class="reviews_product p-3 mb-2 ">
                         <span id="num_comments"></span>
-                        {% for item in num_stars|add:"0"|times %}
-                            <i class="fa fa-star"></i>
-                        {% endfor %}
+                        <span id="average-num-stars-display">
+                        </span>
                         {% if num_comments > 0 %}
-                            ({{ average }}/5.0)
+                            (<span id="average-num-stars"></span>/5.0)
                             <a class="pull-right" href="#reviews">View all reviews</a>
                         {% endif %}
                         {% if num_comments == 0 %}
@@ -167,10 +161,11 @@
 </div>
 <script>
     var stars = 0;
-    var num_comments = '{{ num_comments }}';
-    var num_comments_user = '{{ num_comments_user }}';
+    var num_comments = parseInt('{{ num_comments }}');
+    var num_comments_user = parseInt('{{ num_comments_user }}');
     var isbn = '{{ book.isbn }}';
     var added_wish_book = '{{ added_book }}' == "False";
+    var distribution_stars = parseInt('{{ distribution_stars|safe }}');
     updateNumComments();
 
     var onFail = function () {
@@ -233,39 +228,58 @@
             template.find('#template-body-by').attr('id', 'template-body-{{ user }}');
 
             $("#template-made-{{ user }}").text("{{ user }}");
-
+            
             var comment = $("#{{ user }}");
             comment.find("strong")[0].innerText = data.title;
             comment.find("p")[0].innerText = getDate();
             comment.find("p")[2].innerText = data.body;
-            var i_class = 'text-warning fa fa-star';
             var existingNode = comment.find("span")[0];
-            for(var i=0; i < data.stars; i++){
-                var span = document.createElement("span");
-                var i_elem = document.createElement("i");
-                i_elem.setAttribute('class', i_class);
-                span.appendChild(i_elem);
-                
-                existingNode.parentNode.insertBefore(span, existingNode.nextSibling);
-                var spacing = document.createTextNode("\u00A0");
-                existingNode.parentNode.insertBefore(spacing, span);
-            }
+            addStars(data.stars, existingNode.parentNode, existingNode.nextSibling);
+
             num_comments += 1;
             updateNumComments();
             cleanDivComment();
+            updateNStars(stars);
         }
         postComment(comment, onSuccess, onFail);
     }
 
+    function updateNStars(extra){
+        var average_span = $('#average-num-stars-display');
+        if (num_comments == 0){
+            average_span.hide();
+            return;
+        }
+        average_span.empty();
+        var total = (extra + distribution_stars) / num_comments;
+        addStars(Math.floor(total), average_span[0], null);
+        var total_string_round = "" + (total.toFixed(1));
+        console.log('hi');
+        var average_span = $('#average-num-stars').text(total_string_round);
+    }
+
+    function addStars(nStars, parent, nextTo){
+        for(var i=0; i < nStars; i++){
+            var span = document.createElement("span");
+            var i_elem = document.createElement("i");
+            i_elem.setAttribute('class', 'text-warning fa fa-star');
+            span.appendChild(i_elem);
+            
+            parent.insertBefore(span, nextTo);
+            var spacing = document.createTextNode("\u00A0");
+            parent.insertBefore(spacing, span);
+        }
+    }
+
     function addComment() {
-        if("{{ request.user.is_authenticated }}" == "True" && num_comments_user == "0"){
+        if("{{ request.user.is_authenticated }}" == "True" && num_comments_user == 0){
             $("#addCommentButton").hide();
             document.getElementById('divComment').style.display = "block";
-        }else if (num_comments_user != "0"){
+        } else if (num_comments_user != 0){
             swal({  
                 text: "Sorry, you already have a comment on this book",   
             });
-        }else{
+        } else {
             window.location.href = '/login';
         }
     }
@@ -384,6 +398,7 @@
                     num_comments_user = 0;
                     num_comments -= 1;
                     updateNumComments();
+                    updateNStars(0);
                 }
                 deleteComment(isbn, onSuccess, onFail);
             }
@@ -403,6 +418,7 @@
     });
     updateWishButtonText();
     cleanDivComment();
+    updateNStars(parseInt('{{ stars_user }}'));
 
 </script>
 {% endblock content %}
