@@ -116,7 +116,6 @@
                                         </div>
                                     </div>
                                     <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
-                                    <button id="cancel" class="btn btn-secondary" style="display:none;">Cancel</button>
                                 </form>
                                 <hr class="my-2">
                             </div>
@@ -288,6 +287,7 @@
             $('#text_wish').text('Remove from my wish list');
         }
     }
+
     function getDate(){
         var months = [
             'January',
@@ -352,19 +352,17 @@
 
     function editComment() {
         document.getElementById('divComment').style.display = "block";
-        document.getElementById('cancel').style.display = "inline-block";
         document.getElementById('divComment').focus();
         
         var comment = $("#{{ user }}");
         var title = comment.find("strong")[0].innerText;
         var body = comment.find("p")[2].innerText;
-        var star_rate = comment.find("span").length
+        var star_rate = comment.find(".fa-star").length
         
         document.getElementById('title').value = title;
         document.getElementById('body').value = body;
         var star_id = 'star-' + star_rate.toString();
         document.getElementsByClassName(star_id)[0].click();
-        //.stars
     }
 
     function deleteReview(){
