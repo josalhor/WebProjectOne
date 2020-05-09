@@ -38,17 +38,12 @@
                     <h5 id="price" class="card-text">Price: <span style="color: grey;">Price no available</span></h5>
                     <br></br>
                     <form method="get" action="wish_list.html">
-                        <a href="added.html" class="btn btn-success btn-lg btn-block text-uppercase">
-                            <i class="fa fa-gift"></i> Add to a wish list
+                        <a id="list_ref" href="#" class="btn btn-success btn-lg btn-block text-uppercase" onclick="addToWishList()">
+                            <i class="fa fa-gift"></i> <span id="text_wish"> Add to my wish list </span>
                         </a>
                     </form>
                     <div class="reviews_product p-3 mb-2 ">
-                        {% if num_comments == 1 %}
-                            {{ num_comments }} review
-                        {% endif %}
-                        {% if num_comments == 0 or num_comments > 1 %}
-                            {{ num_comments }} reviews
-                        {% endif %}
+                        <span id="num_comments"></span>
                         {% for item in num_stars|add:"0"|times %}
                             <i class="fa fa-star"></i>
                         {% endfor %}
@@ -91,52 +86,60 @@
                             <button id="addCommentButton" class="btn btn-success pull-right" type="button" onclick="addComment()">
                                 Add new comment
                             </button>
-                            {% if num_comments != 1 %}
-                                    <h6>{{ num_comments }} reviews</h6>
-                                {% else %}
-                                    <h6>{{ num_comments }} review</h6>
-                            {% endif %}
                         </div>
                         <div id="divComment" style="display:none;">
                             <hr class="my-2">
                             <div class="card card-body border-0">
                                 <h4>Leave a comment</h4>
                                 <div class="form-group stars">
-                                    <span class="rate required">
-                                        <a class="star-1" id="star-1" onClick="starsRate(1)">1</a>
-                                        <a class="star-2" id="star-2" onClick="starsRate(2)">2</a>
-                                        <a class="star-3" id="star-3" onClick="starsRate(3)">3</a>
-                                        <a class="star-4" id="star-4" onClick="starsRate(4)">4</a>
-                                        <a class="star-5" id="star-5" onClick="starsRate(5)">5</a>
+                                    <span class="rate required" id="rate required">
+                                        <a class="star-1" onclick="starsRate(1)">1</a>
+                                        <a class="star-2" onclick="starsRate(2)">2</a>
+                                        <a class="star-3" onclick="starsRate(3)">3</a>
+                                        <a class="star-4" onclick="starsRate(4)">4</a>
+                                        <a class="star-5" onclick="starsRate(5)">5</a>
                                     </span>
                                 </div>
-                                <script src="{% static 'stars.js' %}"></script>
-                                <form id="comment_form" action="" class="was-validated" method="post">
+                                <form id="comment_form" onsubmit="return sendComment(this)" class="was-validated">
                                     <div class="col-md-12 mb-3">
                                         <label for="title">Title:</label>
-                                        <input type="text" minlength="5" maxlength="150" class="form-control" id="title" placeholder="Write a useful title for your comment" required>
+                                        <input name="title" type="text" minlength="5" maxlength="150" class="form-control" id="title" placeholder="Write a useful title for your comment" required>
                                         <div class="invalid-feedback">
                                             Length must be between 5 and 150 characters
                                         </div>
                                         </div>
                                         <div class="col-md-12 mb-3">
                                         <label for="body">Comment:</label>
-                                        <textarea type="text" minlength="10" maxlength="500" class="form-control" id="body" placeholder="Write a comment to the book" required></textarea>
+                                        <textarea name="body" type="text" minlength="10" maxlength="500" class="form-control" id="body" placeholder="Write a comment to the book" required></textarea>
                                         <div class="invalid-feedback">
                                             Length must be between 10 and 500 characters
                                         </div>
                                     </div>
                                     <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
-                                    <button id="cancel" class="btn btn-secondary" style="display:none;">Cancel</button>
                                 </form>
                                 <hr class="my-2">
                             </div>
                         </div>
                     </div>
+                    <div class="card-body" id='template-comment' style="display: none;">
+                        <div class="row">
+                            <div class="col-md-1">
+                                <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
+                                <p class="text-secondary text-center" style="font-size: 10px;">{{ comment.date }}</p>
+                            </div>
+                            <div class="col-md-11" id="template-by">
+                                <p style="display: inline-block;"><strong></strong> by <span id="template-made-by"></span> &nbsp</p>
+                                <!-- Stars go here -->
+                                <button class="float-right btn btn-success btn-sm rounded-5" type="button" title="Edit" onclick="editComment()"><i class="fa fa-edit"></i></button>
+                                <button class="float-right btn btn-danger btn-sm rounded-5" type="button"title="Delete" onclick="deleteReview()"><i class="fa fa-trash"></i></button>
+                                <p id="template-body-by">{{ comment.body }}</p>
+                            </div>
+                        </div>
+                    </div>
                     <!-- Show comments -->
-                    <div class="card border-0">
+                    <div id="comment-container" class="card border-0" style="display: block;">
                         {% for comment in comments %}
-                            <div class="card-body">
+                            <div class="card-body" id='{{ comment.made_by }}'>
                                 <div class="row">
                                     <div class="col-md-1">
                                         <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
@@ -149,7 +152,7 @@
                                         {% endfor %} 
                                         {% if user == comment.made_by %}
                                             <button class="float-right btn btn-success btn-sm rounded-5" type="button" title="Edit" onclick="editComment()"><i class="fa fa-edit"></i></button>
-                                            <button class="float-right btn btn-danger btn-sm rounded-5" type="button"title="Delete" onclick="deleteComment()"><i class="fa fa-trash"></i></button>
+                                            <button class="float-right btn btn-danger btn-sm rounded-5" type="button"title="Delete" onclick="deleteReview()"><i class="fa fa-trash"></i></button>
                                         {% endif %}
                                         <p id="comment-body-{{ comment.made_by }}">{{ comment.body }}</p>
                                     </div>
@@ -163,59 +166,244 @@
     </div>
 </div>
 <script>
-    document.getElementById("comment_form").addEventListener("submit", submitForm);
     var stars = 0;
-    if ("{{ num_comments }}" != 0){
-        $("#addCommentButton").hide();
+    var num_comments = '{{ num_comments }}';
+    var num_comments_user = '{{ num_comments_user }}';
+    var isbn = '{{ book.isbn }}';
+    var added_wish_book = '{{ added_book }}' == "False";
+    updateNumComments();
+
+    var onFail = function () {
+        swal({   
+            title: "Oops",   
+            text: "Something went wrong! Please try it again later.",   
+            icon: "warning",
+        });
     }
 
-    function starsRate(clicked_id)
-    {
+    function updateNumComments() {
+        if(num_comments == 1){
+            $('#num_comments').text(num_comments + " review");
+        }else{
+            $('#num_comments').text(num_comments + " reviews");
+        }
+        if (num_comments_user == 1){
+            $("#addCommentButton").hide();
+        }
+    }
+
+    function starsRate(clicked_id){
         stars = clicked_id;
     }
-    document.getElementById('comment_form').addEventListener('submit', function(event){
-        if(stars == 0){
-            event.preventDefault();
-            alert("Please, give a rate before submiting");
-            return false;
-        }else{
-            alert("Thank you! Your comment has been correctly added");
+
+    function sendComment(form){
+        var sent;
+        event.preventDefault();
+        if(!([1,2,3,4,5].includes(stars))){
+            swal({title: "Please, give a rate before submiting"});
+            return;
         }
-    });
-    function submitForm() {
-        if(starts != 0){
-            alert("The form was submitted");
+        comment_data = new Object();
+        comment_data.title = form.elements["title"].value;
+        comment_data.body = form.elements["body"].value;
+        comment_data.stars = stars.toString();
+        comment_data.based_on = '{{ book.isbn }}';
+
+        var comment = comment_data;
+        var onSuccess = function (data) {
+            swal({   
+                title: "Greeeat",   
+                text: "Thank you :)",   
+                icon: "success",
+                timer: 1500,
+                buttons: false,
+            });
+            document.getElementById('divComment').style.display = "none";
+            if ($("#{{ user }}").length != 0){
+                //create new comment node
+                num_comments -= 1;
+                $("#{{ user }}").remove(); 
+            }
+            var originalTemplate = $('#template-comment');
+            var template = $('#template-comment').clone().prependTo('#comment-container');
+            template.show();
+            template.attr('id', '{{ user }}');
+            template.find('#template-by').attr('id', 'comment-{{ user }}');
+            template.find('#template-made-by').attr('id', 'comment-made-{{ user }}');
+            template.find('#template-body-by').attr('id', 'template-body-{{ user }}');
+
+            $("#template-made-{{ user }}").text("{{ user }}");
+
+            var comment = $("#{{ user }}");
+            comment.find("strong")[0].innerText = data.title;
+            comment.find("p")[0].innerText = getDate();
+            comment.find("p")[2].innerText = data.body;
+            var i_class = 'text-warning fa fa-star';
+            var existingNode = comment.find("span")[0];
+            for(var i=0; i < data.stars; i++){
+                var span = document.createElement("span");
+                var i_elem = document.createElement("i");
+                i_elem.setAttribute('class', i_class);
+                span.appendChild(i_elem);
+                
+                existingNode.parentNode.insertBefore(span, existingNode.nextSibling);
+                var spacing = document.createTextNode("\u00A0");
+                existingNode.parentNode.insertBefore(spacing, span);
+            }
+            num_comments += 1;
+            updateNumComments();
+            cleanDivComment();
         }
-    }
-    function findComment() {
-        
+        postComment(comment, onSuccess, onFail);
     }
 
     function addComment() {
-        if("{{ request.user.is_authenticated }}" == "True" && "{{ num_comments }}" == 0){
+        if("{{ request.user.is_authenticated }}" == "True" && num_comments_user == "0"){
+            $("#addCommentButton").hide();
             document.getElementById('divComment').style.display = "block";
-        }else if ("{{ num_comments }}" != 0){
-            alert("Sorry, you already have a comment on this book");
+        }else if (num_comments_user != "0"){
+            swal({  
+                text: "Sorry, you already have a comment on this book",   
+            });
         }else{
             window.location.href = '/login';
         }
     }
-    function editComment(comment) {
-        var comment = $("#comment-{{ user }}");
-        var title = comment.find("strong")[0].innerText;
-        var body = $("#comment-body-{{ user }}")[0].innerText;
-        var star_rate = "star-".concat("{{ user_comment.stars }}");
+
+    function cleanDivComment() {
+        document.getElementById('title').value = '';
+        document.getElementById('body').value = '';
+        $('.stars span').removeClass('active');
+        $('.stars span span.rate, .stars a').removeClass('active');
+    }
+
+    function updateWishButtonText(){
+        if (added_wish_book){
+            $('#text_wish').text('Add to my wish list');
+        } else {
+            $('#text_wish').text('Remove from my wish list');
+        }
+    }
+
+    function getDate(){
+        var months = [
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December'
+        ]
+        var date = new Date();
+        var day = date.getDate();
+        var year = date.getFullYear();
+        var monthName = months[date.getMonth()];
+
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'p.m.' : 'a.m.';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0'+minutes : minutes;
+        var strDate = monthName + ' ' + day + ', ' + year + ', ' +  hours + ':' + minutes + ' ' + ampm;
+        return strDate;
+    }
+
+    function addToWishList() {
+        event.preventDefault();
+        if ("{{ request.user.is_authenticated }}" != "True"){
+            window.location.href = '/login';
+        }
+        if(added_wish_book){
+            wishBook(isbn, () => {
+                added_wish_book = !added_wish_book;
+                swal({   
+                    title: "Wished",   
+                    text: "Wished book :)",   
+                    icon: "success",
+                    timer: 1500,
+                    buttons: false,
+                });
+                updateWishButtonText();
+            } , onFail);
+        } else {
+            unWishBook(isbn, () => {
+                added_wish_book = !added_wish_book;
+                swal({   
+                    title: "Unwished",   
+                    text: "Unwished book :(",   
+                    icon: "success",
+                    timer: 1500,
+                    buttons: false,
+                });
+                updateWishButtonText();
+            });
+        }
+    }
+
+    function editComment() {
         document.getElementById('divComment').style.display = "block";
-        document.getElementById('cancel').style.display = "inline-block";
         document.getElementById('divComment').focus();
+        
+        var comment = $("#{{ user }}");
+        var title = comment.find("strong")[0].innerText;
+        var body = comment.find("p")[2].innerText;
+        var star_rate = comment.find(".fa-star").length
+        
         document.getElementById('title').value = title;
         document.getElementById('body').value = body;
-        document.getElementById(star_rate).click();
+        var star_id = 'star-' + star_rate.toString();
+        document.getElementsByClassName(star_id)[0].click();
     }
-    function deleteComment() {
-        //Delete element
-        $("#addCommentButton").show();
+
+    function deleteReview(){
+        swal({
+            title: "Are you sure you want to delete this comment?",
+            icon: "warning",
+            buttons: [
+                'Cancel',
+                'Sure'
+            ],
+            dangerMode: true,
+        }).then(function(isConfirm) {
+            if (isConfirm) {
+                var onSuccess = function () {
+                    swal({
+                        title: "Success!", 
+                        text: "Your comment has been deleted successfully", 
+                        icon: "success"
+                    });
+                    document.getElementById('{{ user }}').remove(); 
+                    $("#addCommentButton").show();
+                    num_comments_user = 0;
+                    num_comments -= 1;
+                    updateNumComments();
+                }
+                deleteComment(isbn, onSuccess, onFail);
+            }
+        });
     }
+
+    $('.stars a').on('click', function(){
+        $('.stars span span.rate, .stars a').removeClass('active');
+        $(this).addClass('active');
+        $('.stars span').addClass('active');
+        var value = $(this).attr('value');
+        $('#stars_rate').val(value); // Expected to assign the value to the form attribute
+        console.log("valueee" + value);
+    });
+    $(document).ready(function() {
+        $( "#star_rate" ).hide();
+        $('label[for="stars_rate"]').hide();
+    });
+    updateWishButtonText();
+    cleanDivComment();
 
 </script>
 {% endblock content %}

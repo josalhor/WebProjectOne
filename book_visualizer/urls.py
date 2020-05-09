@@ -7,15 +7,18 @@ from .views import emailView, successView
 
 router = routers.DefaultRouter()
 router.register('comments', views.CommentViewSet, 'Comments')
+router.register('wishes', views.WishViewSet, 'Wishes')
 
 urlpatterns = [
 	path('login/', LoginView.as_view(authentication_form=forms.AuthenticationForm), name='login'),
 	path('logout/', LogoutView.as_view(), name='logout'),
 	path('sign_up/', views.SignUp.as_view(), name='sign-up'),
+	path('account/delete', views.delete_account, name='delete_account'),
+	path('account/edit', views.edit_account, name='edit_account'),
+	path('account/<str:user>', views.wish_list, name='wish_list'),
 	path('account/', TemplateView.as_view(template_name='account.html'), name='account'),
 	path('contact/', emailView, name='contact'),
 	path('search', views.search, name='search'),
-	path('account/edit/', views.edit_account, name='edit_account'),
 	path('change-password/', views.change_password, name='change_password'),
 	path('', include('django.contrib.auth.urls')),
 	path('', views.bestsellers_list, name='home'),
