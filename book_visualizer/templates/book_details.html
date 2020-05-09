@@ -162,8 +162,8 @@
 </div>
 <script>
     var stars = 0;
-    var num_comments = '{{ num_comments }}';
-    var num_comments_user = '{{ num_comments_user }}';
+    var num_comments = parseInt('{{ num_comments }}');
+    var num_comments_user = parseInt('{{ num_comments_user }}');
     var isbn = '{{ book.isbn }}';
     var added_wish_book = '{{ added_book }}' == "False";
     updateNumComments();
@@ -253,14 +253,14 @@
     }
 
     function addComment() {
-        if("{{ request.user.is_authenticated }}" == "True" && num_comments_user == "0"){
+        if("{{ request.user.is_authenticated }}" == "True" && num_comments_user == 0){
             $("#addCommentButton").hide();
             document.getElementById('divComment').style.display = "block";
-        }else if (num_comments_user != "0"){
+        } else if (num_comments_user != 0){
             swal({  
                 text: "Sorry, you already have a comment on this book",   
             });
-        }else{
+        } else {
             window.location.href = '/login';
         }
     }
