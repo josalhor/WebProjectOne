@@ -1,8 +1,8 @@
 Feature: User can edit his profile
     
     Scenario: Account Deletion
-        Given Exists a user "username" with password "testpass123"
-        When I delete the user
+        Given I'm logged in with user "USER1" and password "USERPASSWORD1"
+        When I delete my user account
         Then I cannot login with user "USER1" and password "USERPASSWORD1"
 
     Scenario: User Editing
