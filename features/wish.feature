@@ -22,7 +22,7 @@ Feature: A registered user can manage his personal wish list and consult other u
 
     Scenario: User can consult his wish list and remove a book
         When I click the button See wish List on my profile "USER1"
-        And I remove the book titled "Fortitude" from my wish list
+        And I remove the first book from my wish list
         And I navigate to book "9781538733295"
         Then I can see the button "ADD TO MY WISH LIST" on the page of book "9781538733295"
 
