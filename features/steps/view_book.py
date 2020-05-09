@@ -6,8 +6,8 @@ use_step_matcher("parse")
 @given('Exists a book titled "{title}" and isbn "{isbn}"')
 def step_impl(context, title, isbn):
     from book_visualizer.models import Book
-    #book = Book.objects.get(title=title)
-    #assert book existeix
+    book = Book(isbn, title, 'Author Example', date.today(), 'Publisher Example', 'Summary here')
+    book.save()
 
 @when('Navigate to book "{isbn}"')
 def step_impl(context, isbn):
@@ -33,4 +33,3 @@ def step_impl(context, Covid19):
     books = context.browser.find_by_text(Covid19) 
     assert len(books) == 1
     assert Covid19 in books[0]
-
