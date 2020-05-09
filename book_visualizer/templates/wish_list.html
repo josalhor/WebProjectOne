@@ -22,9 +22,11 @@
 		<table class="table table-hover table-striped">
 			<thead>
 			<tr class="thead-dark">
-				<th></th>
+				<th class="text-center">Cover</th>
 				<th>Title & Author</th>
+				{% if user == user_wishes %}
 				<th class="text-right">Actions</th>
+				{% endif %}
 			</tr>
 		</thead>
 			<tbody>
@@ -42,9 +44,11 @@
 						<b>{{ book.title }}</b> <br>
 						<p class="font-italic">by {{ book.author }}</p>
 					</td>
+					{% if user == user_wishes %}
 					<td class="align-middle">
                         <button id="delete-{{book.isbn}}" class="float-right btn btn-danger btn-sm rounded-5 mr-2" type="button" title="Delete"><i class="fa fa-trash"></i></button>
 					</td>
+					{% endif %}
 				</tr>
 				{% endfor %}
 			</tbody>
