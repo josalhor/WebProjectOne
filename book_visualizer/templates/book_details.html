@@ -229,7 +229,7 @@
             template.show();
             template.attr('id', '{{ user }}');
             template.find('#template-by').attr('id', 'comment-{{ user }}');
-            template.find('#template-made-by').attr('id', 'comment-made-{{ user }}');
+            template.find('#template-made-by').attr('id', 'template-made-{{ user }}');
             template.find('#template-body-by').attr('id', 'template-body-{{ user }}');
 
             $("#template-made-{{ user }}").text("{{ user }}");
@@ -396,7 +396,6 @@
         $('.stars span').addClass('active');
         var value = $(this).attr('value');
         $('#stars_rate').val(value); // Expected to assign the value to the form attribute
-        console.log("valueee" + value);
     });
     $(document).ready(function() {
         $( "#star_rate" ).hide();
