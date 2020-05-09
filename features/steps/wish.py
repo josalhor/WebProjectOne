@@ -28,12 +28,11 @@ def step_impl(context, username):
 def step_impl(context, title):
     assert context.browser.is_text_present(title)
 
-@when(u'I remove the book titled "{title}" from my wish list')
-def step_impl(context, title):
-    context.browser.find_by_tag('button').first.click()
+@when(u'I remove the first book from my wish list')
+def step_impl(context):
+    context.browser.find_by_tag('button')[2].click()
     context.browser.find_by_text('Sure').first.click()
     context.browser.find_by_text('OK').first.click()
-    print(context.browser.find_by_tag("html").html)
 
 @when(u'I visit my friend "{username_friend}" wish list')
 def step_impl(context, username_friend):
