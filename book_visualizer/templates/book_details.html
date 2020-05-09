@@ -122,8 +122,25 @@
                             </div>
                         </div>
                     </div>
+                    <div class="card-body" id='template-comment' style="display: none;">
+                        <div class="row">
+                            <div class="col-md-1">
+                                <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
+                                <p class="text-secondary text-center" style="font-size: 10px;">{{ comment.date }}</p>
+                            </div>
+                            <div class="col-md-11" id="template-by">
+                                <p style="display: inline-block;"><strong></strong> by <span id="template-made-by"></span> &nbsp</p>
+                                <!--{% for item in comment.stars|add:"0"|times %}
+                                <span><i class="text-warning fa fa-star"></i></span>
+                                {% endfor %} -->
+                                <button class="float-right btn btn-success btn-sm rounded-5" type="button" title="Edit" onclick="editComment()"><i class="fa fa-edit"></i></button>
+                                <button class="float-right btn btn-danger btn-sm rounded-5" type="button"title="Delete" onclick="deleteReview()"><i class="fa fa-trash"></i></button>
+                                <p id="template-body-by">{{ comment.body }}</p>
+                            </div>
+                        </div>
+                    </div>
                     <!-- Show comments -->
-                    <div class="card border-0" style="display: block;">
+                    <div id="comment-container" class="card border-0" style="display: block;">
                         {% for comment in comments %}
                             <div class="card-body" id='{{ comment.made_by }}'>
                                 <div class="row">
@@ -137,7 +154,7 @@
                                         <span><i class="text-warning fa fa-star"></i></span>
                                         {% endfor %} 
                                         {% if user == comment.made_by %}
-                                            <button class="float-right btn btn-success btn-sm rounded-5" type="button" title="Edit" onclick="editComment('{{comment.stars}}')"><i class="fa fa-edit"></i></button>
+                                            <button class="float-right btn btn-success btn-sm rounded-5" type="button" title="Edit" onclick="editComment()"><i class="fa fa-edit"></i></button>
                                             <button class="float-right btn btn-danger btn-sm rounded-5" type="button"title="Delete" onclick="deleteReview()"><i class="fa fa-trash"></i></button>
                                         {% endif %}
                                         <p id="comment-body-{{ comment.made_by }}">{{ comment.body }}</p>
@@ -207,8 +224,20 @@
             });
             var i;
             document.getElementById('divComment').style.display = "none";
-            console.log("new_comment:" + new_comment);
-            console.log("new_comment_edit:" + new_comment_edit);
+            if ($("#{{ user }}") !== undefined){
+                //create new comment node
+                document.getElementById('{{ user }}').remove(); 
+            }
+            var originalTemplate = $('#template-comment');
+            var template = $('#template-comment').clone().prependTo('#comment-container');
+            template.show();
+            template.attr('id', '{{ user }}');
+            template.find('#template-by').attr('id', 'comment-{{ user }}');
+            template.find('#template-made-by').attr('id', 'comment-made-{{ user }}');
+            template.find('#template-body-by').attr('id', 'template-body-{{ user }}');
+
+            $("#template-made-{{ user }}").text("{{ user }}");
+            
             var comment = $("#{{ user }}");
             comment.find("strong")[0].innerText = data.title;
             comment.find("p")[0].innerText = data.date;
@@ -302,7 +331,7 @@
         }
     }
 
-    function editComment(comment_stars) {
+    function editComment() {
         document.getElementById('divComment').style.display = "block";
         document.getElementById('cancel').style.display = "inline-block";
         document.getElementById('divComment').focus();
@@ -335,7 +364,7 @@
                         text: "Your comment has been deleted successfully", 
                         icon: "success"
                     });
-                    document.getElementById('{{ user }}').parentElement.remove(); 
+                    document.getElementById('{{ user }}').remove(); 
                     $("#addCommentButton").show();
                     new_comment = false;
                     num_comments_user = 0;
