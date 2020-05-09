@@ -32,3 +32,14 @@ def step_impl(context, email):
 @then(u'I should be able to log out')
 def step_impl(context):
     context.browser.visit(context.get_url('/logout/'))
+
+@when(u'I click logout')
+def step_impl(context):
+    context.browser.find_link_by_text('logout').click()
+
+@then(u'I should see login option available')
+def step_impl(context):
+    a_elem = context.browser.find_by_css("a")[1].value
+    print('thissss:', a_elem.html)
+    assert a_elem.value == "Login"
+ 

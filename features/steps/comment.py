@@ -1,38 +1,91 @@
 from behave import *
+from datetime import date
+from bs4 import BeautifulSoup
 
 use_step_matcher("parse")
 
-@when(u'I add a comment to isbn "{isbn}" with title "{title}" body "{body}" and stars "{stars}"')
-def step_impl(context, isbn, title, body, stars):
+@when(u'I log out') 
+def step_impl(context):
+    context.browser.find_link_by_text('logout').click()
+
+@given(u'I visit the book with isbn "{isbn}"')
+def step_impl(context, isbn):
     context.browser.visit(context.get_url(f'/book/{isbn}'))
-    form = context.browser.find_by_tag('form')[2]
-    #context.browser.fill('title', body)
-    #context.browser.fill('body', body)
-    #form.find_by_tag('button').first.click()
 
-@then(u'I can see a comment on isbn "{isbn}" by "{username}" with title "{title}" body "{body}" and stars "{stars}"')
-def step_impl(context, isbn, username, title, body, stars):
-    pass
+@when(u'I try to register a review to the book with isbn "{isbn}"')
+def step_impl(context, isbn):
+    context.browser.find_by_id('addCommentButton').first.click
 
-@given(u'"{username}" has a comment on isbn "{isbn}" with title "{title}" body "{body}" and stars "{stars}"')
-def step_impl(context, username, isbn, title, body, stars):
-    pass
+@then(u'I am redirected to the login form') 
+def step_impl(context):
+    assert context.browser.url.startswith(context.get_url('/login/'))
+    
+@then("There are {count:n} reviews")
+def step_impl(context, count):
+    reviews = context.browser.find_by_css('span#num_comments')
+    assert reviews.value == '0 reviews'
+
+@when('I complete the application form')
+def step_impl(context):
+    form = context.browser.find_by_css('form#comment_form.was-validated').first
+    for row in context.table:
+        rate = 'star-' + row['rating']
+        form.find_by_class_name(rate).first.click()
+        context.browser.fill('title', row['title'])
+        context.browser.fill('body', row['comment'])
+
+@then("I\'m viewing a reviews list containing my comment")
+def step_impl(context):
+    for row in context.table:
+        comment = context.browser.find_by_id(row['made_by']).first
+        content = BeautifulSoup(comment, 'html.parser')
+        print(content.prettify())
+        assert content.is_text_present(row['title'])
+        assert content.browser.is_text_present(row['comment'])
+        assert len(content.find_all('span')) == row['rating']
+
+@given(u'"{username}" has a comment on isbn "{isbn}"')
+def step_impl(context, username, isbn):
+    from book_visualizer.models import Comment
+    for row in context.table:
+        comment = Comment(row['title'], row['comment'], row['rating'], date.today(), username, isbn)
+        comment.save()
 
 @when(u'I delete my comment on isbn "{isbn}"')
 def step_impl(context, isbn):
-    pass
+    context.browser.visit(context.get_url(f'/book/{isbn}'))
+    context.browser.find_by_class_name('fa fa-trash').first.click()
 
 @then(u'I cannot see a comment on isbn "{isbn}" by "{username}"')
 def step_impl(context, isbn, username):
-    pass
-
-@when(u'I edit my comment on isbn "{isbn}" with title "{title}" body "{body}" and stars "{stars}"')
-def step_impl(context, isbn, title, body, stars):
-    pass
+    assert len(context.browser.find_by_id(username)) == 0
 
 @then(u'I cannot see an Add Comment button')
 def step_impl(context):
-    pass
+    assert len(context.browser.find_by_id('addCommentButton')) == 0
+
+@then(u'I can see an Add Comment button')
+def step_impl(context):
+    assert len(context.browser.find_by_id('addCommentButton')) == 1
+
+@when(u'I try to edit my comment on isbn "{isbn}"')
+def step_impl(context, isbn):
+    context.browser.visit(context.get_url(f'/book/{isbn}'))
+    context.browser.find_by_class_name('float-right btn btn-success btn-sm rounded-5 mr-1').first.click()
+
+@when(u'I navigate to book with isbn "{isbn}"') 
+def step_impl(context, isbn):
+    context.browser.visit(context.get_url(f'/book/{isbn}'))
+    context.browser.find_by_class_name('fa fa-trash').first.click()
 
 
 
+# Functions that may be used in a general testing context
+# def createUser(username, password):
+#    from django.contrib.auth.models import User
+#   email = "%s@gmail.com" % username
+#    return User(username, password, email)
+
+#def createBook(isbn='1234', title='Title x'):
+#   from book_visualizer.models import Book
+#   return Book(isbn, title, 'Author Example', date.today(), 'Publisher Example', 'Summary here')
