@@ -1,4 +1,4 @@
-from .models import Comment
+from .models import Comment, Book
 from rest_framework import serializers
 
 class GetCommentSerializer(serializers.ModelSerializer):
@@ -21,3 +21,10 @@ class PostCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ('title', 'body', 'stars', 'based_on')
+
+class PostWishSerializer(serializers.Serializer):
+    
+    isbn = serializers.CharField(max_length=13)
+
+    def create(self, validated_data):
+        return validated_data

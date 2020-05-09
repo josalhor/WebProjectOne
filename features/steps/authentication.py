@@ -48,3 +48,13 @@ def step_impl(context, username, password):
     form.find_by_tag('button').first.click()
     assert context.browser.url.startswith(context.get_url('/account/'))
     assert context.browser.is_text_present(f"Hi {username}")
+
+@given(u'I\'m logged in with user "{username}" and password "{password}"')
+def step_impl(context, username, password):
+    from book_visualizer.models import User
+    User.objects.create_user(username=username, email='user@example.com', password=password)
+    context.browser.visit(context.get_url('/login/'))
+    form = context.browser.find_by_tag('form')[1]
+    context.browser.fill('username', username)
+    context.browser.fill('password', password)
+    form.find_by_tag('button').first.click()
