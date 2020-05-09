@@ -32,3 +32,18 @@ def step_impl(context, email):
 @then(u'I should be able to log out')
 def step_impl(context):
     context.browser.visit(context.get_url('/logout/'))
+
+@when(u'I delete my user account')
+def step_impl(context):
+    form = context.browser.find_by_tag('form')[1]
+    form.find_by_tag('button').first.click()
+    context.browser.find_by_text('OK').first.click()
+
+@then(u'I cannot login with user "{username}" and password "{password}"')
+def step_impl(context, username, password):
+    context.browser.visit(context.get_url('/login/'))
+    form = context.browser.find_by_tag('form')[1]
+    context.browser.fill('username', username)
+    context.browser.fill('password', password)
+    form.find_by_tag('button').first.click()
+    assert context.browser.is_text_present("Invalid username and/or password.")
