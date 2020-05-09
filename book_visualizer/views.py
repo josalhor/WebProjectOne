@@ -21,6 +21,8 @@ from . import api_to_db, serializers, permissions
 
 from random import shuffle
 
+import json
+
 class SignUp(generic.CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy('login')
@@ -70,36 +72,31 @@ def book_details(request, pk):
     comments = Comment.objects.all().filter(based_on = book).order_by('-date')
     num_comments = 0
     num_comments_user = 0
-    average  = 0
-    num_stars = 0
     wished_books = -1
     added_book = False
+    sum_stars = 0
+    stars_user = 0
     for comment in comments:
-        average = average + int(comment.stars)
+        if comment.made_by != request.user:
+            sum_stars += int(comment.stars)
+        else:
+            stars_user = int(comment.stars)
         num_comments = num_comments + 1
-    if num_comments == 0:
-        average = 0
-    else:
-        average = average / (num_comments)
-        average = round(average, 2)
-
-    num_stars = round(average)
 
     if request.user.is_authenticated:
         num_comments_user = Comment.objects.filter(made_by=request.user, based_on=book).count()
         wished_books = request.user.wishes.all()
         if(wished_books.filter(pk=pk).count() == 1): added_book = True
 
-
     context = {
         'book': book,
         'num_comments': num_comments,
         'num_comments_user': num_comments_user,
         'comments': comments,
-        'average': average,
-        'num_stars': num_stars,
         'wished_books': wished_books,
-        'added_book': added_book
+        'added_book': added_book,
+        'distribution_stars': sum_stars,
+        'stars_user': stars_user
     }
 
     return render(request, 'book_details.html', context)
