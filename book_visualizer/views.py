@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import generic
 from .forms import UserCreationForm, ContactForm, UserChangeForm, UserForm
 from .models import Book, BestSellersListName, BestSellers, Comment, User
@@ -237,9 +237,9 @@ def edit_account(request):
         form = UserForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('/account/')
+            return redirect(reverse('account'))
         else:
-            return redirect('/account/edit')
+            return redirect(reverse('edit_account'))
     else:
         form = UserForm(instance=request.user)
         args = {'form': form}
@@ -258,9 +258,9 @@ def change_password(request):
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, form.user)
-            return redirect('/account/edit/')
+            return redirect(reverse('account'))
         else:
-            return redirect('/change-password/')
+            return redirect(reverse('change_password'))
     else:
         form = PasswordChangeForm(user=request.user)
         args = {'form': form}
