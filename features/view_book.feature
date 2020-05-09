@@ -11,7 +11,7 @@ Feature: view details of a book
     Scenario: Look for a book
       Given Exists a book title containing "Covid19"
       When  I introduce "Covid19" into the search bar and click 
-      Then I'm viewing the books whose title contains "scandal"
+      Then I'm viewing the books whose title contains "Covid19"
       | name                  | isbn            | 
       | How to stop Covid19   | 3647857463546   | 
       And There are 1 books
