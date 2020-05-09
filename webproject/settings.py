@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'book_visualizer',
     'django_extensions',
     'rest_framework',
+    'bootstrap4'
 ]
 
 if (os.environ.get("TESTING", default="0") == "1"):
