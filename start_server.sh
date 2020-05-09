@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 echo "Trying to start web server..."
 
