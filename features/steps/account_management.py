@@ -4,14 +4,14 @@ use_step_matcher("parse")
 
 @when(u'I change my user to "{username}"')
 def step_impl(context, username):
-    context.browser.click_link_by_href('/account/edit/')   
+    context.browser.click_link_by_href('/account/edit')   
     form = context.browser.find_by_tag('form')[1]
     context.browser.fill('username', username)
     form.find_by_tag('button').first.click()
 
 @when(u'I change my email to "{email}"')
 def step_impl(context, email):
-    context.browser.click_link_by_href('/account/edit/')   
+    context.browser.click_link_by_href('/account/edit')   
     form = context.browser.find_by_tag('form')[1]
     context.browser.fill('email', email)
     form.find_by_tag('button').first.click()
