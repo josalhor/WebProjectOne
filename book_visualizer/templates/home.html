@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<section class="jumbotron">
+<section class="jumbotron" style="padding: 2rem 1rem;">
 	<div class="container">
 		<h1 style='font-weight: bold;'>NYT BESTSELLERS</h1>
 		<hr class="my-4">
@@ -20,7 +20,7 @@
 	<div class="row">
 		<div class="col-12 col-sm-3">
 			<div class="card bg-light mb-3">
-				<div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-list"></i>Random Categories</div>
+				<div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-list"></i> Random Categories</div>
 				<ul class="list-group category_block">
 				{% for category in categories %}
                 	<li class="list-group-item"><a href="{% url 'category' category.pk %}">{{ category.display_name }}</a></li>

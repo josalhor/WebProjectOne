@@ -2,7 +2,7 @@
 {% block title %}Your account{% endblock %}
 {% block content %}
 
-<div class="jumbotron">
+<div class="jumbotron" style="padding: 2rem 1rem;">
   {% if user.is_authenticated %}
   <h3>Hi {{ user.username }} 🤪</h3>
   <br>
