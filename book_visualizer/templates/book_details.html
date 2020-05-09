@@ -167,7 +167,6 @@
 </div>
 <script>
     var stars = 0;
-    var new_comment = false;
     var num_comments = '{{ num_comments }}';
     var num_comments_user = '{{ num_comments_user }}';
     var isbn = '{{ book.isbn }}';
@@ -222,6 +221,7 @@
             document.getElementById('divComment').style.display = "none";
             if ($("#{{ user }}").length != 0){
                 //create new comment node
+                num_comments -= 1;
                 $("#{{ user }}").remove(); 
             }
             var originalTemplate = $('#template-comment');
@@ -250,17 +250,14 @@
                 var spacing = document.createTextNode("\u00A0");
                 existingNode.parentNode.insertBefore(spacing, span);
             }
-            if(new_comment){
-                num_comments += 1;
-                updateNumComments();
-            }
+            num_comments += 1;
+            updateNumComments();
             cleanDivComment();
         }
         postComment(comment, onSuccess, onFail);
     }
 
     function addComment() {
-        new_comment = true;
         if("{{ request.user.is_authenticated }}" == "True" && num_comments_user == "0"){
             $("#addCommentButton").hide();
             document.getElementById('divComment').style.display = "block";
@@ -310,7 +307,7 @@
 
         var hours = date.getHours();
         var minutes = date.getMinutes();
-        var ampm = hours >= 12 ? 'pm' : 'am';
+        var ampm = hours >= 12 ? 'p.m.' : 'a.m.';
         hours = hours % 12;
         hours = hours ? hours : 12; // the hour '0' should be '12'
         minutes = minutes < 10 ? '0'+minutes : minutes;
@@ -384,7 +381,6 @@
                     });
                     document.getElementById('{{ user }}').remove(); 
                     $("#addCommentButton").show();
-                    new_comment = false;
                     num_comments_user = 0;
                     num_comments -= 1;
                     updateNumComments();
