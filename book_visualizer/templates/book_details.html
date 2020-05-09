@@ -222,7 +222,6 @@
                 timer: 1500,
                 buttons: false,
             });
-            var i;
             document.getElementById('divComment').style.display = "none";
             if ($("#{{ user }}") !== undefined){
                 //create new comment node
@@ -237,29 +236,22 @@
             template.find('#template-body-by').attr('id', 'template-body-{{ user }}');
 
             $("#template-made-{{ user }}").text("{{ user }}");
-            
+
             var comment = $("#{{ user }}");
             comment.find("strong")[0].innerText = data.title;
             comment.find("p")[0].innerText = data.date;
             comment.find("p")[2].innerText = data.body;
-            var old_rate = comment.find("span").length;
             var i_class = 'text-warning fa fa-star';
             var existingNode = comment.find("span")[0];
-            if(data.stars > old_rate){
-                for(i=old_rate; i<data.stars; i++){
-                    var span = document.createElement("span");
-                    var i_elem = document.createElement("i");
-                    i_elem.setAttribute('class', i_class);
-                    span.appendChild(i_elem);
-                    
-                    existingNode.parentNode.insertBefore(span, existingNode.nextSibling);
-                    var spacing = document.createTextNode("\u00A0");
-                    existingNode.parentNode.insertBefore(spacing, span);
-                }
-            }else{
-                for(i=data.stars; i<old_rate; i++){
-                    comment.find("span")[0].remove();
-                }
+            for(var i=0; i < data.stars; i++){
+                var span = document.createElement("span");
+                var i_elem = document.createElement("i");
+                i_elem.setAttribute('class', i_class);
+                span.appendChild(i_elem);
+                
+                existingNode.parentNode.insertBefore(span, existingNode.nextSibling);
+                var spacing = document.createTextNode("\u00A0");
+                existingNode.parentNode.insertBefore(spacing, span);
             }
             if(new_comment){
                 num_comments += 1;
