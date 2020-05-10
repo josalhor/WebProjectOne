@@ -10,6 +10,7 @@ def step_impl(context, isbn):
 
 @then(u'I can click the button "{button}"')
 def step_impl(context, button):
+    time.sleep(0.35)
     form = context.browser.find_by_tag('form')[1]
     context.browser.find_by_text(f'{button}').first.click()
 

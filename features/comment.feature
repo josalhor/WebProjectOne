@@ -15,7 +15,15 @@ Feature: Commenting
         And "username3" has a comment on isbn "9781538733295" 
           | rating          | title          | comment                          |
           | 5               | Fantastic book | Totally worth it                 |
-        
+    
+    Scenario: Adding Comment Error
+        When I try to register a review to the book with isbn "9781538733295"
+        And I complete the application form without stars
+          | title         | comment                         |
+          | Sooo good     | I highly recommend this book    | 
+        Then Complains that stars are required
+        And There are 3 reviews 
+
     Scenario: Adding Comment
         When I try to register a review to the book with isbn "9781538733295"
         And I complete the application form
