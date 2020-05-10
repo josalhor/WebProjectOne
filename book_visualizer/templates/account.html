@@ -2,17 +2,33 @@
 {% block title %}Your account{% endblock %}
 {% block content %}
 
-<div class="jumbotron">
+<div class="jumbotron" style="padding: 2rem 1rem;">
   {% if user.is_authenticated %}
   <h3>Hi {{ user.username }} 🤪</h3>
-  <br>
-  <h5>You can see your account details and access your personal space <a href="/admin">here</a></h5>
   <br>
   <h5>Profile information:</h5>
   <p> - Username: {{ user.username }} <br/> - E-mail: {{ user.email }} </p>
   <br>
+  <a class="btn btn-primary mr-3" href="{% url 'wish_list' user=user.username %}">See wish List</a>
   <a class="btn btn-secondary" href="{% url 'edit_account' %}">Edit my profile</a>
-  <a class="btn btn-secondary" href="{% url 'change_password' %}">Change my password</a>
+  <a class="btn btn-secondary mr-1" href="{% url 'change_password' %}">Change my password</a>
+  <form id="delete_form" action="{% url 'delete_account' %}" method="post" style="display: inline;"> {% csrf_token %} <button class="btn btn-danger" onclick="confirmDelete()">Delete account</button></form>
+  <script>
+    function confirmDelete(){
+      event.preventDefault();
+      swal({
+        title: "Are you sure you want to delete your account?",
+        text: "Once deleted, you will not be able to recover it!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          $('#delete_form').submit();
+        }
+      });
+    }
+  </script>
   {% else %}
   <p>You are not logged in. Log in to see your profile</p>
   {% endif %}

@@ -8,7 +8,9 @@ services:
     # because the Dockerfile already does
     # this if not env is set
     command: /app/start_server_dev.sh
-    build: ./
+    build:
+      context: ./
+      target: deploy
     # This is used to keep the migrations
     volumes:
       - ./:/app/

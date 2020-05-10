@@ -11,14 +11,13 @@ These instructions will get you a copy of the project up and running on your loc
 ```
 Docker or Docker Toolbox
 ```
-Although it is not a requirement right now, if you have an environment variable named NYT_API_KEY it will be used to retrieve the categories when the server starts
 
 ### Run locally on Linux and Mac and Windows with Docker
 
 First of all be logged on docker, otherwise you won't be able to build
 
 ```
-$ docker-compose up --build
+$ docker-compose up --build --remove-orphans
 ```
 
 ### Run locally on Windows with Docker Toolbox
@@ -27,7 +26,7 @@ $ docker-compose up --build
 > docker-machine start default &:: Start Virtual Machine
 > docker-machine env &:: Configure Terminal
 > docker-machine ip default &:: Get IP of machine
-> docker-compose up --build &:: Start Docker/Django
+> docker-compose up --build --remove-orphans &:: Start Docker/Django
 ```
 
 ### Clean up database
@@ -43,18 +42,21 @@ docker image prune -af
 
 The server will be deployed on port 80 by default
 
-By default, the local execution runs the file start_server_dev.sh, which configures a default user and password only available on local.
+By default, the local execution runs the file start_server_dev.sh, which configures a default user admin and password only available on local.
+
+Feel free to use `docker-compose exec web` to configure your container, users etc.
+
+You may want to use the file `web.env.secrets.example.sh` and rename it to `web.env.secrets.sh` after adding a NYT API KEY to develop better locally.
 
 ## Running the tests locally (without Travis)
 
 ```
-docker build -t joshsalvia/webprojectone -f Dockerfile .
-docker run joshsalvia/webprojectone python /app/manage.py test
+docker-compose -f docker-compose-test.yml up --build --remove-orphans
 ```
 
-## Problem domain details
+## Documentation
 
-In the file DOMAIN.md you can find implementation details of our code and domain problem.
+You can find basic functionality of our site in the DOMAIN.md file.
 
 ## Built and deployed with
 
@@ -65,9 +67,17 @@ In the file DOMAIN.md you can find implementation details of our code and domain
 * [Travis](https://travis-ci.org/) - Test CI - [Also deploys to Heroku with docker](https://travis-ci.org/github/josalhor/WebProjectOne/builds/668481240#L398)
 * [Git](https://git-scm.com/) - Version control system
 * [GitHub](https://github.com/) - Software development platform
+* [django-bootstrap4](https://github.com/zostera/django-bootstrap4) - Django Bootstrap Integration
+* [Behave](https://behave.readthedocs.io/en/latest/) - Integration Testing
+* [Splinter](https://splinter.readthedocs.io/en/latest/) - Integration Testing
 
-Authors:
+## Authors
+
 - Josep Maria Salvia Hornos
 - Balma Cascón Piñol
 - Anna Torres Tuca
 - Sara Quejido Garriga
+
+### Attribution
+
+Icons made by [Freepik](https://www.flaticon.com/authors/freepik "Freepik") from [www.flaticon.com](https://www.flaticon.com/ "Flaticon")

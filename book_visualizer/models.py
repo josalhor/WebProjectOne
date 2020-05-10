@@ -9,14 +9,12 @@ class User(auth_models.AbstractUser):
 
 class Book(models.Model):
 	isbn = models.CharField(primary_key = True, max_length = 13, help_text = "13 characters")
-	price = models.DecimalField(max_digits = 5, decimal_places = 2, validators=[MinValueValidator(0)])
-	image = models.URLField(blank=True, null=True, help_text = "URL of the image")
 	title = models.CharField(max_length = 150) 
 	author = models.CharField(max_length = 150) 
-	publication_date = models.DateField() 
+	bestsellers_date = models.DateField()
 	publisher = models.CharField(max_length = 150) 
 	summary = models.TextField(max_length = 500, help_text = "Write a brief summary of this book, without spoiling")
-	whished_by = models.ManyToManyField('User', related_name='whishes')
+	wished_by = models.ManyToManyField('User', related_name='wishes')
 	
 	def __str__(self):
 		return '%s - %s' % (self.isbn, self.title)
@@ -37,6 +35,9 @@ class Comment(models.Model):
 	date = models.DateTimeField(auto_now_add=True)
 	made_by = models.ForeignKey('User', on_delete = models.CASCADE)
 	based_on = models.ForeignKey('Book', on_delete = models.CASCADE)
+
+	class Meta:
+		unique_together = ('made_by', 'based_on')
 
 	def __str__(self):
 		return '%s - %s: %s' % (self.made_by, self.based_on , self.title)

@@ -2,51 +2,30 @@
 {% load static %}
 
 {% block content %}
-<section class="jumbotron">
+<section class="jumbotron" style="padding: 2rem 1rem;">
 	<div class="container">
 		<h1 style='font-weight: bold;'>NYT BESTSELLERS</h1>
 		<hr class="my-4">
 		<h2 class="text-justify">Losing yourself in a great novel is one of life’s joys. So where do you start? According to NYT critics, here are the books you need to read.</h1>
 		<hr class="my-4">
-		<h3 class="text-justify">Discover the selection – or at least enjoy arguing about who should or should not have been included. You'll be also able to create your own lists or find any book which was in the list at some point.</h2>
+		<h3 class="text-justify">Discover the selection – or at least enjoy arguing about which book should or should not have been included. You'll be also able to create your own wish lists and comments to the books. Enjoy 😊</h2>
 	</div>
 </section>
 <div class="container">
 	<div class="row">
-		<div class="col">
-			<nav aria-label="breadcrumb">
-				<ol class="breadcrumb">
-					<li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-					<li class="breadcrumb-item active" aria-current="page">Category</li>
-					<li class="breadcrumb-item active" aria-current="page">Sub-category</li>
-				</ol>
-			</nav>
-		</div>
 	</div>
 </div>
 <div class="container">
+	<script src="{% static 'book_ajax.js' %}"></script>
 	<div class="row">
 		<div class="col-12 col-sm-3">
 			<div class="card bg-light mb-3">
-				<div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-list"></i> Categories</div>
+				<div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-list"></i> Random Categories</div>
 				<ul class="list-group category_block">
 				{% for category in categories %}
                 	<li class="list-group-item"><a href="{% url 'category' category.pk %}">{{ category.display_name }}</a></li>
 				{% endfor %}
 				</ul>
-			</div>
-			<div class="card bg-light mb-3">
-				<div class="card-header bg-success text-white text-uppercase"><i class="fa fa-trophy"></i> MORE DAYS ON THE LIST </div>
-				<div class="card-body">
-					<img class="img-fluid" src="https://dummyimage.com/600x400/55595c/fff" />
-					<h5 class="card-title"><a href="book.html" title="View Book">Book title</a></h5>
-					<p class="card-text">Something related to the book that's been in the list longer from the ones making up the list, for example.</p>
-					<div class="row">
-						<div class="col">
-							<p class="btn btn-danger btn-block">Learn more</p>
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
 		<div class="col">
@@ -58,22 +37,25 @@
                 <div class="col-12 col-md-6 col-lg-4">
 					<div class="card" style="width: 18rem;">
 						<div class="card-body">
-							{% if book.image %}
-								<img class="card-img-top mx-auto d-block" style="border-radius:0;width:140px;height:200px;" src="{{ book.image.url }}"/>
-							{% endif %}
-							<h4 class="card-title text-truncate"><a href="{% url 'book_details' book.pk %}" title="View Book">{{ book.title }}</a></h4>
+							<a href="{% url 'book_details' book.pk %}">
+								<img id="book-thumb-{{book.isbn}}" class="card-img-top mx-auto d-block" style="border-radius:0;width:140px;height:200px;object-fit: contain" src="{% static 'stock_temp.jpg' %}"/>
+							</a>
+							<script>
+								setBookImg($('#book-thumb-{{book.isbn}}'), "{{book.isbn}}");
+							</script>
+							<h4 class="card-title text-primary text-truncate text-center"><a href="{% url 'book_details' book.pk %}" title="View Book" style="text-decoration: none;">{{ book.title }}</a></h4>
 							<h6 class="card-subtitle mb-2 text-muted text-truncate">{{ book.author }}</h6>
 							<div class="card-text" style="line-height: 1.5em;height: 6em;overflow: hidden;">{{ book.summary }}</div>
-							<div class="row">
+							<div class="row pt-2">
 								<div class="col">
-									<p><a href="{% url 'book_details' book.pk %}" class="btn btn-danger btn-block"> Read More </a></p>
+									<p><a href="{% url 'book_details' book.pk %}" class="btn btn-outline-info btn-block"> Read More </a></p>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 				{% endfor %}
-				<div class="col-12">
+				<div class="col-12 pt-3">
 					<nav aria-label="...">
 						<ul class="pagination justify-content-end mb-4">
 							{% if bestsellers.has_previous %}

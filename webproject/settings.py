@@ -40,7 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'book_visualizer',
     'django_extensions',
+    'rest_framework',
+    'bootstrap4'
 ]
+
+if (os.environ.get("TESTING", default="0") == "1"):
+    INSTALLED_APPS.append('behave_django')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
