@@ -1,14 +1,16 @@
 Feature: Commenting
 
     Background: I'm logged in
-        Given Exists a book titled "Fortitude2" and isbn "9781538733296"
-        And Exists a book titled "Fortitude3" and isbn "9781538733297"
-        And Exists a book titled "Fortitude4" and isbn "9781538733298"
-        And Exists a book titled "Fortitude5" and isbn "9781538733299"
-        And Exists a book titled "Fortitude6" and isbn "9781538733200"
-        And Exists a book titled "Fortitude7" and isbn "9781538733201"
-        And Exists a book titled "Fortitude8" and isbn "9781538733202"
-        And Exists a book titled "Fortitude9" and isbn "9781538733203"
+        Given There are some registered books 
+        | title       | isbn              | 
+        | Fortitude2  | 9781538733296     |
+        | Fortitude3  | 9781538733297     |
+        | Fortitude4  | 9781538733298     |
+        | Fortitude5  | 9781538733299     |
+        | Fortitude6  | 9781538733200     |
+        | Fortitude7  | 9781538733201     |
+        | Fortitude8  | 9781538733202     |
+        | Fortitude9  | 9781538733203     |
     
     Scenario: Scrolling through next page
         Given I'm on the homepage
