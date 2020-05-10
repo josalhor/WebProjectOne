@@ -61,5 +61,4 @@ def step_impl(context):
 @then(u'I cannot login with user "{username}" and password "{password}"')
 def step_impl(context, username, password):
     fill_login_form(context, username, password)
-    print(context.browser.find_by_tag('form')[1].html)
     assert context.browser.is_text_present("Invalid username and/or password.")
