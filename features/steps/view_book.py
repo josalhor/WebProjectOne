@@ -1,12 +1,12 @@
 from behave import *
-from datetime import date
+from django.utils import timezone
 
 use_step_matcher("parse")
 
 @given(u'Exists a book titled "{title}" and isbn "{isbn}"')
 def step_impl(context, title, isbn):
     from book_visualizer.models import Book
-    book = Book(isbn, title, 'Author Example', date.today(), 'Publisher Example', 'Summary here')
+    book = Book(isbn, title, 'Author Example', timezone.now(), 'Publisher Example', 'Summary here')
     book.save()
 
 @when(u'I navigate to book "{isbn}"')

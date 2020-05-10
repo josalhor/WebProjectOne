@@ -1,6 +1,6 @@
 from behave import *
-from datetime import date
-from bs4 import BeautifulSoup
+from django.utils import timezone
+import time
 
 use_step_matcher("parse")
 
@@ -18,8 +18,6 @@ def step_impl(context, num):
     reviews = context.browser.find_by_xpath(f'//*[@id="num_comments"]')
     expected = f'{num} reviews'
     showed = f'{reviews.first.html}'
-    print(expected)
-    print(showed)
     assert showed == expected
 
 @given(u'"{username}" has a comment on isbn "{isbn}"')
@@ -29,13 +27,18 @@ def step_impl(context, username, isbn):
     user = User.objects.get(username=username)
     book = Book.objects.get(isbn=isbn)
     for row in context.table:
-        Comment(
-            title=row['title'], 
-            body=row['comment'], 
-            stars=row['rating'], 
-            date=date.today(), 
-            made_by=user, 
-            based_on=book).save()
+        comment = {
+            "title":row['title'], 
+            "body":row['comment'], 
+            "stars":row['rating'], 
+            "date":timezone.now(), 
+            "made_by":user, 
+            "based_on":book
+        }
+        Comment.objects.update_or_create(
+            made_by=user,
+            based_on=book,
+            defaults=comment)
 
 @when(u'I complete the application form')
 def step_impl(context):
@@ -44,8 +47,8 @@ def step_impl(context):
         context.browser.fill('body', row['comment'])
         rate = 'star-' + row['rating']
         var = context.browser.find_by_xpath(f'//*[@id="rate required"]/a[@class="{rate}"]')
-        print(var)
         var.click()
+        context.browser.find_by_text('Submit').first.click()
         
 
 @then(u'I\'m viewing a reviews list containing my comment')
@@ -63,6 +66,9 @@ def step_impl(context):
 def step_impl(context, isbn):
     context.browser.visit(context.get_url(f'/book/{isbn}'))
     context.browser.find_by_xpath('//*[@title="Delete"]').click()
+    time.sleep(0.2)
+    context.browser.find_by_text('Sure').first.click()
+    print(context.browser.find_by_text('Sure').first.html)
 
 @then(u'I cannot see a comment on isbn "{isbn}" by "{username}"')
 def step_impl(context, isbn, username):

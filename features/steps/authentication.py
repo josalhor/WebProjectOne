@@ -29,7 +29,7 @@ def step_impl(context, username):
     assert context.browser.url.startswith(context.get_url('/account/'))
     assert context.browser.is_text_present(f"Hi {username}")
 
-@then(u'I see a message error')
+@then(u'I cannot login')
 def step_impl(context):
     assert context.browser.is_text_present("Invalid username and/or password.")
 
@@ -44,14 +44,13 @@ def step_impl(context, username, password):
     create_user(context, username, password)
     fill_login_form(context, username, password)
 
-@when(u'I log out')
-def step_impl(context):
-    thdd = context.browser.find_by_xpath('//*[@id="logout"]').first
-    print(thdd.html)
-
 def create_user(context, username, password):
     from book_visualizer.models import User
-    User.objects.create_user(username=username, email='user@example.com', password=password)
+    if User.objects.all().filter(username__exact=username).exists():
+        u = User.objects.get(username__exact=username)
+        u.set_password(password)
+        return u
+    return User.objects.create_user(username=username, email='user@example.com', password=password)
 
 def fill_login_form(context, username, password):
     context.browser.visit(context.get_url('/login/'))
