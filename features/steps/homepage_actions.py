@@ -27,6 +27,7 @@ def current_page(context, num):
 @given(u'I navigate to page {num:n}')
 def step_impl(context, num):
     context.browser.visit(context.get_url(f'/?page={num}'))
+    print(context.browser.url)
     
 @given(u'Exists a book category called "{category}"')
 def step_impl(context, category):
@@ -44,8 +45,9 @@ def step_impl(context, isbn, category):
 @when(u'I click on next')
 def step_impl(context):
     page = context.browser.find_by_xpath('//ul/li[3]').first
-    print(page.html)
     page.click()
+    print(context.browser.url)
+
     
 @when(u'I click on previous')
 def step_impl(context):
