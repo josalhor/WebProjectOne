@@ -29,7 +29,7 @@ def step_impl(context, username):
     assert context.browser.url.startswith(context.get_url('/account/'))
     assert context.browser.is_text_present(f"Hi {username}")
 
-@then(u'I see a message error')
+@then(u'I cannot login')
 def step_impl(context):
     assert context.browser.is_text_present("Invalid username and/or password.")
 
@@ -58,8 +58,3 @@ def fill_login_form(context, username, password):
     context.browser.fill('username', username)
     context.browser.fill('password', password)
     form.find_by_tag('button').first.click()
-
-@when(u'I log out')
-def step_impl(context):
-    elem = context.browser.find_by_xpath('//*[@id="logout"]')
-    elem.first.click()

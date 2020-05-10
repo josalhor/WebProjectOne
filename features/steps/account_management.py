@@ -1,5 +1,7 @@
 from behave import *
+import time
 
+from authentication import fill_login_form
 use_step_matcher("parse")
 
 @when(u'I change my user to "{username}"')
@@ -35,27 +37,22 @@ def step_impl(context):
 
 @when(u'I click logout')
 def step_impl(context):
-    elem = context.browser.find_by_xpath('//*[@id="logout"]')
-    print(elem.first.html)
-    elem.first.click()
-    #context.browser.find_by_id('logout').first.click()
+    elem = context.browser.find_by_id('logout').first
+    elem.click()
 
-@then(u'I should see login option available')
+@then(u'I should see login option available') # Check
 def step_impl(context):
-    elem = context.browser.find_by_xpath('//*[@id="login"]')
-    assert elem.value == "Login"
+    elem = context.browser.find_by_text('Login').first
 
 @when(u'I delete my user account')
 def step_impl(context):
     form = context.browser.find_by_tag('form')[1]
     form.find_by_tag('button').first.click()
+    time.sleep(0.2)
     context.browser.find_by_text('OK').first.click()
 
 @then(u'I cannot login with user "{username}" and password "{password}"')
 def step_impl(context, username, password):
-    context.browser.visit(context.get_url('/login/'))
-    form = context.browser.find_by_tag('form')[1]
-    context.browser.fill('username', username)
-    context.browser.fill('password', password)
-    form.find_by_tag('button').first.click()
+    fill_login_form(context, username, password)
+    print(context.browser.find_by_tag('form')[1].html)
     assert context.browser.is_text_present("Invalid username and/or password.")

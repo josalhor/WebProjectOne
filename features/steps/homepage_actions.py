@@ -10,7 +10,9 @@ def step_impl(context):
 
 @given(u'I\'m on page {num:n}')
 def step_impl(context, num):
-    assert context.browser.find_by_xpath('//a[@href="#"]').first == num
+    page = context.browser.find_by_xpath('/html/body/div[2]/div/div[2]/div/div[7]/nav/ul/li[2]/a').first
+    print(page.html)
+    assert f'{page.html}' == num
 
 @given(u'Exists a book category called "{category}"')
 def step_impl(context, category):

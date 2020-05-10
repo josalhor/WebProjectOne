@@ -7,12 +7,12 @@ Feature: User can login and use authentication
 
     Scenario: Not registerd username cannot login
         When I login as user "inexistent" with password "password"
-        Then I see a message error
+        Then I cannot login
 
     Scenario: Wrong typo, registered user cannot login
         Given Exists a user "username" with password "password"
         When I login as user "username" with password "wrongpassword"
-        Then I see a message error
+        Then I cannot login
 
     Scenario: Account creation
        When I signup as user "username" with password "testpass123"

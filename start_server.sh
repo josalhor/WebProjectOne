@@ -34,7 +34,7 @@ cd /app/
 python manage.py makemigrations
 python manage.py makemigrations book_visualizer
 python manage.py migrate
-python manage.py collectstatic --no-input --clear
+#python manage.py collectstatic --no-input --clear
 
 
 if [ -n "$DEF_ADMIN" -a -n "$DEF_PASS" ]; then
