@@ -10,9 +10,12 @@ def step_impl(context):
 
 @given(u'I\'m on page {num:n}')
 def step_impl(context, num):
-    page = context.browser.find_by_xpath('/html/body/div[2]/div/div[2]/div/div[7]/nav/ul/li[2]/a').first
-    print(page.html)
-    assert f'{page.html}' == num
+    page = context.browser.find_by_xpath('//ul/li[2]/a')
+    expected = f'{page.html}'
+    showed = f'{num}'
+    print('Expected:', expected)
+    print('Showed:', showed)
+    assert expected == showed
 
 @given(u'Exists a book category called "{category}"')
 def step_impl(context, category):
@@ -29,11 +32,21 @@ def step_impl(context, isbn, category):
 
 @when(u'I click on next')
 def step_impl(context):
-    pass
+    page = context.browser.find_by_xpath('//ul/li[3]/a').first.click()
+    showed = f'{page.html}'
+    expected = 'Next'
+    print('Expected:', expected)
+    print('Showed:', showed)
+    assert showed == expected
 
 @when(u'I click on previous')
 def step_impl(context):
-    pass
+    page = context.browser.find_by_xpath('//ul/li[1]/a')
+    showed = f'{page.html}'
+    expected = 'Previous'
+    print('Expected:', expected)
+    print('Showed:', showed)
+    assert showed == expected
 
 @when(u'I click on category "{cat}"')
 def step_impl(context):
