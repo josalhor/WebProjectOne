@@ -1,5 +1,5 @@
 from behave import *
-from datetime import date
+from django.utils import timezone
 from bs4 import BeautifulSoup
 
 use_step_matcher("parse")
@@ -25,13 +25,18 @@ def step_impl(context, username, isbn):
     user = createUser(username)
     book = Book.objects.get(isbn=isbn)
     for row in context.table:
-        Comment(
-            title=row['title'], 
-            body=row['comment'], 
-            stars=row['rating'], 
-            date=date.today(), 
-            made_by=user, 
-            based_on=book).save()
+        comment = {
+            "title":row['title'], 
+            "body":row['comment'], 
+            "stars":row['rating'], 
+            "date":timezone.now(), 
+            "made_by":user, 
+            "based_on":book
+        }
+        Comment.objects.update_or_create(
+            made_by=user,
+            based_on=book,
+            defaults=comment)
 
 @when(u'I complete the application form')
 def step_impl(context):

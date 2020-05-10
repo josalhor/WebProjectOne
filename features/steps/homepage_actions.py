@@ -1,4 +1,6 @@
 from behave import *
+from book_visualizer.models import BestSellersListName, BestSellers, Book
+from django.utils import timezone
 
 use_step_matcher("parse")
 
@@ -9,6 +11,18 @@ def step_impl(context):
 @given(u'I\'m on page {num:n}')
 def step_impl(context, num):
     assert context.browser.find_by_xpath('//a[@href="#"]').first == num
+
+@given(u'Exists a book category called "{category}"')
+def step_impl(context, category):
+    category = BestSellersListName(999, category, category, category)
+    category.save()
+
+@given(u'Isbn "1234" belongs to the category called "TestigCategory"')
+def step_impl(context, isbn, category):
+    category = BestSellersListName.objects.all().filter(name=category).first()
+    best_sellers_list = BestSellers(999, timezone.now(), category)
+    book = Book.objects.all().filter(isbn=isbn).first()
+    best_sellers_list.books.add(book)
 
 @when(u'I click on next')
 def step_impl(context):
