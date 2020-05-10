@@ -55,7 +55,7 @@ def step_impl(context):
 
 @when(u'I visit the category called "{category}"')
 def step_impl(context, category):
-    context.browser.visit(context.get_url(f'category/{category}'))
+    context.browser.visit(context.get_url(f'/category/{category}'))
 
 @when(u'I click on the logo')
 def step_impl(context):

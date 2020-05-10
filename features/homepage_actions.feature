@@ -32,6 +32,6 @@ Feature: Commenting
         Given Exists a book category called "TestigCategory"
         And Isbn "9781538733297" belongs to the category called "TestigCategory"
         When I visit the category called "TestigCategory"
-        Then I can see the book titled "title"
+        Then I can see a book titled "Fortitude3"
     
     

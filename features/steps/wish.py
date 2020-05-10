@@ -15,6 +15,7 @@ def step_impl(context, button):
 
 @then(u'I can see the button "{button}" on the page of book "{isbn}"')
 def step_impl(context, button, isbn):
+    time.sleep(0.1)
     context.browser.visit(context.get_url(f'/book/{isbn}'))
     form = context.browser.find_by_tag('form')[1]
     assert context.browser.is_text_present(button)
