@@ -69,7 +69,7 @@ def step_impl(context, isbn):
     context.browser.find_by_xpath('//*[@title="Delete"]').click()
     time.sleep(0.2)
     context.browser.find_by_text('Sure').first.click()
-    print(context.browser.find_by_text('Sure').first.html)
+    time.sleep(0.2)
 
 @then(u'I cannot see a comment on isbn "{isbn}" by "{username}"')
 def step_impl(context, isbn, username):
