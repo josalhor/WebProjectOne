@@ -48,11 +48,14 @@ def step_impl(context):
     page.click()
     print(context.browser.url)
 
-    
 @when(u'I click on previous')
 def step_impl(context):
     page = context.browser.find_by_xpath('//ul/li[1]').first
     page.click()
+
+@when(u'I visit the category called "{category}"')
+def step_impl(context, category):
+    context.browser.visit(context.get_url(f'category/{category}'))
 
 @when(u'I click on the logo')
 def step_impl(context):
