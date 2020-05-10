@@ -42,7 +42,9 @@ docker image prune -af
 
 The server will be deployed on port 80 by default
 
-By default, the local execution runs the file start_server_dev.sh, which configures a default user and password only available on local.
+By default, the local execution runs the file start_server_dev.sh, which configures a default user admin and password only available on local.
+
+Feel free to use `docker-compose exec web` to configure your container, users etc.
 
 ## Running the tests locally (without Travis)
 
