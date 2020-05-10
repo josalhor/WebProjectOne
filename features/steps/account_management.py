@@ -35,14 +35,14 @@ def step_impl(context):
 
 @when(u'I click logout')
 def step_impl(context):
-    context.browser.find_link_by_text('logout').click()
+    context.browser.find_link_by_text('Logout').first.click()
 
 @then(u'I should see login option available')
 def step_impl(context):
-    a_elem = context.browser.find_by_css("a")[1].value
-    print('thissss:', a_elem.html)
+    a_elem = context.browser.find_by_class_name('btn')
+    print(a_elem.html)
     assert a_elem.value == "Login"
- 
+
 @when(u'I delete my user account')
 def step_impl(context):
     form = context.browser.find_by_tag('form')[1]

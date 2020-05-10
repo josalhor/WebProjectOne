@@ -50,9 +50,9 @@ By default, the local execution runs the file start_server_dev.sh, which configu
 docker-compose -f docker-compose-test.yml up --build --remove-orphans
 ```
 
-## Problem domain details
+## Documentation
 
-In the file DOMAIN.md you can find implementation details of our code and domain problem.
+You can find basic functionality of our site in the DOMAIN.md file.
 
 ## Built and deployed with
 
