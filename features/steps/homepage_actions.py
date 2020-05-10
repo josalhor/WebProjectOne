@@ -33,13 +33,11 @@ def step_impl(context, isbn, category):
 @when(u'I click on next')
 def step_impl(context):
     page = context.browser.find_by_xpath('//ul/li[3]/a').first
-    print('NEXT:', page.htm.text)
     page.click()
     
 @when(u'I click on previous')
 def step_impl(context):
-    page = context.browser.find_by_xpath('//ul/li[1]/a').first.click()
-    print('PREVIOUS:', page.htm.text)
+    page = context.browser.find_by_xpath('//ul/li[1]/a').first
     page.click()
 
 @when(u'I click on category "{cat}"')
