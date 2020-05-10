@@ -38,3 +38,12 @@ def step_impl(context):
 @when(u'I click on category "{cat}"')
 def step_impl(context):
     pass
+
+@when(u'I click I click the logo')
+def step_impl(context):
+    context.browser.find_by_id('image-logo').click()
+
+@then('I\'m on the homepage')
+def step_impl(context):
+    print(context.browser.url)
+    #assert 
