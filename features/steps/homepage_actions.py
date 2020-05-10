@@ -15,6 +15,19 @@ def step_impl(context, num):
     print('Showed:', showed)
     assert expected == showed
 
+@given(u'Exists a book category called "{category}"')
+def step_impl(context, category):
+    category = BestSellersListName(999, category, category, category)
+    category.save()
+
+@given(u'Isbn "{isbn}" belongs to the category called "{category}"')
+def step_impl(context, isbn, category):
+    category = BestSellersListName.objects.all().filter(name=category).first()
+    best_sellers_list = BestSellers(999, timezone.now(), category)
+    book = Book.objects.all().filter(isbn=isbn).first()
+    best_sellers_list.books.add(book)
+    best_sellers_list.save()
+
 @when(u'I click on next')
 def step_impl(context):
     page = context.browser.find_by_xpath('//ul/li[3]/a').first
@@ -30,3 +43,12 @@ def step_impl(context):
 @when(u'I click on category "{cat}"')
 def step_impl(context):
     pass
+
+@when(u'I click I click the logo')
+def step_impl(context):
+    context.browser.find_by_id('image-logo').click()
+
+@then('I\'m on the homepage')
+def step_impl(context):
+    print(context.browser.url)
+    #assert 

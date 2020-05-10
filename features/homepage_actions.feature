@@ -14,6 +14,12 @@ Feature: Commenting
         When I click on previous      
         Then I'm on page 1
     
+    Scenario: Click Logo
+        Given I'm on the homepage
+        Given I'm on page 2
+        When I click I click the logo
+        Then I'm on the homepage
+    
     Scenario: Book in category
         Given Exists a book category called "TestigCategory"
         And Exists a book with title "title" and isbn "1234"
