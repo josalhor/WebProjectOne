@@ -18,4 +18,10 @@ Feature: User can login and use authentication
        When I signup as user "username" with password "testpass123"
         Then I am redirected to the login form
         And I can login as user "username" with password "testpass123"
-
+    
+    Scenario:
+        Given Exists a book titled "Fortitude" and isbn "9781538733295"
+        And I'm not logged in
+        When I navigate to book "9781455541553"
+        And Click Add Comment
+        Then I'm in the login page

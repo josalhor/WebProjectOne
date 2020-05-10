@@ -332,6 +332,7 @@
         event.preventDefault();
         if ("{{ request.user.is_authenticated }}" != "True"){
             window.location.href = '/login';
+            return;
         }
         if(added_wish_book){
             wishBook(isbn, () => {

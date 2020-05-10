@@ -33,6 +33,13 @@ def step_impl(context, email):
 
 @then(u'I should be able to log out')
 def step_impl(context):
+    logout_by_url(context)
+
+@given(u'I am not logged in')
+def step_impl(context):
+    logout_by_url(context)
+
+def logout_by_url(context):
     context.browser.visit(context.get_url('/logout/'))
 
 @when(u'I click logout')
