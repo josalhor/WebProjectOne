@@ -29,3 +29,9 @@ Feature: A registered user can manage his personal wish list and consult other u
         Given I'm logged in with user "USER2" and password "USERPASSWORD2"
         When I visit my friend "USER1" wish list
         Then The book titled "Fortitude" appears on wish list
+    
+    Scenario: Try to wish an item but not logged in
+        Given I'm not logged in
+        When I navigate to book with isbn "9781538733295"
+        And I try to wish the book
+        Then I am redirected to the login form

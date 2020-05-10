@@ -35,7 +35,7 @@ def step_impl(context, email):
 def step_impl(context):
     logout_by_url(context)
 
-@given(u'I am not logged in')
+@given(u'I\'m not logged in')
 def step_impl(context):
     logout_by_url(context)
 

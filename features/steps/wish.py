@@ -40,3 +40,6 @@ def step_impl(context, isbn):
 def step_impl(context, username_friend):
     context.browser.visit(context.get_url(f'/account/{username_friend}'))
     
+@when('I try to wish the book')
+def step_impl(context):
+    context.browser.find_by_id('list_ref').click()
