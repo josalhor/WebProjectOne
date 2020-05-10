@@ -21,7 +21,6 @@ def step_impl(context):
     print('NEXT:', page.htm.text)
     page.click()
     
-
 @when(u'I click on previous')
 def step_impl(context):
     page = context.browser.find_by_xpath('//ul/li[1]/a').first.click()
