@@ -2,12 +2,12 @@
 {% load static %}
 
 {% block content %}
-<section class="jumbotron">
+<section class="jumbotron" style="padding: 2rem 1rem;">
 	<div class="container">
 		{% if number_books != 0 %}
-			<h1> {{ user }} Wishes to have the following books:</em></h1>
+			<h1> {{ user_wishes }} Wishes to have the following books:</em></h1>
 		{% else %}
-			<h1> {{ user }} doesn't wish any books yet!</em></h1>
+			<h1> {{ user_wishes }} doesn't wish any books yet!</em></h1>
 		{% endif %}
 	</div>
 </section>
@@ -22,14 +22,16 @@
 		<table class="table table-hover table-striped">
 			<thead>
 			<tr class="thead-dark">
-				<th></th>
+				<th class="text-center">Cover</th>
 				<th>Title & Author</th>
+				{% if user == user_wishes %}
 				<th class="text-right">Actions</th>
+				{% endif %}
 			</tr>
 		</thead>
 			<tbody>
 				{% for book in books_list %}
-				<tr>
+				<tr id = "{{book.isbn}}" >
 					<td class="text-center">
 						<div><a href="{% url 'book_details' book.pk %}">
 							<img id="book-thumb-{{book.isbn}}" class="card-img-top mx-auto d-block" style="border-radius:0;width:100px;height:143px;object-fit: contain" src="{% static 'stock_temp.jpg' %}"/>
@@ -42,10 +44,11 @@
 						<b>{{ book.title }}</b> <br>
 						<p class="font-italic">by {{ book.author }}</p>
 					</td>
+					{% if user == user_wishes %}
 					<td class="align-middle">
-						<button class="float-right btn btn-success btn-sm rounded-5" type="button" title="Edit"><i class="fa fa-edit"></i></button>
-                        <button class="float-right btn btn-danger btn-sm rounded-5 mr-2" type="button"title="Delete"><i class="fa fa-trash"></i></button>
+                        <button id="delete-{{book.isbn}}" class="float-right btn btn-danger btn-sm rounded-5 mr-2" type="button" title="Delete"><i class="fa fa-trash"></i></button>
 					</td>
+					{% endif %}
 				</tr>
 				{% endfor %}
 			</tbody>
@@ -53,4 +56,37 @@
 	</div>
 </div>
 {% endif %}
+
+<script>
+	var onFail = function () {
+        swal({   
+            title: "Oops",   
+            text: "Something went wrong! Please try it again later.",   
+            icon: "warning",
+        });
+	}
+	$("button").click(function() {
+		isbn = this.id.split('-')[1];
+		swal({
+            title: "Are you sure?",
+            icon: "warning",
+            buttons: [
+                'Cancel',
+                'Sure'
+            ],
+            dangerMode: true,
+        }).then(function(isConfirm) {
+            if (isConfirm) {
+				var onSuccess = function () {
+					swal({
+						title: "Success!", 
+						icon: "success"
+					});
+					document.getElementById(isbn).remove(); 
+				}
+                unWishBook(isbn, onSuccess, onFail)
+            }
+		});
+	});
+</script>
 {% endblock content %}

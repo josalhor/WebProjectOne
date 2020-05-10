@@ -42,7 +42,11 @@ docker image prune -af
 
 The server will be deployed on port 80 by default
 
-By default, the local execution runs the file start_server_dev.sh, which configures a default user and password only available on local.
+By default, the local execution runs the file start_server_dev.sh, which configures a default user admin and password only available on local.
+
+Feel free to use `docker-compose exec web` to configure your container, users etc.
+
+You may want to use the file `web.env.secrets.example.sh` and rename it to `web.env.secrets.sh` after adding a NYT API KEY to develop better locally.
 
 ## Running the tests locally (without Travis)
 
@@ -50,9 +54,9 @@ By default, the local execution runs the file start_server_dev.sh, which configu
 docker-compose -f docker-compose-test.yml up --build --remove-orphans
 ```
 
-## Problem domain details
+## Documentation
 
-In the file DOMAIN.md you can find implementation details of our code and domain problem.
+You can find basic functionality of our site in the DOMAIN.md file.
 
 ## Built and deployed with
 
@@ -63,6 +67,9 @@ In the file DOMAIN.md you can find implementation details of our code and domain
 * [Travis](https://travis-ci.org/) - Test CI - [Also deploys to Heroku with docker](https://travis-ci.org/github/josalhor/WebProjectOne/builds/668481240#L398)
 * [Git](https://git-scm.com/) - Version control system
 * [GitHub](https://github.com/) - Software development platform
+* [django-bootstrap4](https://github.com/zostera/django-bootstrap4) - Django Bootstrap Integration
+* [Behave](https://behave.readthedocs.io/en/latest/) - Integration Testing
+* [Splinter](https://splinter.readthedocs.io/en/latest/) - Integration Testing
 
 ## Authors
 

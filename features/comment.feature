@@ -1,24 +1,63 @@
 Feature: Commenting
 
     Background: I'm logged in
-        Given I'm logged in with user "USER1" and password "USERPASSWORD1"
-        And Exists a book titled "title" and isbn "1234"
-
+        Given I'm logged in with user "usernamex" and password "password"
+        And Exists a book titled "Fortitude" and isbn "9781538733295"
+        And Exists a user "username1" with password "password1"
+        And Exists a user "username2" with password "password2"
+        And Exists a user "username3" with password "password3"
+        And "username1" has a comment on isbn "9781538733295" 
+          | rating          | title          | comment                          |
+          | 3               | Not bad        | It was too long but I liked it   |
+        And "username2" has a comment on isbn "9781538733295" 
+          | rating          | title          | comment                          |
+          | 4               | Read it        | I found this book so interesting |
+        And "username3" has a comment on isbn "9781538733295" 
+          | rating          | title          | comment                          |
+          | 5               | Fantastic book | Totally worth it                 |
+        
     Scenario: Adding Comment
-        When I add a comment to isbn "1234" with title "T1" body "B1" and stars "3"
-        Then I can see a comment on isbn "1234" by "USER1" with title "T1" body "B1" and stars "3"
+        When I try to register a review to the book with isbn "9781538733295"
+        And I complete the application form
+          | rating          | title         | comment                         |
+          | 4               | Sooo good     | I highly recommend this book    |
+        Then I'm viewing a reviews list containing my comment
+          | rating          | title         | comment                         | author    |     
+          | 4               | Sooo good     | I highly recommend this book    | username  |      
+        And There are 4 reviews 
 
     Scenario: Removing Comment
-        Given "USER1" has a comment on isbn "1234" with title "T1" body "B1" and stars "3"
-        When I delete my comment on isbn "1234"
-        Then I cannot see a comment on isbn "1234" by "USER1"
+        Given "usernamex" has a comment on isbn "9781538733295" 
+          | rating          | title         | comment                         |
+          | 4               | Sooo good     | I highly recommend this book    |
+        When I delete my comment on isbn "9781538733295"
+        Then I cannot see a comment on isbn "9781538733295" by "usernamex"
+        And There are 3 reviews
+        And I can see an Add Comment button
     
     Scenario: Editing Comment
-        Given "USER1" has a comment on isbn "1234" with title "T1" body "B1" and stars "3"
-        When I edit my comment on isbn "1234" with title "T2" body "B2" and stars "5"
-        Then I can see a comment on isbn "1234" by "USER1" with title "T2" body "B2" and stars "5"
+        Given "usernamex" has a comment on isbn "9781538733295" 
+          | rating          | title         | comment                         |
+          | 4               | Sooo good     | I highly recommend this book    |
+        When I try to edit my comment on isbn "9781538733295"                
+        And I complete the application form
+          | rating          | title         | comment                         |
+          | 5               | Fabulous book | I highly recommend this book    |
+        Then I'm viewing a reviews list containing my comment               
+          | rating          | title         | comment                         | author     | 
+          | 4               | Sooo good     | I highly recommend this book    | username   |
+        And There are 4 reviews
 
     Scenario: Hidden Button
-        Given "USER1" has a comment on isbn "1234" with title "T1" body "B1" and stars "3"
-        When I navigate to book "1234"
-        Then I cannot see a "Add Comment" button
+        Given "usernamex" has a comment on isbn "9781538733295" 
+          | rating          | title         | comment                         |
+          | 4               | Sooo good     | I highly recommend this book    |
+        When I navigate to book with isbn "9781538733295"                   
+        Then I cannot see an Add Comment button
+
+    Scenario: Try to register a comment to a book but not logged in
+        Given I'm not logged in
+        When I navigate to book with isbn "9781538733295"
+        And I try to register a review to the book with isbn "9781538733295"
+        Then I am redirected to the login form
+  

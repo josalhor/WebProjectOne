@@ -1,8 +1,8 @@
 Feature: User can edit his profile
     
     Scenario: Account Deletion
-        Given Exists a user "username" with password "testpass123"
-        When I delete the user
+        Given I'm logged in with user "USER1" and password "USERPASSWORD1"
+        When I delete my user account
         Then I cannot login with user "USER1" and password "USERPASSWORD1"
 
     Scenario: User Editing
@@ -23,3 +23,8 @@ Feature: User can edit his profile
         And I change my password "USERPASSWORD1" to "USERPASSWORD2"
         Then I should be able to log out
         And I can login as user "USER1" with password "USERPASSWORD2"
+
+    Scenario: Logged user can logout
+        Given I'm logged in with user "USER1" and password "USERPASSWORD1" 
+        And I'm not logged in
+        Then I should see login option available
