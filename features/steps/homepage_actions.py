@@ -1,4 +1,6 @@
 from behave import *
+from book_visualizer.models import BestSellersListName, BestSellers, Book
+from django.utils import timezone
 
 use_step_matcher("parse")
 
@@ -51,5 +53,5 @@ def step_impl(context):
 
 @then('I\'m on the homepage')
 def step_impl(context):
-    print(context.browser.url)
+    print('URL', context.browser.url)
     #assert 
