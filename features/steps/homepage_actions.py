@@ -8,23 +8,16 @@ def step_impl(context):
 
 @given(u'I\'m on page {num:n}')
 def step_impl(context, num):
-    elem = context.browser.find_by_xpath('/html/body/div[2]/div/div[2]/div/div[7]/nav/ul/li[2]/a')
-    print(elem.first)
     assert context.browser.find_by_xpath('//a[@href="#"]').first == num
 
 @when(u'I click on next')
 def step_impl(context):
-    elem1 = context.browser.find_by_xpath('//a[@class="page-link"')[0]
-    print(elem1)
-    elem2 = context.browser.find_by_xpath('//a[@class="page-link"')[1]
-    print(elem2)
-    elem3 = context.browser.find_by_xpath('//a[@class="page-link"')[2]
-    print(elem3)
+    pass
 
 @when(u'I click on previous')
 def step_impl(context):
-    context.browser.find_by_xpath('//a[@class="page-link"').click()
+    pass
 
 @when(u'I click on category "{cat}"')
 def step_impl(context):
-    context.browser.find_by_xpath('//a[@class="page-link"/a[0]').click()
+    pass
