@@ -1,12 +1,11 @@
 from behave import *
 from datetime import date
 from bs4 import BeautifulSoup
+from functools import reduce
+import operator
+import os
 
 use_step_matcher("parse")
-
-@when(u'I log out') 
-def step_impl(context):
-    context.browser.find_link_by_text('logout').click()
 
 @given(u'I visit the book with isbn "{isbn}"')
 def step_impl(context, isbn):
@@ -20,12 +19,12 @@ def step_impl(context, isbn):
 def step_impl(context):
     assert context.browser.url.startswith(context.get_url('/login/'))
     
-@then("There are {count:n} reviews")
+@then(u'There are {count:n} reviews')
 def step_impl(context, count):
     reviews = context.browser.find_by_css('span#num_comments')
     assert reviews.value == '0 reviews'
 
-@when('I complete the application form')
+@when(u'I complete the application form')
 def step_impl(context):
     form = context.browser.find_by_css('form#comment_form.was-validated').first
     for row in context.table:
@@ -34,7 +33,7 @@ def step_impl(context):
         context.browser.fill('title', row['title'])
         context.browser.fill('body', row['comment'])
 
-@then("I\'m viewing a reviews list containing my comment")
+@then(u'I\'m viewing a reviews list containing my comment')
 def step_impl(context):
     for row in context.table:
         comment = context.browser.find_by_id(row['made_by']).first
@@ -47,6 +46,8 @@ def step_impl(context):
 @given(u'"{username}" has a comment on isbn "{isbn}"')
 def step_impl(context, username, isbn):
     from book_visualizer.models import Comment
+    print("hereee")
+    print(context.table)
     for row in context.table:
         comment = Comment(row['title'], row['comment'], row['rating'], date.today(), username, isbn)
         comment.save()
@@ -78,14 +79,13 @@ def step_impl(context, isbn):
     context.browser.visit(context.get_url(f'/book/{isbn}'))
     context.browser.find_by_class_name('fa fa-trash').first.click()
 
-
-
 # Functions that may be used in a general testing context
 # def createUser(username, password):
 #    from django.contrib.auth.models import User
 #   email = "%s@gmail.com" % username
 #    return User(username, password, email)
 
-#def createBook(isbn='1234', title='Title x'):
+# def createBook(isbn='1234', title='Title x'):
 #   from book_visualizer.models import Book
 #   return Book(isbn, title, 'Author Example', date.today(), 'Publisher Example', 'Summary here')
+
