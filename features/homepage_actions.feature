@@ -17,7 +17,7 @@ Feature: Commenting
     Scenario: Click Logo
         Given I'm on the homepage
         Given I'm on page 2
-        When I click I click the logo
+        When I click on the logo
         Then I'm on the homepage
     
     Scenario: Book in category

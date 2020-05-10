@@ -41,16 +41,11 @@ def step_impl(context):
     page = context.browser.find_by_xpath('//ul/li[1]').first
     page.click()
 
-@when(u'I click on category "{cat}"')
-def step_impl(context):
-    pass
-
-@when(u'I click I click the logo')
+@when(u'I click on the logo')
 def step_impl(context):
     context.browser.find_by_id('image-logo').click()
 
 @then('I\'m on the homepage')
 def step_impl(context):
-    pass
-    #print('URL', context.browser.url)
+    print('URL', context.browser.url)
     #assert 

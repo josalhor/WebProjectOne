@@ -1,5 +1,5 @@
 from behave import *
-
+import time
 use_step_matcher("parse")
 
 @given(u'This user wishes the book with isbn "{isbn}"')
@@ -31,7 +31,9 @@ def step_impl(context, title):
 @when(u'I remove the book "{isbn}" from my wish list')
 def step_impl(context, isbn):
     context.browser.find_by_id(f'delete-{isbn}').first.click()
+    time.sleep(0.2)
     context.browser.find_by_text('Sure').first.click()
+    time.sleep(0.2)
     context.browser.find_by_text('OK').first.click()
 
 @when(u'I visit my friend "{username_friend}" wish list')

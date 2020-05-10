@@ -46,6 +46,8 @@ By default, the local execution runs the file start_server_dev.sh, which configu
 
 Feel free to use `docker-compose exec web` to configure your container, users etc.
 
+You may want to use the file `web.env.secrets.example.sh` and rename it to `web.env.secrets.sh` after adding a NYT API KEY to develop better locally.
+
 ## Running the tests locally (without Travis)
 
 ```
