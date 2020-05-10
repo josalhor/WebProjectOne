@@ -20,14 +20,11 @@ def current_page(context, num):
     page = context.browser.find_by_xpath('//ul/li[2]/a')
     expected = f'{num}'
     showed = f'{page.html}'
-    print('Expected:', expected)
-    print('Showed:', showed)
     assert expected == showed
 
 @given(u'I navigate to page {num:n}')
 def step_impl(context, num):
     context.browser.visit(context.get_url(f'/?page={num}'))
-    print(context.browser.url)
     
 @given(u'Exists a book category called "{category}"')
 def step_impl(context, category):
@@ -46,7 +43,6 @@ def step_impl(context, isbn, category):
 def step_impl(context):
     page = context.browser.find_by_xpath('//ul/li[3]').first
     page.click()
-    print(context.browser.url)
 
 @when(u'I click on previous')
 def step_impl(context):
@@ -63,5 +59,4 @@ def step_impl(context):
 
 @then('I\'m on the homepage')
 def step_impl(context):
-    print('URL', context.browser.url)
-    #assert 
+    assert not 'page' in str(context.browser.url)
