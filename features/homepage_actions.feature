@@ -30,8 +30,7 @@ Feature: Commenting
     
     Scenario: Book in category
         Given Exists a book category called "TestigCategory"
-        And Exists a book with title "title" and isbn "1234"
-        And Isbn "1234" belongs to the category called "TestigCategory"
+        And Isbn "9781538733297" belongs to the category called "TestigCategory"
         When I visit the category called "TestigCategory"
         Then I can see the book titled "title"
     

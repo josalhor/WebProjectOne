@@ -56,8 +56,8 @@ Feature: Commenting
         Then I cannot see an Add Comment button
 
     Scenario: Try to register a comment to a book but not logged in
-        When I'm not logged in
-        And I navigate to book with isbn "9781538733295"
+        Given I'm not logged in
+        When I navigate to book with isbn "9781538733295"
         And I try to register a review to the book with isbn "9781538733295"
         Then I am redirected to the login form
   
