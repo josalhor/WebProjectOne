@@ -21,7 +21,7 @@ Feature: User can login and use authentication
     
     Scenario:
         Given Exists a book titled "Fortitude" and isbn "9781538733295"
-        And I'm not logged in
+        And I am not logged in
         When I navigate to book "9781455541553"
         And Click Add Comment
         Then I'm in the login page
