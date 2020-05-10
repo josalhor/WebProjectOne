@@ -50,8 +50,9 @@ if [[ -z "${TESTING}" ]];
 then
   gunicorn -b 0.0.0.0:$PORT webproject.wsgi --log-file -
 else
+  python manage.py test || exit
   echo "Starting Behave testing"
   echo "python manage.py behave ${BEHAVE_OPTIONS}"
-  python manage.py behave ${BEHAVE_OPTIONS}
+  python manage.py behave ${BEHAVE_OPTIONS} || exit
 fi
 
