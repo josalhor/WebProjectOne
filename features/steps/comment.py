@@ -18,6 +18,7 @@ def step_impl(context, num):
     reviews = context.browser.find_by_xpath(f'//*[@id="num_comments"]')
     expected = f'{num} reviews'
     showed = f'{reviews.first.html}'
+    print(showed, expected)
     assert showed == expected
 
 @given(u'"{username}" has a comment on isbn "{isbn}"')
