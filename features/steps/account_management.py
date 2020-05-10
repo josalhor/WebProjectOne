@@ -36,14 +36,13 @@ def step_impl(context):
 @when(u'I click logout')
 def step_impl(context):
     elem = context.browser.find_by_xpath('//*[@id="logout"]')
-    print(elem.first.html)
-    elem.first.click()
-    #context.browser.find_by_id('logout').first.click()
+    print(elem)
 
-@then(u'I should see login option available')
+
+@then(u'I should see login option available') # Check
 def step_impl(context):
-    elem = context.browser.find_by_xpath('//*[@id="login"]')
-    assert elem.value == "Login"
+    elem = context.browser.find_by_text('Login').first
+    print(elem.html)
 
 @when(u'I delete my user account')
 def step_impl(context):

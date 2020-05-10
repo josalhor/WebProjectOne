@@ -46,7 +46,8 @@ def step_impl(context, username, password):
 
 @when(u'I log out')
 def step_impl(context):
-    browser.find_link_by_text('logout').click()
+    thdd = context.browser.find_by_xpath('//*[@id="logout"]').first
+    print(thdd.html)
 
 def create_user(context, username, password):
     from book_visualizer.models import User
@@ -57,14 +58,4 @@ def fill_login_form(context, username, password):
     form = context.browser.find_by_tag('form')[1]
     context.browser.fill('username', username)
     context.browser.fill('password', password)
-<<<<<<< HEAD
     form.find_by_tag('button').first.click()
-
-@when(u'I log out')
-def step_impl(context):
-    elem = context.browser.find_by_xpath('//*[@id="logout"]')
-    print(elem.first.html)
-    elem.first.click()
-=======
-    form.find_by_tag('button').first.click()
->>>>>>> 7baa4f84a9abbeab6bd86d7ee3b8b1d8e6f7f566

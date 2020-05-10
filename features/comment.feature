@@ -1,15 +1,18 @@
 Feature: Commenting
 
     Background: I'm logged in
-        Given I'm logged in with user "username" and password "password"
+        Given I'm logged in with user "usernamex" and password "password"
         And Exists a book titled "Fortitude" and isbn "9781538733295"
-        And "username2" has a comment on isbn "9781538733295" 
+        And Exists a user "username1" with password "password1"
+        And Exists a user "username2" with password "password2"
+        And Exists a user "username3" with password "password3"
+        And "username1" has a comment on isbn "9781538733295" 
           | rating          | title          | comment                          |
           | 3               | Not bad        | It was too long but I liked it   |
-        And "username3" has a comment on isbn "9781538733295" 
+        And "username2" has a comment on isbn "9781538733295" 
           | rating          | title          | comment                          |
           | 4               | Read it        | I found this book so interesting |
-        And "username4" has a comment on isbn "9781538733295" 
+        And "username3" has a comment on isbn "9781538733295" 
           | rating          | title          | comment                          |
           | 5               | Fantastic book | Totally worth it                 |
         
@@ -24,16 +27,16 @@ Feature: Commenting
         And There are 6 reviews 
 
     Scenario: Removing Comment
-        Given "username" has a comment on isbn "9781538733295" 
+        Given "usernamex" has a comment on isbn "9781538733295" 
           | rating          | title         | comment                         |
           | 4               | Sooo good     | I highly recommend this book    |
         When I delete my comment on isbn "9781538733295"
-        Then I cannot see a comment by "username"
+        Then I cannot see a comment on isbn "isbn" by "username"
         And There are 4 reviews
         And I can see an Add Comment button
     
     Scenario: Editing Comment
-        Given "username" has a comment on isbn "9781538733295" 
+        Given "usernamex" has a comment on isbn "9781538733295" 
           | rating          | title         | comment                         |
           | 4               | Sooo good     | I highly recommend this book    |
         When I try to edit my comment on isbn "9781538733295"                
@@ -46,7 +49,7 @@ Feature: Commenting
         And There are 5 reviews
 
     Scenario: Hidden Button
-        Given "username" has a comment on isbn "9781538733295" 
+        Given "usernamex" has a comment on isbn "9781538733295" 
           | rating          | title         | comment                         |
           | 4               | Sooo good     | I highly recommend this book    |
         When I navigate to book with isbn "9781538733295"                   
