@@ -44,4 +44,6 @@ def step_impl(context, username, password):
 
 @when(u'I log out')
 def step_impl(context):
-    browser.find_link_by_text('logout').click()
+    elem = context.browser.find_by_xpath('//*[@id="logout"]')
+    print(elem.first.html)
+    elem.first.click()
