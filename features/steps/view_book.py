@@ -5,6 +5,14 @@ use_step_matcher("parse")
 
 @given(u'Exists a book titled "{title}" and isbn "{isbn}"')
 def step_impl(context, title, isbn):
+    create_book(context, title, isbn)
+
+@given(u'There are some registered books')
+def step_impl(context):
+    for row in context.table:
+        create_book(context, row['title'], row['isbn'])
+
+def create_book(context, title, isbn):
     from book_visualizer.models import Book
     book = Book(isbn, title, 'Author Example', timezone.now(), 'Publisher Example', 'Summary here')
     book.save()

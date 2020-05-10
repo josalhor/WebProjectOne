@@ -18,7 +18,6 @@ def step_impl(context, num):
     reviews = context.browser.find_by_xpath(f'//*[@id="num_comments"]')
     expected = f'{num} reviews'
     showed = f'{reviews.first.html}'
-    print(showed, expected)
     assert showed == expected
 
 @given(u'"{username}" has a comment on isbn "{isbn}"')
@@ -50,18 +49,24 @@ def step_impl(context):
         var = context.browser.find_by_xpath(f'//*[@id="rate required"]/a[@class="{rate}"]')
         var.click()
         context.browser.find_by_text('Submit').first.click()
-        
+
+@then('Complains that stars are required')
+def step_impl(context):
+    assert context.browser.is_text_present('Please, give a rate before submiting')
+
+@when('I complete the application form without stars')
+def step_impl(context):
+    for row in context.table:
+        context.browser.fill('title', row['title'])
+        context.browser.fill('body', row['comment'])
+        context.browser.find_by_text('Submit').first.click()
 
 @then(u'I\'m viewing a reviews list containing my comment')
 def step_impl(context):
     for row in context.table:
         user = row['author']
         id_comment = f'comment-{user}'
-        comment = context.browser.find_by_id(id_comment) # Problems
-        #content = BeautifulSoup(comment, 'html.parser') 
-        #assert content.is_text_present(row['title'])
-        #assert content.is_text_present(row['comment'])
-        #assert len(content.find_all('span')) == row['rating']
+        context.browser.find_by_id(id_comment)
 
 @when(u'I delete my comment on isbn "{isbn}"')
 def step_impl(context, isbn):
