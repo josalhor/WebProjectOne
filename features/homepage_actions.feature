@@ -10,13 +10,12 @@ Feature: Commenting
     
     Scenario: Coming back previous page
         Given I'm on the homepage
-        Given I'm on page 2
+        And I navigate to page 2
         When I click on previous      
         Then I'm on page 1
     
     Scenario: Click Logo
         Given I'm on the homepage
-        Given I'm on page 2
         When I click I click the logo
         Then I'm on the homepage
     
