@@ -63,6 +63,9 @@ You can find basic functionality of our site in the DOMAIN.md file.
 * [Travis](https://travis-ci.org/) - Test CI - [Also deploys to Heroku with docker](https://travis-ci.org/github/josalhor/WebProjectOne/builds/668481240#L398)
 * [Git](https://git-scm.com/) - Version control system
 * [GitHub](https://github.com/) - Software development platform
+* [django-bootstrap4](https://github.com/zostera/django-bootstrap4) - Django Bootstrap Integration
+* [Behave](https://behave.readthedocs.io/en/latest/) - Integration Testing
+* [Splinter](https://splinter.readthedocs.io/en/latest/) - Integration Testing
 
 ## Authors
 
