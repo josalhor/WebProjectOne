@@ -30,7 +30,7 @@ def step_impl(context, num):
     
 @given(u'Exists a book category called "{category}"')
 def step_impl(context, category):
-    category = BestSellersListName(999, category, category, category)
+    category = BestSellersListName(category, category, category)
     category.save()
 
 @given(u'Isbn "{isbn}" belongs to the category called "{category}"')
