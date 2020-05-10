@@ -10,13 +10,24 @@ def step_impl(context):
 
 @given(u'I\'m on page {num:n}')
 def step_impl(context, num):
+    current_page(context, num)
+
+@then(u'I\'m on page {num:n}')
+def step_impl(context, num):
+    current_page(context, num)
+
+def current_page(context, num):
     page = context.browser.find_by_xpath('//ul/li[2]/a')
-    expected = f'{page.html}'
-    showed = f'{num}'
+    expected = f'{num}'
+    showed = f'{page.html}'
     print('Expected:', expected)
     print('Showed:', showed)
     assert expected == showed
 
+@given(u'I navigate to page {num:n}')
+def step_impl(context, num):
+    context.browser.visit(context.get_url(f'/?page={num}'))
+    
 @given(u'Exists a book category called "{category}"')
 def step_impl(context, category):
     category = BestSellersListName(category, category, category)
