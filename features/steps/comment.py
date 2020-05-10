@@ -14,10 +14,6 @@ def step_impl(context, isbn):
 @when(u'I try to register a review to the book with isbn "{isbn}"')
 def step_impl(context, isbn):
     context.browser.find_by_id('addCommentButton').first.click
-
-@then(u'I am redirected to the login form') 
-def step_impl(context):
-    assert context.browser.url.startswith(context.get_url('/login/'))
     
 @then(u'There are {count:n} reviews')
 def step_impl(context, count):
