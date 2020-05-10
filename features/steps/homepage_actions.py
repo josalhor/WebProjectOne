@@ -39,8 +39,8 @@ def step_impl(context, isbn, category):
     category = BestSellersListName.objects.all().filter(name=category).first()
     best_sellers_list = BestSellers(999, timezone.now(), category)
     book = Book.objects.all().filter(isbn=isbn).first()
-    best_sellers_list.books.add(book)
     best_sellers_list.save()
+    best_sellers_list.books.add(book)
 
 @when(u'I click on next')
 def step_impl(context):
