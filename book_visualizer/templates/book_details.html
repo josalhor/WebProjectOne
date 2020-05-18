@@ -43,6 +43,14 @@
                             <span id="average-num-stars-display">
                             </span>
                             {% if num_comments > 0 %}
+                                <span rel="aggregateRating" style="display: none;">
+                                    <p typeof="AggregateRating">
+                                        <span property="ratingValue">
+                                            <span  property="ratingValue">{{ average_stars|stringformat:".1f" }}</span>
+                                            <span property="reviewCount">{{ num_comments }}</span>
+                                        </span>
+                                    </p>
+                                </span>
                                 (<span id="average-num-stars"></span>/5.0)
                                 <a class="pull-right" href="#reviews">View all reviews</a>
                             {% endif %}
