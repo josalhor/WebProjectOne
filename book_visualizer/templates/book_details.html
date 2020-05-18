@@ -159,10 +159,11 @@
                                                     <p style="display: inline-block;"><strong><span property="abstract">{{ comment.title }}</span></strong> by <span property="author">{{ comment.made_by }} &nbsp</span></p>
                                                     {% for item in comment.stars|add:"0"|times %}
                                                     <span rel="reviewRating" style="display: none;">
-                                                        <p typeof="ReviewRating">
+                                                        <p typeof="Rating">
                                                             <span property="ratingValue">
-                                                                <span property="ratingValue">{{ average_stars|stringformat:".1f" }}</span>
-                                                                <span property="reviewCount">{{ num_comments }}</span>
+                                                                <span property="ratingValue">{{ comment.stars }}</span>
+                                                                <span property="worstRating" content="1"></span>
+                                                                <span property="bestRating" content="5"></span>
                                                             </span>
                                                         </p>
                                                     </span>
