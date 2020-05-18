@@ -34,28 +34,34 @@
 					<p style="color:red;">Your search returned no results, but have a look at some of these popular titles:</p>
 				{% endif %}
 				{% for book in bestsellers %}
-				<span vocab="http://schema.org/" typeof="Book">
-					<div class="col-12 col-md-6 col-lg-4">
-						<div class="card" style="width: 18rem;">
-							<div class="card-body">
+				<div class="col-12 col-md-6 col-lg-4">
+					<div class="card" style="width: 18rem;">
+						<div class="card-body">
+							<span vocab="http://schema.org/" typeof="Book">
 								<a href="{% url 'book_details' book.pk %}">
 									<img id="book-thumb-{{book.isbn}}" class="card-img-top mx-auto d-block" style="border-radius:0;width:140px;height:200px;object-fit: contain" src="{% static 'stock_temp.jpg' %}"/>
 								</a>
 								<script>
 									setBookImg($('#book-thumb-{{book.isbn}}'), "{{book.isbn}}");
 								</script>
-								<h4 class="card-title text-primary text-truncate text-center"><a href="{% url 'book_details' book.pk %}" title="View Book" style="text-decoration: none;"><span property="name">{{ book.title }}</span></a></h4>
+								<span property="name" style="display: none;">{{ book.title }}</span>
+								<h4 class="card-title text-primary text-truncate text-center"><a href="{% url 'book_details' book.pk %}" title="View Book" style="text-decoration: none;">{{ book.title }}</a></h4>
 								<h6 class="card-subtitle mb-2 text-muted text-truncate"><span property="author">{{ book.author }}</span></h6>
 								<div class="card-text" style="line-height: 1.5em;height: 6em;overflow: hidden;"><span property="abstract">{{ book.summary }}</span></div>
 								<div class="row pt-2">
 									<div class="col">
 										<p><a href="{% url 'book_details' book.pk %}" class="btn btn-outline-info btn-block"> Read More </a></p>
+										<span style="display: none;" rel="discussionUrl">
+											<span typeof="URL">
+												{% url 'book_details' book.pk %}
+											</span>
+										</span>
 									</div>
 								</div>
-							</div>
+							</span>
 						</div>
 					</div>
-				</span>
+				</div>
 				{% endfor %}
 				<div class="col-12 pt-3">
 					<nav aria-label="...">
