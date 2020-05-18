@@ -157,16 +157,14 @@
                                                 </div>
                                                 <div class="col-md-11" id="comment-{{ comment.made_by }}">
                                                     <p style="display: inline-block;"><strong><span property="abstract">{{ comment.title }}</span></strong> by <span property="author">{{ comment.made_by }} &nbsp</span></p>
-                                                    {% for item in comment.stars|add:"0"|times %}
                                                     <span rel="reviewRating" style="display: none;">
                                                         <p typeof="Rating">
-                                                            <span property="ratingValue">
-                                                                <span property="ratingValue">{{ comment.stars }}</span>
-                                                                <span property="worstRating" content="1"></span>
-                                                                <span property="bestRating" content="5"></span>
-                                                            </span>
+                                                            <span property="ratingValue">{{ comment.stars }}</span>
+                                                            <span property="worstRating" content="1"></span>
+                                                            <span property="bestRating" content="5"></span>
                                                         </p>
                                                     </span>
+                                                    {% for item in comment.stars|add:"0"|times %}
                                                     <span><i class="text-warning fa fa-star"></i></span>
                                                     {% endfor %} 
                                                     {% if user == comment.made_by %}
