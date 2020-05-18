@@ -105,4 +105,5 @@ def step_impl(context, isbn):
 @when(u'I navigate to book with isbn "{isbn}"') 
 def step_impl(context, isbn):
     context.browser.visit(context.get_url(f'/book/{isbn}'))
+    time.sleep(0.1)
 
