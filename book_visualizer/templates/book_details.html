@@ -25,12 +25,11 @@
             <div class="col-12 col-lg-6 add_to_cart_block">
                 <div class="card bg-light mb-3">
                     <div class="card-body">
-                        <span style="display: none;" rel="discussionUrl">{{ request.get_full_path }}</span>
                         <h2 class="card-text"><span property="name">{{ book.title }}</span></h2>
                         <h4 class="card-text">Written by: <span style="color: grey;"><span property="author">{{ book.author }}</span></span></h4>
                         <br></br>
                         <h5 class="card-text">ISBN: <span style="color: grey;"><span property="ISBN"></span>{{ book.isbn }}</span></span></h5>
-                        <h5 class="card-text">Last time best seller: <span style="color: grey;">{{ book.bestsellers_date }}</span></h5>
+                        <h5 class="card-text">Last time best seller: <span style="color: grey;"></span>{{ book.bestsellers_date }}</span></h5>
                         <h5 class="card-text">Publisher: <span style="color: grey;"><span property="publisher">{{ book.publisher }}</span></span></h5>
                         <h5 id="price" class="card-text">Price: <span style="color: grey;">Price no available</span></h5>
                         <br></br>
