@@ -120,7 +120,6 @@
                     <div class="card-body" id='template-comment' style="display: none;">
                         <div class="row">
                             <div class="col-md-1">
-                                <span vocab="http:www.shcema.org" typeof="Review"></span> 
                                 <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
                                 <p class="text-secondary text-center" style="font-size: 10px;"><span property="dateCreated">{{ comment.date }}</span></p>
                             </div>
@@ -135,28 +134,29 @@
                     </div>
                     <!-- Show comments -->
                     <div id="comment-container" class="card border-0" style="display: block;">
-                        {% for comment in comments %}
-                            <div class="card-body" id='{{ comment.made_by }}'>
-                                <div class="row">
-                                    <div class="col-md-1">
-                                        <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
-                                        <p class="text-secondary text-center" style="font-size: 10px;"><span property="dateCreated">{{ comment.date }}</span></p>
-                                    </div>
-                                    <div class="col-md-11" id="comment-{{ comment.made_by }}">
-                                        <p style="display: inline-block;"><strong><span property="abstract">{{ comment.title }}</span></strong> by <span property="author">{{ comment.made_by }} &nbsp</span></p>
-                                        {% for item in comment.stars|add:"0"|times %}
-                                        <span><i class="text-warning fa fa-star"></i></span>
-                                        {% endfor %} 
-                                        {% if user == comment.made_by %}
-                                            <button class="float-right btn btn-success btn-sm rounded-5 mr-1" type="button" title="Edit" onclick="editComment()"><i class="fa fa-edit"></i></button>
-                                            <button class="float-right btn btn-danger btn-sm rounded-5 mr-1" type="button"title="Delete" onclick="deleteReview()"><i class="fa fa-trash"></i></button>
-                                        {% endif %}
-                                        <p id="comment-body-{{ comment.made_by }}"><span property="reviewBody">{{ comment.body }}</span></p>
+                        <span vocab="http://www.schema.org/" typeof="Review"> 
+                            {% for comment in comments %}
+                                <div class="card-body" id='{{ comment.made_by }}'>
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
+                                            <p class="text-secondary text-center" style="font-size: 10px;"><span property="dateCreated">{{ comment.date }}</span></p>
+                                        </div>
+                                        <div class="col-md-11" id="comment-{{ comment.made_by }}">
+                                            <p style="display: inline-block;"><strong><span property="abstract">{{ comment.title }}</span></strong> by <span property="author">{{ comment.made_by }} &nbsp</span></p>
+                                            {% for item in comment.stars|add:"0"|times %}
+                                            <span><i class="text-warning fa fa-star"></i></span>
+                                            {% endfor %} 
+                                            {% if user == comment.made_by %}
+                                                <button class="float-right btn btn-success btn-sm rounded-5 mr-1" type="button" title="Edit" onclick="editComment()"><i class="fa fa-edit"></i></button>
+                                                <button class="float-right btn btn-danger btn-sm rounded-5 mr-1" type="button"title="Delete" onclick="deleteReview()"><i class="fa fa-trash"></i></button>
+                                            {% endif %}
+                                            <p id="comment-body-{{ comment.made_by }}"><span property="reviewBody">{{ comment.body }}</span></p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        {% endfor %}
-                    </span>
+                            {% endfor %}
+                        </span>
                     </div>
                 </div>
             </div>
