@@ -131,14 +131,14 @@
                             <div class="row">
                                 <div class="col-md-1">
                                     <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
-                                    <p class="text-secondary text-center" style="font-size: 10px;"><span property="dateCreated">{{ comment.date }}</span></p>
+                                    <p class="text-secondary text-center" style="font-size: 10px;">{{ comment.date }}</p>
                                 </div>
                                 <div class="col-md-11" id="template-by">
                                     <p style="display: inline-block;"><strong></strong> by <span id="template-made-by"></span> &nbsp</p>
                                     <!-- Stars go here -->
                                     <button class="float-right btn btn-success btn-sm rounded-5 mr-1" type="button" name="Edit" onclick="editComment()"><i class="fa fa-edit"></i></button>
                                     <button class="float-right btn btn-danger btn-sm rounded-5 mr-1" type="button" name="Delete" onclick="deleteReview()"><i class="fa fa-trash"></i></button>
-                                    <p id="template-body-by"><span property="reviewBody">{{ comment.body }}</span></p>
+                                    <p id="template-body-by">{{ comment.body }}</p>
                                 </div>
                             </div>
                         </div>

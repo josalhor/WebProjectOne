@@ -85,7 +85,7 @@ def book_details(request, pk):
         num_comments = num_comments + 1
 
     if 0 < num_comments:
-        average_stars = round(sum_stars / num_comments, 1)
+        average_stars = round((sum_stars + stars_user) / num_comments, 1)
 
     if request.user.is_authenticated:
         num_comments_user = Comment.objects.filter(made_by=request.user, based_on=book).count()
