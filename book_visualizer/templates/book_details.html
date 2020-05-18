@@ -49,10 +49,10 @@
                             </span>
                             {% if num_comments > 0 %}
                                 <span rel="aggregateRating" style="display: none;">
-                                    <p typeof="AggregateRating">
+                                    <span typeof="AggregateRating">
                                         <span property="ratingValue">{{ average_stars }}</span>
                                         <span property="reviewCount">{{ num_comments }}</span>
-                                    </p>
+                                    </span>
                                 </span>
                                 (<span id="average-num-stars"></span>/5.0)
                                 <a class="pull-right" href="#reviews">View all reviews</a>
@@ -156,11 +156,11 @@
                                                 <div class="col-md-11" id="comment-{{ comment.made_by }}">
                                                     <p style="display: inline-block;"><strong><span property="abstract">{{ comment.title }}</span></strong> by <span property="author">{{ comment.made_by }} &nbsp</span></p>
                                                     <span rel="reviewRating" style="display: none;">
-                                                        <p typeof="Rating">
+                                                        <span typeof="Rating">
                                                             <span property="ratingValue">{{ comment.stars }}</span>
                                                             <span property="worstRating" content="1"></span>
                                                             <span property="bestRating" content="5"></span>
-                                                        </p>
+                                                        </span>
                                                     </span>
                                                     {% for item in comment.stars|add:"0"|times %}
                                                     <span><i class="text-warning fa fa-star"></i></span>
@@ -256,7 +256,7 @@
             var comment = $("#{{ user }}");
             comment.find("strong")[0].innerText = data.title;
             comment.find("p")[0].innerText = getDate();
-            comment.find("p")[3].innerText = data.body;
+            comment.find("p")[2].innerText = data.body;
             var existingNode = comment.find("span")[0];
             addStars(data.stars, existingNode.parentNode, existingNode.nextSibling);
 
@@ -391,7 +391,7 @@
         
         var comment = $("#{{ user }}");
         var title = comment.find("strong")[0].innerText;
-        var body = comment.find("p")[3].innerText;
+        var body = comment.find("p")[2].innerText;
         var star_rate = comment.find(".fa-star").length
         
         document.getElementById('title').value = title;
