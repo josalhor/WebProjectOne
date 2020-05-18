@@ -7,8 +7,6 @@ services:
 # - '3.6'
 before_install:
 - echo "$DOCKER_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin
-install:
-- docker build -t joshsalvia/webprojectone -f Dockerfile .
 script:
 - docker-compose -f docker-compose-test.yml up --build --remove-orphans --exit-code-from test_web
 deploy:
