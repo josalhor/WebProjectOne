@@ -24,7 +24,8 @@
         <div class="col-12 col-lg-6 add_to_cart_block">
             <div class="card bg-light mb-3">
                 <div class="card-body">
-                    <h2 class="card-text">{{ book.title }}</h2>
+                    <span vocab="http://schema.org/" typeof="Book"></span>
+                    <h2 class="card-text"><span property="name">{{ book.title }}</span></h2>
                     <h4 class="card-text">Written by: <span style="color: grey;">{{ book.author }}</span></h4>
                     <br></br>
                     <h5 class="card-text">ISBN: <span style="color: grey;">{{ book.isbn }}</span> </h5>
