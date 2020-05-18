@@ -51,7 +51,7 @@
                                 <span rel="aggregateRating" style="display: none;">
                                     <p typeof="AggregateRating">
                                         <span property="ratingValue">
-                                            <span  property="ratingValue">{{ average_stars|stringformat:".1f" }}</span>
+                                            <span property="ratingValue">{{ average_stars|stringformat:".1f" }}</span>
                                             <span property="reviewCount">{{ num_comments }}</span>
                                         </span>
                                     </p>
@@ -158,6 +158,14 @@
                                                 <div class="col-md-11" id="comment-{{ comment.made_by }}">
                                                     <p style="display: inline-block;"><strong><span property="abstract">{{ comment.title }}</span></strong> by <span property="author">{{ comment.made_by }} &nbsp</span></p>
                                                     {% for item in comment.stars|add:"0"|times %}
+                                                    <span rel="reviewRating" style="display: none;">
+                                                        <p typeof="ReviewRating">
+                                                            <span property="ratingValue">
+                                                                <span property="ratingValue">{{ average_stars|stringformat:".1f" }}</span>
+                                                                <span property="reviewCount">{{ num_comments }}</span>
+                                                            </span>
+                                                        </p>
+                                                    </span>
                                                     <span><i class="text-warning fa fa-star"></i></span>
                                                     {% endfor %} 
                                                     {% if user == comment.made_by %}
