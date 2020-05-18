@@ -25,7 +25,11 @@
             <div class="col-12 col-lg-6 add_to_cart_block">
                 <div class="card bg-light mb-3">
                     <div class="card-body">
-                        <span style="display: none;" rel="discussionUrl">{{ request.get_full_path }}</span>
+                        <span style="display: none;" rel="discussionUrl">
+                            <span typeof="URL">
+                                {{ request.build_absolute_uri }}
+                            </span>
+                        </span>
                         <h2 class="card-text"><span property="name">{{ book.title }}</span></h2>
                         <h4 class="card-text">Written by: <span style="color: grey;"><span property="author">{{ book.author }}</span></span></h4>
                         <br></br>
