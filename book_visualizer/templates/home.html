@@ -51,6 +51,11 @@
 								<div class="row pt-2">
 									<div class="col">
 										<p><a href="{% url 'book_details' book.pk %}" class="btn btn-outline-info btn-block"> Read More </a></p>
+										<span style="display: none;" rel="discussionUrl">
+											<span typeof="URL">
+												{% url 'book_details' book.pk %}
+											</span>
+										</span>
 									</div>
 								</div>
 							</span>
