@@ -50,10 +50,8 @@
                             {% if num_comments > 0 %}
                                 <span rel="aggregateRating" style="display: none;">
                                     <p typeof="AggregateRating">
-                                        <span property="ratingValue">
-                                            <span property="ratingValue">{{ average_stars }}</span>
-                                            <span property="reviewCount">{{ num_comments }}</span>
-                                        </span>
+                                        <span property="ratingValue">{{ average_stars }}</span>
+                                        <span property="reviewCount">{{ num_comments }}</span>
                                     </p>
                                 </span>
                                 (<span id="average-num-stars"></span>/5.0)
