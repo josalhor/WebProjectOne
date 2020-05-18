@@ -104,7 +104,7 @@
                                             <a class="star-3" onclick="starsRate(3)">3</a>
                                             <a class="star-4" onclick="starsRate(4)">4</a>
                                             <a class="star-5" onclick="starsRate(5)">5</a>
-                                        </span>
+                                        </spanStar>
                                     </div>
                                     <form id="comment_form" onsubmit="return sendComment(this)" class="was-validated">
                                         <div class="col-md-12 mb-3">
@@ -147,8 +147,8 @@
                             <span rel="Review"> 
                                 {% for comment in comments %}
                                     <div class="card-body" id='{{ comment.made_by }}'>
-                                        <div class="row">
-                                            <span typeof="Review">
+                                        <span typeof="Review">
+                                            <div class="row">
                                                 <div class="col-md-1">
                                                     <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
                                                     <p class="text-secondary text-center" style="font-size: 10px;"><span property="dateCreated">{{ comment.date }}</span></p>
@@ -171,8 +171,8 @@
                                                     {% endif %}
                                                     <p id="comment-body-{{ comment.made_by }}"><span property="reviewBody">{{ comment.body }}</span></p>
                                                 </div>
-                                            </span>
-                                        </div>
+                                            </div>
+                                        </span>
                                     </div>
                                 {% endfor %}
                             </span>
