@@ -256,7 +256,7 @@
             var comment = $("#{{ user }}");
             comment.find("strong")[0].innerText = data.title;
             comment.find("p")[0].innerText = getDate();
-            comment.find("p")[2].innerText = data.body;
+            comment.find("p")[3].innerText = data.body;
             var existingNode = comment.find("span")[0];
             addStars(data.stars, existingNode.parentNode, existingNode.nextSibling);
 
@@ -310,8 +310,8 @@
     function cleanDivComment() {
         document.getElementById('title').value = '';
         document.getElementById('body').value = '';
-        $('.stars span').removeClass('active');
-        $('.stars span span.rate, .stars a').removeClass('active');
+        $('.stars spanStar').removeClass('active');
+        $('.stars spanStar spanStar.rate, .stars a').removeClass('active');
     }
 
     function updateWishButtonText(){
@@ -391,7 +391,7 @@
         
         var comment = $("#{{ user }}");
         var title = comment.find("strong")[0].innerText;
-        var body = comment.find("p")[2].innerText;
+        var body = comment.find("p")[3].innerText;
         var star_rate = comment.find(".fa-star").length
         
         document.getElementById('title').value = title;
@@ -430,9 +430,9 @@
     }
 
     $('.stars a').on('click', function(){
-        $('.stars span span.rate, .stars a').removeClass('active');
+        $('.stars spanStar spanStar.rate, .stars a').removeClass('active');
         $(this).addClass('active');
-        $('.stars span').addClass('active');
+        $('.stars spanStar').addClass('active');
         var value = $(this).attr('value');
         $('#stars_rate').val(value); // Expected to assign the value to the form attribute
     });
