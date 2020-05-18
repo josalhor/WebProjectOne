@@ -133,9 +133,9 @@
                         </div>
                         <!-- Show comments -->
                         <div id="comment-container" class="card border-0" style="display: block;">
-                            <ul rel="Review"> 
+                            <span rel="Review"> 
                                 {% for comment in comments %}
-                                    <li typeof="Review"></li>
+                                    <span typeof="Review">
                                         <div class="card-body" id='{{ comment.made_by }}'>
                                             <div class="row">
                                                 <div class="col-md-1">
@@ -155,9 +155,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </li>
+                                    </span>
                                 {% endfor %}
-                            </ul>
+                            </span>
                         </div>
                     </div>
                 </div>
