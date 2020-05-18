@@ -51,7 +51,7 @@
                                 <span rel="aggregateRating" style="display: none;">
                                     <p typeof="AggregateRating">
                                         <span property="ratingValue">
-                                            <span property="ratingValue">{{ average_stars|stringformat:".1f" }}</span>
+                                            <span property="ratingValue">{{ average_stars }}</span>
                                             <span property="reviewCount">{{ num_comments }}</span>
                                         </span>
                                     </p>
@@ -148,9 +148,9 @@
                         <div id="comment-container" class="card border-0" style="display: block;">
                             <span rel="Review"> 
                                 {% for comment in comments %}
-                                    <span typeof="Review">
-                                        <div class="card-body" id='{{ comment.made_by }}'>
-                                            <div class="row">
+                                    <div class="card-body" id='{{ comment.made_by }}'>
+                                        <div class="row">
+                                            <span typeof="Review">
                                                 <div class="col-md-1">
                                                     <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
                                                     <p class="text-secondary text-center" style="font-size: 10px;"><span property="dateCreated">{{ comment.date }}</span></p>
@@ -173,9 +173,9 @@
                                                     {% endif %}
                                                     <p id="comment-body-{{ comment.made_by }}"><span property="reviewBody">{{ comment.body }}</span></p>
                                                 </div>
-                                            </div>
+                                            </span>
                                         </div>
-                                    </span>
+                                    </div>
                                 {% endfor %}
                             </span>
                         </div>
