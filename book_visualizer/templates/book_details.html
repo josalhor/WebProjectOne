@@ -9,155 +9,179 @@
 	</div>
 </div>
 <div class="container">
-    <script src="{% static 'book_ajax.js' %}"></script>
-    <div class="row">
-        <!-- Image -->
-        <div class="col-12 col-lg-6">
-            <div class="card bg-light mb-3">
-                <div class="card-body">
-                    <img class="card-img-top" style="height:420px;object-fit: contain" id="book-thumb" src="{% static 'stock_temp.jpg' %}"/>
+    <span vocab="http://schema.org/" typeof="Book">
+        <script src="{% static 'book_ajax.js' %}"></script>
+        <div class="row">
+            <!-- Image -->
+            <div class="col-12 col-lg-6">
+                <div class="card bg-light mb-3">
+                    <div class="card-body">
+                        <img class="card-img-top" style="height:420px;object-fit: contain" id="book-thumb" src="{% static 'stock_temp.jpg' %}"/>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Book details -->
-        <div class="col-12 col-lg-6 add_to_cart_block">
-            <div class="card bg-light mb-3">
-                <div class="card-body">
-                    <h2 class="card-text">{{ book.title }}</h2>
-                    <h4 class="card-text">Written by: <span style="color: grey;">{{ book.author }}</span></h4>
-                    <br></br>
-                    <h5 class="card-text">ISBN: <span style="color: grey;">{{ book.isbn }}</span> </h5>
-                    <h5 class="card-text">Last time best seller: <span style="color: grey;">{{ book.bestsellers_date }}</span></h5>
-                    <h5 class="card-text">Publisher: <span style="color: grey;">{{ book.publisher }}</span></h5>
-                    <h5 id="price" class="card-text">Price: <span style="color: grey;">Price no available</span></h5>
-                    <br></br>
-                    <form method="get" action="wish_list.html">
-                        <a id="list_ref" href="#" class="btn btn-success btn-lg btn-block text-uppercase" onclick="addToWishList()">
-                            <i class="fa fa-gift"></i> <span id="text_wish"> Add to my wish list </span>
-                        </a>
-                    </form>
-                    <div class="reviews_product p-3 mb-2 ">
-                        <span id="num_comments"></span>
-                        <span id="average-num-stars-display">
+            <!-- Book details -->
+            <div class="col-12 col-lg-6 add_to_cart_block">
+                <div class="card bg-light mb-3">
+                    <div class="card-body">
+                        <span style="display: none;" rel="discussionUrl">
+                            <span typeof="URL">
+                                {{ request.build_absolute_uri }}
+                            </span>
                         </span>
-                        {% if num_comments > 0 %}
-                            (<span id="average-num-stars"></span>/5.0)
-                            <a class="pull-right" href="#reviews">View all reviews</a>
-                        {% endif %}
-                        {% if num_comments == 0 %}
-                            <a class="pull-right" href="#reviews">Write the first review</a>
-                        {% endif %}
-                        <script>
-                            setBookDetails($('#book-thumb'), $('#price'), "{{book.isbn}}");
-                        </script>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <!-- Description -->
-        <div class="col-12">
-            <div class="card border-light mb-3">
-                <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-align-justify"></i> SUMMARY</div>
-                <div class="card-body">
-                    <p class="card-text">{{ book.summary }}</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Reviews -->
-        <div class="col-12" id="reviews">
-            <div class="card border-light mb-3">
-                <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-comment"></i> Reviews</div>
-                <div class="card-body">
-                    <!-- Add a comment -->
-                    <div class="card border-0">
-                        <!--Setting up the add new comment button that will be used for collapsing-->
-                        <div class="card border-0" style="display:inline-block;">
-                            <button id="addCommentButton" class="btn btn-success pull-right" type="button" onclick="addComment()">
-                                Add new comment
-                            </button>
-                        </div>
-                        <div id="divComment" style="display:none;">
-                            <hr class="my-2">
-                            <div class="card card-body border-0">
-                                <h4>Leave a comment</h4>
-                                <div class="form-group stars">
-                                    <span class="rate required" id="rate required">
-                                        <a class="star-1" onclick="starsRate(1)">1</a>
-                                        <a class="star-2" onclick="starsRate(2)">2</a>
-                                        <a class="star-3" onclick="starsRate(3)">3</a>
-                                        <a class="star-4" onclick="starsRate(4)">4</a>
-                                        <a class="star-5" onclick="starsRate(5)">5</a>
+                        <h2 class="card-text"><span property="name">{{ book.title }}</span></h2>
+                        <h4 class="card-text">Written by: <span style="color: grey;"><span property="author">{{ book.author }}</span></h4>
+                        <br></br>
+                        <h5 class="card-text">ISBN: <span style="color: grey;"><span property="ISBN">{{ book.isbn }}</span></h5>
+                        <h5 class="card-text">Last time best seller: <span style="color: grey;">{{ book.bestsellers_date }}</span></h5>
+                        <h5 class="card-text">Publisher: <span style="color: grey;"><span property="publisher">{{ book.publisher }}</span></h5>
+                        <h5 id="price" class="card-text">Price: <span style="color: grey;">Price no available</span></h5>
+                        <br></br>
+                        <form method="get" action="wish_list.html">
+                            <a id="list_ref" href="#" class="btn btn-success btn-lg btn-block text-uppercase" onclick="addToWishList()">
+                                <i class="fa fa-gift"></i> <span id="text_wish"> Add to my wish list </span>
+                            </a>
+                        </form>
+                        <div class="reviews_product p-3 mb-2 ">
+                            <span id="num_comments"></span>
+                            <span id="average-num-stars-display">
+                            </span>
+                            {% if num_comments > 0 %}
+                                <span rel="aggregateRating" style="display: none;">
+                                    <span typeof="AggregateRating">
+                                        <span property="ratingValue">{{ average_stars }}</span>
+                                        <span property="reviewCount">{{ num_comments }}</span>
                                     </span>
-                                </div>
-                                <form id="comment_form" onsubmit="return sendComment(this)" class="was-validated">
-                                    <div class="col-md-12 mb-3">
-                                        <label for="title">Title:</label>
-                                        <input name="title" type="text" minlength="5" maxlength="150" class="form-control" id="title" placeholder="Write a useful title for your comment" required>
-                                        <div class="invalid-feedback">
-                                            Length must be between 5 and 150 characters
-                                        </div>
-                                        </div>
-                                        <div class="col-md-12 mb-3">
-                                        <label for="body">Comment:</label>
-                                        <textarea name="body" type="text" minlength="10" maxlength="500" class="form-control" id="body" placeholder="Write a comment to the book" required></textarea>
-                                        <div class="invalid-feedback">
-                                            Length must be between 10 and 500 characters
-                                        </div>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
-                                </form>
-                                <hr class="my-2">
-                            </div>
+                                </span>
+                                (<span id="average-num-stars"></span>/5.0)
+                                <a class="pull-right" href="#reviews">View all reviews</a>
+                            {% endif %}
+                            {% if num_comments == 0 %}
+                                <a class="pull-right" href="#reviews">Write the first review</a>
+                            {% endif %}
+                            <script>
+                                setBookDetails($('#book-thumb'), $('#price'), "{{book.isbn}}");
+                            </script>
                         </div>
-                    </div>
-                    <div class="card-body" id='template-comment' style="display: none;">
-                        <div class="row">
-                            <div class="col-md-1">
-                                <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
-                                <p class="text-secondary text-center" style="font-size: 10px;">{{ comment.date }}</p>
-                            </div>
-                            <div class="col-md-11" id="template-by">
-                                <p style="display: inline-block;"><strong></strong> by <span id="template-made-by"></span> &nbsp</p>
-                                <!-- Stars go here -->
-                                <button class="float-right btn btn-success btn-sm rounded-5 mr-1" type="button" name="Edit" onclick="editComment()"><i class="fa fa-edit"></i></button>
-                                <button class="float-right btn btn-danger btn-sm rounded-5 mr-1" type="button" name="Delete" onclick="deleteReview()"><i class="fa fa-trash"></i></button>
-                                <p id="template-body-by">{{ comment.body }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Show comments -->
-                    <div id="comment-container" class="card border-0" style="display: block;">
-                        {% for comment in comments %}
-                            <div class="card-body" id='{{ comment.made_by }}'>
-                                <div class="row">
-                                    <div class="col-md-1">
-                                        <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
-                                        <p class="text-secondary text-center" style="font-size: 10px;">{{ comment.date }}</p>
-                                    </div>
-                                    <div class="col-md-11" id="comment-{{ comment.made_by }}">
-                                        <p style="display: inline-block;"><strong>{{ comment.title }}</strong> by {{ comment.made_by }} &nbsp</p>
-                                        {% for item in comment.stars|add:"0"|times %}
-                                        <span><i class="text-warning fa fa-star"></i></span>
-                                        {% endfor %} 
-                                        {% if user == comment.made_by %}
-                                            <button class="float-right btn btn-success btn-sm rounded-5 mr-1" type="button" title="Edit" onclick="editComment()"><i class="fa fa-edit"></i></button>
-                                            <button class="float-right btn btn-danger btn-sm rounded-5 mr-1" type="button"title="Delete" onclick="deleteReview()"><i class="fa fa-trash"></i></button>
-                                        {% endif %}
-                                        <p id="comment-body-{{ comment.made_by }}">{{ comment.body }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
                     </div>
                 </div>
             </div>
-        </div> 
-    </div>
+        </div>
+
+        <div class="row">
+            <!-- Description -->
+            <div class="col-12">
+                <div class="card border-light mb-3">
+                    <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-align-justify"></i> SUMMARY</div>
+                    <div class="card-body">
+                        <p class="card-text"><span property="abstract">{{ book.summary }}</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reviews -->
+            <div class="col-12" id="reviews">
+                <div class="card border-light mb-3">
+                    <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-comment"></i> Reviews</div>
+                    <div class="card-body">
+                        <!-- Add a comment -->
+                        <div class="card border-0">
+                            <!--Setting up the add new comment button that will be used for collapsing-->
+                            <div class="card border-0" style="display:inline-block;">
+                                <button id="addCommentButton" class="btn btn-success pull-right" type="button" onclick="addComment()">
+                                    Add new comment
+                                </button>
+                            </div>
+                            <div id="divComment" style="display:none;">
+                                <hr class="my-2">
+                                <div class="card card-body border-0">
+                                    <h4>Leave a comment</h4>
+                                    <div class="form-group stars">
+                                        <spanStar class="rate required" id="rate required">
+                                            <a class="star-1" onclick="starsRate(1)">1</a>
+                                            <a class="star-2" onclick="starsRate(2)">2</a>
+                                            <a class="star-3" onclick="starsRate(3)">3</a>
+                                            <a class="star-4" onclick="starsRate(4)">4</a>
+                                            <a class="star-5" onclick="starsRate(5)">5</a>
+                                        </spanStar>
+                                    </div>
+                                    <form id="comment_form" onsubmit="return sendComment(this)" class="was-validated">
+                                        <div class="col-md-12 mb-3">
+                                            <label for="title">Title:</label>
+                                            <input name="title" type="text" minlength="5" maxlength="150" class="form-control" id="title" placeholder="Write a useful title for your comment" required>
+                                            <div class="invalid-feedback">
+                                                Length must be between 5 and 150 characters
+                                            </div>
+                                            </div>
+                                            <div class="col-md-12 mb-3">
+                                            <label for="body">Comment:</label>
+                                            <textarea name="body" type="text" minlength="10" maxlength="500" class="form-control" id="body" placeholder="Write a comment to the book" required></textarea>
+                                            <div class="invalid-feedback">
+                                                Length must be between 10 and 500 characters
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
+                                    </form>
+                                    <hr class="my-2">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body" id='template-comment' style="display: none;">
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
+                                    <p class="text-secondary text-center" style="font-size: 10px;">{{ comment.date }}</p>
+                                </div>
+                                <div class="col-md-11" id="template-by">
+                                    <p style="display: inline-block;"><strong></strong> by <span id="template-made-by"></span> &nbsp</p>
+                                    <!-- Stars go here -->
+                                    <button class="float-right btn btn-success btn-sm rounded-5 mr-1" type="button" name="Edit" onclick="editComment()"><i class="fa fa-edit"></i></button>
+                                    <button class="float-right btn btn-danger btn-sm rounded-5 mr-1" type="button" name="Delete" onclick="deleteReview()"><i class="fa fa-trash"></i></button>
+                                    <p id="template-body-by">{{ comment.body }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Show comments -->
+                        <div id="comment-container" class="card border-0" style="display: block;">
+                            <span rel="Review"> 
+                                {% for comment in comments %}
+                                    <div class="card-body" id='{{ comment.made_by }}'>
+                                        <span typeof="Review">
+                                            <div class="row">
+                                                <div class="col-md-1">
+                                                    <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
+                                                    <p class="text-secondary text-center" style="font-size: 10px;"><span property="dateCreated">{{ comment.date }}</span></p>
+                                                </div>
+                                                <div class="col-md-11" id="comment-{{ comment.made_by }}">
+                                                    <p style="display: inline-block;"><strong><span property="abstract">{{ comment.title }}</span></strong> by <span property="author">{{ comment.made_by }} &nbsp</span></p>
+                                                    <span rel="reviewRating" style="display: none;">
+                                                        <span typeof="Rating">
+                                                            <span property="ratingValue">{{ comment.stars }}</span>
+                                                            <span property="worstRating" content="1"></span>
+                                                            <span property="bestRating" content="5"></span>
+                                                        </span>
+                                                    </span>
+                                                    {% for item in comment.stars|add:"0"|times %}
+                                                    <span><i class="text-warning fa fa-star"></i></span>
+                                                    {% endfor %} 
+                                                    {% if user == comment.made_by %}
+                                                        <button class="float-right btn btn-success btn-sm rounded-5 mr-1" type="button" title="Edit" onclick="editComment()"><i class="fa fa-edit"></i></button>
+                                                        <button class="float-right btn btn-danger btn-sm rounded-5 mr-1" type="button"title="Delete" onclick="deleteReview()"><i class="fa fa-trash"></i></button>
+                                                    {% endif %}
+                                                    <p id="comment-body-{{ comment.made_by }}"><span property="reviewBody">{{ comment.body }}</span></p>
+                                                </div>
+                                            </div>
+                                        </span>
+                                    </div>
+                                {% endfor %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </span>
 </div>
 <script>
     var stars = 0;
@@ -286,8 +310,8 @@
     function cleanDivComment() {
         document.getElementById('title').value = '';
         document.getElementById('body').value = '';
-        $('.stars span').removeClass('active');
-        $('.stars span span.rate, .stars a').removeClass('active');
+        $('.stars spanStar').removeClass('active');
+        $('.stars spanStar spanStar.rate, .stars a').removeClass('active');
     }
 
     function updateWishButtonText(){
@@ -406,9 +430,9 @@
     }
 
     $('.stars a').on('click', function(){
-        $('.stars span span.rate, .stars a').removeClass('active');
+        $('.stars spanStar spanStar.rate, .stars a').removeClass('active');
         $(this).addClass('active');
-        $('.stars span').addClass('active');
+        $('.stars spanStar').addClass('active');
         var value = $(this).attr('value');
         $('#stars_rate').val(value); // Expected to assign the value to the form attribute
     });

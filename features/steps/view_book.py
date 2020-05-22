@@ -17,10 +17,6 @@ def create_book(context, title, isbn):
     book = Book(isbn, title, 'Author Example', timezone.now(), 'Publisher Example', 'Summary here')
     book.save()
 
-@when(u'I navigate to book "{isbn}"')
-def step_impl(context, isbn):
-    context.browser.visit(context.get_url(f'/book/{isbn}'))
-
 @when(u'I introduce "{key_word}" into the search bar and click')
 def step_impl(context, key_word): 
     context.browser.visit(context.get_url(f'/search?n={key_word}'))

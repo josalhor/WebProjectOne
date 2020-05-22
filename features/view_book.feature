@@ -5,7 +5,7 @@ Feature: view details of a book
 
    Scenario: view details of a book
       Given Exists a book titled "GOOP CLEAN BEAUTY" and isbn "9781455541553"
-      When I navigate to book "9781455541553"
+      When I navigate to book with isbn "9781455541553"
       Then I'm viewing the book "GOOP CLEAN BEAUTY" with isbn "9781455541553"
 
     Scenario: Look for a book

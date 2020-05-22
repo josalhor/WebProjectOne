@@ -17,7 +17,6 @@ RUN pip install --upgrade pip
 
 COPY requirements.txt /app/requirements.txt
 
-# TODO do we need trusted sources here?
 RUN pip install -r /app/requirements.txt
 
 COPY . /app
@@ -52,7 +51,6 @@ RUN if [ -z "$CHROME_DRIVER_VERSION" ]; \
   && ln -fs /opt/selenium/chromedriver-$CHROME_DRIVER_VERSION /usr/bin/chromedriver
 
 COPY requirements_testing.txt /app/requirements_testing.txt
-# TODO do we need trusted sources here?
 RUN pip install -r /app/requirements_testing.txt
 
 CMD /app/start_server.sh
