@@ -5,9 +5,9 @@
 <section class="jumbotron" style="padding: 2rem 1rem;">
 	<div class="container">
 		{% if number_books != 0 %}
-			<h1> {{ user_wishes }} Wishes to have the following books:</em></h1>
+			<h1> {{ user_wishes }} Wishes to have the following books:</h1>
 		{% else %}
-			<h1> {{ user_wishes }} doesn't wish any books yet!</em></h1>
+			<h1> {{ user_wishes }} doesn't wish any books yet!</h1>
 		{% endif %}
 	</div>
 </section>
@@ -19,34 +19,36 @@
 <div class="container">
 	<script src="{% static 'book_ajax.js' %}"></script>
 	<div class="row">
-		<table class="table table-hover table-striped">
+		<table vocab="http://schema.org/" class="table table-hover table-striped">
 			<thead>
-			<tr class="thead-dark">
-				<th class="text-center">Cover</th>
-				<th>Title & Author</th>
-				{% if user == user_wishes %}
-				<th class="text-right">Actions</th>
-				{% endif %}
-			</tr>
-		</thead>
+				<tr class="thead-dark">
+					<th class="text-center">Cover</th>
+					<th>Title & Author</th>
+					{% if user == user_wishes %}
+					<th class="text-right">Actions</th>
+					{% endif %}
+				</tr>
+			</thead>
 			<tbody>
 				{% for book in books_list %}
-				<tr id = "{{book.isbn}}" >
+				<tr typeof="Book" id = "{{book.isbn}}" >
 					<td class="text-center">
-						<div><a href="{% url 'book_details' book.pk %}">
-							<img id="book-thumb-{{book.isbn}}" class="card-img-top mx-auto d-block" style="border-radius:0;width:100px;height:143px;object-fit: contain" src="{% static 'stock_temp.jpg' %}"/>
-						</a><div>
+						<div>
+							<a href="{% url 'book_details' book.pk %}">
+								<img id="book-thumb-{{book.isbn}}" class="card-img-top mx-auto d-block" style="border-radius:0;width:100px;height:143px;object-fit: contain" src="{% static 'stock_temp.jpg' %}"/>
+							</a>
+						</div>
 						<script>
 							setBookImg($('#book-thumb-{{book.isbn}}'), "{{book.isbn}}");
 						</script>
 					</td>
 					<td class="align-middle">
-						<b>{{ book.title }}</b> <br>
-						<p class="font-italic">by {{ book.author }}</p>
+						<b><span property="name">{{ book.title }}</span></b> <br>
+						<p class="font-italic">by <span property="author">{{ book.author }}</span></p>
 					</td>
 					{% if user == user_wishes %}
 					<td class="align-middle">
-                        <button id="delete-{{book.isbn}}" class="float-right btn btn-danger btn-sm rounded-5 mr-2" type="button" title="Delete"><i class="fa fa-trash"></i></button>
+						<button id="delete-{{book.isbn}}" class="float-right btn btn-danger btn-sm rounded-5 mr-2" type="button" title="Delete"><i class="fa fa-trash"></i></button>
 					</td>
 					{% endif %}
 				</tr>

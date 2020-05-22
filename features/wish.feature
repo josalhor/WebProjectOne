@@ -7,12 +7,12 @@ Feature: A registered user can manage his personal wish list and consult other u
         And This user wishes the book with isbn "9781538733295"
 
     Scenario: User can remove a book from his wish list
-        When I navigate to book "9781538733295"
+        When I navigate to book with isbn "9781538733295"
         Then I can click the button "Remove from my wish list"
         And I can see the button "ADD TO MY WISH LIST" on the page of book "9781538733295"
 
     Scenario: User can add a book on his wish list
-        When I navigate to book "9781780671062"
+        When I navigate to book with isbn "9781780671062"
         Then I can click the button "Add to my wish list"
         And I can see the button "REMOVE FROM MY WISH LIST" on the page of book "9781780671062"
 

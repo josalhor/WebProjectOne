@@ -76,12 +76,16 @@ def book_details(request, pk):
     added_book = False
     sum_stars = 0
     stars_user = 0
+    average_stars = 0
     for comment in comments:
         if comment.made_by != request.user:
             sum_stars += int(comment.stars)
         else:
             stars_user = int(comment.stars)
         num_comments = num_comments + 1
+
+    if 0 < num_comments:
+        average_stars = round((sum_stars + stars_user) / num_comments, 1)
 
     if request.user.is_authenticated:
         num_comments_user = Comment.objects.filter(made_by=request.user, based_on=book).count()
@@ -94,6 +98,7 @@ def book_details(request, pk):
         'num_comments_user': num_comments_user,
         'comments': comments,
         'wished_books': wished_books,
+        'average_stars': average_stars,
         'added_book': added_book,
         'distribution_stars': sum_stars,
         'stars_user': stars_user

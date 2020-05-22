@@ -12,19 +12,19 @@
     content: "\f005";
     color: lightgrey;
 }
-span.rate {
+spanStar.rate {
     font-size: 0;
 }
 .stars a:hover ~ a:after{
     color: lightgrey;;
 }
-span.active a.active ~ a:after{
+spanStar.active a.active ~ a:after{
     color: lightgrey;
 }
-span:hover a:after{
+spanStar:hover a:after{
     color:orange;
 }
-span.active a:after,
+spanStar.active a:after,
 .stars a.active:after{
     color:orange;
 }

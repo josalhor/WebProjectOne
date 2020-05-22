@@ -24,3 +24,10 @@
 # Testing
 - Website functionality is tested with Behave and Splinter in integration tests (features folder)
 - Our internal API uses Django Rest Framework for development and testing (test.py file)
+
+# Web 3.0
+- This web supports markup RDFa on:
+  - The main page
+  - The category page
+  - The book detail page (with comments)
+  - The wish list page of users
