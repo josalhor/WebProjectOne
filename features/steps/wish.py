@@ -11,14 +11,15 @@ def step_impl(context, isbn):
 @then(u'I can click the button "{button}"')
 def step_impl(context, button):
     time.sleep(0.25)
-    context.browser.find_by_text(f'{button}').first.click()
+    print(context.browser.find_by_text('Remove from my wish list').first.html)
+    context.browser.find_by_text(button).first.click()
     time.sleep(0.15)
 
 @then(u'I can see the button "{button}" on the page of book "{isbn}"')
 def step_impl(context, button, isbn):
     time.sleep(0.1)
     context.browser.visit(context.get_url(f'/book/{isbn}'))
-    form = context.browser.find_by_tag('form')[1]
+    time.sleep(0.1)
     assert context.browser.is_text_present(button)
 
 @when(u'I click the button See wish List on my profile "{username}"')
