@@ -10,7 +10,6 @@ def step_impl(context, isbn):
 @then(u'I can click the button "{button}"')
 def step_impl(context, button):
     time.sleep(0.25)
-    print(context.browser.is_text_present('Remove from my wish list'.upper()))
     context.browser.find_by_text(button).first.click()
     time.sleep(0.15)
 
