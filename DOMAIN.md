@@ -29,5 +29,5 @@
 - This web supports markup RDFa on:
   - The main page
   - The category page
-  - The book detail page (with comments)
+  - The book detail page (with comments and ratings)
   - The wish list page of users
