@@ -1,10 +1,5 @@
 services:
 - docker
-# because we're running in a docker
-# this is no longer necessary:
-# language: python
-# python:
-# - '3.6'
 before_install:
 - echo "$DOCKER_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin
 script:
@@ -12,5 +7,5 @@ script:
 deploy:
   provider: heroku
   api_key:
-    secure: JBSE/U7bfIup2DWG5vOmeJc4fhiCxU/OUpp05Srfe0r4/st5cpe29oDVMJmc8gvcIRMi+P1qFx1BBNN5YFcW/eG/eOIFlRKfjWKH9kLuMKi0BYt2cCaF0bR9zWkz9cHt6BA2+3bO02OWouUj3qeoGjffkHX0o/IZ2ZvkvTItihqpMAbrPOjWwoXj/Ye0QUcu1LU+q3NdeD8h/ZnY3NuhJuzePgt5U5EVZ9hhe2ILI7P97exBmMaravTm/qvNZAPkNLt7SHCzWsEHzmDSJWfgybzQUdxTac8HimqftlqQF+NQDUlJU1KQEPCBtAFZbcHuLwQsbIXq++lHl/Ven1FVDh0abrBb33kUTlYRyUUsznb5+bFRbnaN86FotDh9o/kNbxyA7lHKSJUZ2O8I1W4UC2ylIrLzDx5bqot42uI+TiCcpuI0YDWK2st9br02pcbEjTbu6Mom50n1UP9a9dFrjNqiuwp5mUAKJxuVLXdm7LKBvJ7UFYVJ8APJuNqm8GTItgGCpkpLHtEAbYE43UcflcP/MhExmjrxUWRmy1M7CmJvwJK7aNWINcBwdS4GBiSI8+85fwlVMKAIlekxRClDL61wBYfMLXw3X+gQF7bgQHN7NhoYpmtsg2JtES3uAHktPB7t9FfD8iRGQD4YMp2bAApsLp5pOiiGRyM77RjRpRA=
-  app: $HEROKU_APP_NAME
+    secure: is3d+XJ99nMCftWtFVslOJR66T7BYGBCmp/rjlK9rrlY/SzphwjQpMoxSFGppXSoXufpVckZLCHO128xVbYIVXIey7YZqg5jNVdPOEDqA7ZsQhHbJFigEXy4vEaKCyTrOGg4sCO/kPlZmJD8M/RlMs8GiYBKZkxxArAc73DhP35D+cokdFoOILyD8kby02/m9bjfdSrdL4XcQ45BBjzlR0UuRR/y0UT48eWdGZ5Tfyw3EwZzoatwIdoNmfUqxFr9yOK7c4xc25o+/Z5LQItAXUmf0eygLvhDEvCZOQKBCeF9hW1HbxoyrJJj0+/ThkJMSHLfzk2rlcgsmOQFzh+HeeHsa+DpuojwsP2SZG89Rxqh6EahixC/SR8JEodwo6xhrsXnrO3JhG6I5/3qhOuixcrsikhgrVWz0KgT6YBJ7GK8Kn9mSrIn+hDun6zkJ5DXRL+1tCJ0yv2pqWx+TeeaWfwiAme/f1LQZshYboeoV/9NHK4qVPH6Ab+7f8+v/9Z+BXuFvS2yYGLPDzkBfhNbn9NoPA8cojmWPXZlRmpLIjdZcQyy3TzcSMvlOkXclRq3C/rwI8NyR7ZUyX91ffyTfPDxxc3sQLz8IV746EDy6skn+xD8V3FYPPNwnSsTbp/7s0PJCDXljvCGQ16mUoIFLyXheXtQXTDtSi8t3/B93EA=
+  app: "$HEROKU_APP_NAME"
